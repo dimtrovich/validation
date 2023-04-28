@@ -1,0 +1,48 @@
+{
+    "name": "dimtrovich/validation",
+    "description": "PHP Standalone Validation Library. Extending rakit/validation",
+    "type": "library",
+    "keywords": ["php", "validation", "data", "form", "validator"],
+    "require": {
+        "php": ">=8.0",
+        "blitz-php/utilities": "^1.3",
+        "rakit/validation": "^1.4"
+    },
+    "require-dev": {
+        "blitz-php/coding-standard": "^1.1",
+        "phpstan/phpstan": "^1.4.7",
+        "scrutinizer/ocular": "^1.8.1",
+        "kahlan/kahlan": "^5.2"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dimtrovich\\Validation\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dimitri Sitchet Tomkeu",
+            "email": "devcode.dst@gmail.com"
+        }
+    ],
+    "scripts": {
+        "analyze": "phpstan analyse",
+        "test": "kahlan",
+        "test-coverage": "kahlan --coverage=3 --reporter=verbose --clover=clover.xml",
+        "cs": [
+            "php-cs-fixer fix --ansi --verbose --dry-run --diff"
+        ],
+        "cs-fix": [
+            "php-cs-fixer fix --ansi --verbose --diff"
+        ]
+    },
+    
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
