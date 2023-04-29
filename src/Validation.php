@@ -1,0 +1,376 @@
+<?php
+
+/**
+ * This file is part of Dimtrovich/Validation.
+ *
+ * (c) 2023 Dimitri Sitchet Tomkeu <devcode.dst@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+namespace Dimtrovich\Validation;
+
+use BlitzPHP\Utilities\Helpers;
+use Dimtrovich\Validation\Exceptions\ValidationException;
+use InvalidArgumentException;
+use Rakit\Validation\ErrorBag;
+use Rakit\Validation\Rule;
+use Rakit\Validation\RuleNotFoundException;
+use Rakit\Validation\Validation as RakitValidation;
+use Rakit\Validation\Validator as RakitValidator;
+use RuntimeException;
+
+class Validation
+{
+    protected RakitValidator $validator;
+    private ?RakitValidation $validation = null;
+
+    /**
+     * The exception to throw on failure.
+     */
+    protected string $exception = ValidationException::class;
+
+    /**
+     * Validation messages
+     *
+     * @var array<string, string>
+     */
+    protected array $messages = [];
+
+    /**
+     * Translations on validation rules
+     *
+     * @var array<string, string>
+     */
+    protected array $translations = [];
+
+    /**
+     * Alias of keys of datas to validate
+     *
+     * @var array<string, string>
+     */
+    protected array $aliases = [];
+
+    /**
+     * Data to validate
+     */
+    private array $data = [];
+
+    /**
+     * validation rules
+     *
+     * @var array<string, mixed>
+     */
+    protected array $rules = [];
+
+    /**
+     * self instance for singleton
+     */
+    protected static ?self $_instance = null;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->validator = new RakitValidator($this->translations);
+        $this->registerRules();
+    }
+
+    /**
+     * singleton constructor
+     *
+     * @return self
+     */
+    public static function instance()
+    {
+        if (static::$_instance === null) {
+            static::$_instance = new self();
+        }
+
+        return static::$_instance;
+    }
+
+    /**
+     * Get the actual validator instance
+     *
+     * if parameter $rule passed, return instance of $rule validator
+     *
+     * @return RakitValidator|Rule
+     */
+    public function getValidator(?string $rule = null)
+    {
+        if (null === $rule) {
+            return $this->validator;
+        }
+
+        return $this->validator->getValidator($rule);
+    }
+
+    /**
+     * Check if validation fails
+     */
+    public function fails(): bool
+    {
+        return ! $this->passes();
+    }
+
+    /**
+     * Check if validation passes
+     */
+    public function passes(): bool
+    {
+        $this->validation = $this->validator->make($this->data, $this->rules, $this->messages);
+        $this->validation->setMessages($this->translations);
+        $this->validation->setTranslations($this->translations);
+        $this->validation->setAliases($this->aliases);
+        $this->validation->validate();
+
+        return $this->validation->passes();
+    }
+
+    /**
+     * Run the validator's rules against its data.
+     *
+     * @throws ValidationException
+     */
+    public function validate(): array
+    {
+        Helpers::throwIf($this->fails(), $this->exception, ValidationException::summarize($this));
+
+        return $this->validated();
+    }
+
+    /**
+     * Run the validator's rules against its data.
+     *
+     * @throws ValidationException
+     */
+    public function validateWithBag(string $errorBag): array
+    {
+        try {
+            return $this->validate();
+        } catch (ValidationException $e) {
+            // $e->errorBag = $errorBag;
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Returns the data which was valid.
+     */
+    public function valid(): array
+    {
+        if (! $this->validation) {
+            return [];
+        }
+
+        return $this->validation->getValidData();
+    }
+
+    /**
+     * Get the attributes and values that have been validated.
+     *
+     * @throws ValidationException
+     */
+    public function validated(): array
+    {
+        $this->passes();
+
+        Helpers::throwIf($this->invalid(), $this->exception, ValidationException::summarize($this));
+
+        return $this->validation->getValidatedData();
+    }
+
+    /**
+     * Returns data that was invalid.
+     */
+    public function invalid(): array
+    {
+        if (! $this->validation) {
+            return [];
+        }
+
+        return $this->validation->getInvalidData();
+    }
+
+    /**
+     * Get a validated input container for the validated input.
+     *
+     * @return array|ValidatedInput
+     */
+    public function safe(?array $keys = null)
+    {
+        $input = new ValidatedInput($this->validated());
+
+        return is_array($keys) ? $input->only($keys) : $input;
+    }
+
+    /**
+     * Recover errors that occurred during validation
+     */
+    public function errors(): ErrorBag
+    {
+        if (! $this->validation) {
+            throw new RuntimeException();
+        }
+
+        return $this->validation->errors();
+    }
+
+    /**
+     * Definition of the aliases of the data to be validated
+     */
+    public function alias(string|array $key, string $value = ''): self
+    {
+        if (is_array($key)) {
+            $this->aliases = array_merge($this->aliases, $key);
+        } elseif ('' === $value) {
+            throw new InvalidArgumentException('Valeur non valide fournie');
+        } else {
+            $this->aliases[$key] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Definition of the data to be validated
+     */
+    public function data(array $data): self
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Definition of validation rules
+     */
+    public function rules(array $rules): self
+    {
+        $this->rules = array_merge($this->rules, $rules);
+
+        return $this;
+    }
+
+    /**
+     * Definition of a validation rule
+     */
+    public function rule(string $key, mixed $rule): self
+    {
+        return $this->rules([$key => $rule]);
+    }
+
+    /**
+     * Definition of messages associated with each validation rule
+     */
+    public function messages(array $messages): self
+    {
+        $this->messages = array_merge($this->messages, $messages);
+
+        return $this;
+    }
+
+    /**
+     * Definition of a message associated with a validation rule
+     */
+    public function message(string $key, string $message): self
+    {
+        return $this->messages([$key => $message]);
+    }
+
+    /**
+     * Definition of rule translations
+     */
+    public function translations(array $translations): self
+    {
+        $this->translations = array_merge($this->translations, $translations);
+
+        return $this;
+    }
+
+    /**
+     * Definition of the translation of a rule
+     */
+    public function translation(string $key, string $value): self
+    {
+        if ('' === $value) {
+            throw new InvalidArgumentException('Invalid value provided');
+        }
+
+        return $this->translations([$key => $value]);
+    }
+
+    /**
+     * Magic method to create a rule
+     *
+     * @throws ValidationException
+     */
+    public function __invoke(string $rule): Rule
+    {
+        try {
+            return $this->validator->__invoke(...func_get_args());
+        } catch (RuleNotFoundException $e) {
+            throw ValidationException::ruleNotFound($rule);
+        }
+    }
+
+    /**
+     * Register validation rules
+     */
+    private function registerRules(): void
+    {
+        $this->validator->allowRuleOverride(true);
+
+        $rules = [
+            Rules\AcceptedIf::class,
+            Rules\ActiveURL::class,
+            Rules\After::class,
+            Rules\AfterOrEqual::class,
+            Rules\Alpha::class,
+            Rules\AlphaDash::class,
+            Rules\AlphaNum::class,
+            Rules\Ascii::class,
+            Rules\Before::class,
+            Rules\BeforeOrEqual::class,
+            Rules\Confirmed::class,
+            Rules\Contains::class,
+            Rules\ContainsAll::class,
+            Rules\Date::class,
+            Rules\DateEquals::class,
+            Rules\Decimal::class,
+            Rules\Declined::class,
+            Rules\DeclinedIf::class,
+            Rules\DoesntEndWith::class,
+            Rules\DoesntStartWith::class,
+            Rules\EndWith::class,
+            Rules\Enum::class,
+            Rules\Gt::class,
+            Rules\Gte::class,
+            Rules\Image::class,
+            Rules\InArray::class,
+            Rules\Lt::class,
+            Rules\Lte::class,
+            Rules\MacAddress::class,
+            Rules\NotInArray::class,
+            Rules\NotRegex::class,
+            Rules\Prohibited::class,
+            Rules\Size::class,
+            Rules\Slug::class,
+            Rules\StartWith::class,
+            Rules\Timezone::class,
+            Rules\TypeArray::class,
+            Rules\TypeInstanceOf::class,
+            Rules\TypeString::class,
+            Rules\Ulid::class,
+            Rules\Uuid::class,
+        ];
+
+        foreach ($rules as $rule) {
+            $this->validator->addValidator($rule::name(), new $rule());
+        }
+    }
+}
