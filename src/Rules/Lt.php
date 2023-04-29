@@ -42,6 +42,6 @@ class Lt extends AbstractRule
             $compare = $this->getAttribute()->getValue($compare);
         }
 
-        return is_numeric($value) && $value < $compare;
+        return is_numeric($value) && is_numeric($compare) && $value < $compare;
     }
 }

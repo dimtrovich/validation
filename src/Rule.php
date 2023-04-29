@@ -37,7 +37,7 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Dimtrovich\Validation\Rules\ContainsAll     containsAll()
  * @method static \Dimtrovich\Validation\Rules\Date            date()
  * @method static \Dimtrovich\Validation\Rules\DateEquals      dateEquals()
- * @method static \Dimtrovich\Validation\Rules\Decimal         decimal()
+ * @method static \Dimtrovich\Validation\Rules\Decimal         decimal(float $min, float $max = null)
  * @method static \Dimtrovich\Validation\Rules\Declined        declined()
  * @method static \Dimtrovich\Validation\Rules\DeclinedIf      declinedIf()
  * @method static \Rakit\Validation\Rules\Defaults             defaults()
@@ -48,14 +48,14 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Dimtrovich\Validation\Rules\DoesntStartWith doesntStartWith()
  * @method static \Rakit\Validation\Rules\Email                email()
  * @method static \Dimtrovich\Validation\Rules\EndWith         endWith()
- * @method static \Dimtrovich\Validation\Rules\Enum            enum()
+ * @method static \Dimtrovich\Validation\Rules\Enum            enum(string $type = null)
  * @method static \Rakit\Validation\Rules\Extension            extension()
  * @method static \Dimtrovich\Validation\Rules\Gt              gt()
  * @method static \Dimtrovich\Validation\Rules\Gte             gte()
  * @method static \Dimtrovich\Validation\Rules\Image           image()
  * @method static \Rakit\Validation\Rules\In                   in()
  * @method static \Dimtrovich\Validation\Rules\InArray         inArray()
- * @method static \Dimtrovich\Validation\Rules\TypeInstanceOf  instanceOf()
+ * @method static \Dimtrovich\Validation\Rules\TypeInstanceOf  instanceOf(string $class_name)
  * @method static \Rakit\Validation\Rules\Integer              integer()
  * @method static \Rakit\Validation\Rules\Ip                   ip()
  * @method static \Rakit\Validation\Rules\Ipv4                 ipv4()
@@ -103,7 +103,7 @@ abstract class Rule
      */
     public static function __callStatic(string $name, array $arguments = [])
     {
-        $name = Text::convertTo($name, 'snake');
+        $name = Text::snake($name);
 
         return Validator::rule($name, ...$arguments);
     }

@@ -11,8 +11,6 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-use Dimtrovich\Validation\Rule;
-
 class Confirmed extends AbstractRule
 {
     /**
@@ -25,6 +23,9 @@ class Confirmed extends AbstractRule
      */
     public function check($value): bool
     {
-        return Rule::same($this->getAttribute()->getKey() . '_confirmation')->check($value);
+        $anotherAttribute = $this->getAttribute()->getKey() . '_confirmation';
+        $anotherValue     = $this->getAttribute()->getValue($anotherAttribute);
+
+        return $value === $anotherValue;
     }
 }

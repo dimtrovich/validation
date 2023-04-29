@@ -13,7 +13,7 @@ namespace Dimtrovich\Validation\Rules;
 
 class TypeInstanceOf extends AbstractRule
 {
-    protected const NAME = 'instanceof';
+    protected const NAME = 'instance_of';
 
     /**
      * @var string

@@ -46,7 +46,7 @@ class InArray extends AbstractRule
         $this->requireParameters($this->fillableParams);
 
         $anotherValue = $this->validation->getValue($this->parameter('field'));
-        $this->setAllowedValues($anotherValue, 'or');
+        $this->setAllowedValues((array) $anotherValue, 'or');
 
         if (! is_array($anotherValue)) {
             return false;

@@ -26,7 +26,7 @@ class NotInArray extends InArray
         $this->requireParameters($this->fillableParams);
 
         $anotherValue = $this->validation->getValue($this->parameter('field'));
-        $this->setAllowedValues($anotherValue, 'and');
+        $this->setAllowedValues((array) $anotherValue, 'and');
 
         if (! is_array($anotherValue)) {
             return true;

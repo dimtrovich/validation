@@ -34,7 +34,7 @@ abstract class AbstractRule extends Rule
         $parts = explode('\\', static::class);
         $name  = array_pop($parts);
 
-        return Text::convertTo($name, 'snake');
+        return Text::snake($name);
     }
 
     protected function getRuleValidator(string $rule): Rule

@@ -1,2 +1,4 @@
 /vendor/
 /build
+clover.xml
+coveralls.json

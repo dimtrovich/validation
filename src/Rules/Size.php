@@ -36,6 +36,6 @@ class Size extends AbstractRule
 
         $this->setParameterText('size', $size = $this->parameter('size'));
 
-        return $size === $this->getValueSize($value);
+        return (float) $size === $this->getValueSize($value);
     }
 }
