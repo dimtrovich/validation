@@ -17,11 +17,6 @@ use TypeError;
 class Enum extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The selected :attribute is invalid.';
-
-    /**
      * @param string $type Type de l'enumeration
      */
     public function __construct(protected string $type = '')

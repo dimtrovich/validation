@@ -16,11 +16,6 @@ use BlitzPHP\Utilities\String\Text;
 class Uuid extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute a valid Uuid';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

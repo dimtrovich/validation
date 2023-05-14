@@ -18,11 +18,6 @@ class DateEquals extends AbstractRule
     use DateUtilsTrait;
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a equals date to :date.';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['date'];

@@ -26,11 +26,6 @@ class ActiveURL extends AbstractRule
     protected $implicit = true;
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be an active URL.';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

@@ -14,17 +14,14 @@ namespace Dimtrovich\Validation\Rules;
 class Confirmed extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be same with :field';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool
     {
         $anotherAttribute = $this->getAttribute()->getKey() . '_confirmation';
         $anotherValue     = $this->getAttribute()->getValue($anotherAttribute);
+
+        $this->setParameterText('field', $this->getAttribute()->getKey());
 
         return $value === $anotherValue;
     }

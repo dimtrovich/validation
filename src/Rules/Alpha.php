@@ -13,11 +13,6 @@ namespace Dimtrovich\Validation\Rules;
 
 class Alpha extends AbstractRule
 {
-    /**
-     * @var string
-     */
-    protected $message = 'The :attribute only allows alphabet characters';
-
     protected $fillableParams = ['mode'];
 
     /**

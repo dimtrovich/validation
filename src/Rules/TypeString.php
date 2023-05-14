@@ -16,11 +16,6 @@ class TypeString extends AbstractRule
     protected const NAME = 'string';
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a string';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

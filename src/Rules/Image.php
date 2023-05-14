@@ -16,11 +16,6 @@ use Dimtrovich\Validation\Rule;
 class Image extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must a valid image';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

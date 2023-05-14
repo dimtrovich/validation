@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class NotRegex extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute is not valid format';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['regex'];

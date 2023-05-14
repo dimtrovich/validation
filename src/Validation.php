@@ -72,7 +72,7 @@ class Validation
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(protected string $locale = 'en')
     {
         $this->validator = new RakitValidator($this->translations);
         $this->registerRules();
@@ -247,6 +247,16 @@ class Validation
     }
 
     /**
+     * Definition of locale of error messages
+     */
+    public function locale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
      * Definition of validation rules
      */
     public function rules(array $rules): self
@@ -370,7 +380,7 @@ class Validation
         ];
 
         foreach ($rules as $rule) {
-            $this->validator->addValidator($rule::name(), new $rule());
+            $this->validator->addValidator($rule::name(), new $rule($this->locale));
         }
     }
 }

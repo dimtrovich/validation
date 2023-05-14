@@ -18,11 +18,6 @@ use Exception;
 class Date extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute is not valid date';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['format'];

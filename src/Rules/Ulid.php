@@ -16,11 +16,6 @@ use BlitzPHP\Utilities\String\Text;
 class Ulid extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute a valid Ulid';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

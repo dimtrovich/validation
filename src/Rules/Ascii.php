@@ -16,11 +16,6 @@ use BlitzPHP\Utilities\String\Text;
 class Ascii extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a ASCII string';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

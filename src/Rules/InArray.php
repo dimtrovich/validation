@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class InArray extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute only allows :allowed_values';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['field'];

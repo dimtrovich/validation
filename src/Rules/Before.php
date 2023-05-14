@@ -19,11 +19,6 @@ class Before extends AbstractRule
     use DateUtilsTrait;
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a date before :time.';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['time'];

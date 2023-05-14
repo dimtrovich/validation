@@ -17,11 +17,6 @@ use Rakit\Validation\Rule;
 class ContainsAll extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must contains :allowed_values';
-
-    /**
      * {@inheritDoc}
      */
     public function fillParameters(array $params): Rule

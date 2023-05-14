@@ -17,11 +17,6 @@ use Rakit\Validation\Rule;
 class EndWith extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must end with :allowed_values';
-
-    /**
      * {@inheritDoc}
      */
     public function fillParameters(array $params): Rule

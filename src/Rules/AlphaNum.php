@@ -13,11 +13,6 @@ namespace Dimtrovich\Validation\Rules;
 
 class AlphaNum extends AbstractRule
 {
-    /**
-     * @var string
-     */
-    protected $message = 'The :attribute only allows alphabet and numeric';
-
     protected $fillableParams = ['mode'];
 
     /**

@@ -16,11 +16,6 @@ use Dimtrovich\Validation\Rule;
 class Prohibited extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute is prohibited';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

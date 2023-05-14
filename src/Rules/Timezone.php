@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class Timezone extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute a valid timezone';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

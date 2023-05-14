@@ -13,11 +13,6 @@ namespace Dimtrovich\Validation\Rules;
 
 class AlphaDash extends AbstractRule
 {
-    /**
-     * @var string
-     */
-    protected $message = 'The :attribute only allows a-z, 0-9, _ and -';
-
     protected $fillableParams = ['mode'];
 
     /**

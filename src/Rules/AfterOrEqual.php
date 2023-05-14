@@ -19,11 +19,6 @@ class AfterOrEqual extends AbstractRule
     use DateUtilsTrait;
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a date after or equal :time.';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['time'];

@@ -17,11 +17,6 @@ use Rakit\Validation\Rule as RakitRule;
 class DeclinedIf extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be declined';
-
-    /**
      * {@inheritDoc}
      */
     public function fillParameters(array $params): RakitRule

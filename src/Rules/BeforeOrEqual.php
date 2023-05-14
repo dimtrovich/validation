@@ -19,11 +19,6 @@ class BeforeOrEqual extends AbstractRule
     use DateUtilsTrait;
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a date before or equal :time.';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['time'];

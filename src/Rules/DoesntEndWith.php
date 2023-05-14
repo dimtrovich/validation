@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class DoesntEndWith extends EndWith
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must not end with :allowed_values';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

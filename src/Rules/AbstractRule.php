@@ -12,6 +12,7 @@
 namespace Dimtrovich\Validation\Rules;
 
 use BlitzPHP\Utilities\String\Text;
+use Dimtrovich\Validation\Utils\Translator;
 use Rakit\Validation\Helper;
 use Rakit\Validation\Rule;
 
@@ -21,6 +22,15 @@ abstract class AbstractRule extends Rule
      * Validation rule name
      */
     protected const NAME = '';
+
+    public function __construct(protected string $locale)
+    {
+        if ($this->message === 'The :attribute is invalid') {
+            if (null !== $translation = Translator::translate(static::name(), $this->locale, true)) {
+                $this->setMessage($translation);
+            }
+        }
+    }
 
     /**
      * Get the name of the validation rule

@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class Decimal extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute is not valid decimal number';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['min', 'max'];

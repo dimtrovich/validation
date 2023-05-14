@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class MacAddress extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute a valid mac address';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

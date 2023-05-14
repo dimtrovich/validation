@@ -19,11 +19,6 @@ class Declined extends AbstractRule
     protected $implicit = true;
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be declined';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

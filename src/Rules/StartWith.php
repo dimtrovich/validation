@@ -17,11 +17,6 @@ use Rakit\Validation\Rule;
 class StartWith extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must start with :allowed_values';
-
-    /**
      * {@inheritDoc}
      */
     public function fillParameters(array $params): Rule

@@ -21,11 +21,6 @@ class TypeArray extends AbstractRule
     protected const NAME = 'array';
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be array';
-
-    /**
      * {@inheritDoc}
      */
     public function fillParameters(array $params): Rule

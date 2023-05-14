@@ -15,11 +15,6 @@ class TypeInstanceOf extends AbstractRule
 {
     protected const NAME = 'instance_of';
 
-    /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be an instance of :type.';
-
     protected $fillableParams = ['type'];
 
     /**

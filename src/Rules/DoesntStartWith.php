@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class DoesntStartWith extends StartWith
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must not start with :allowed_values';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

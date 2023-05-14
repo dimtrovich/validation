@@ -17,11 +17,6 @@ use Rakit\Validation\Rule as RakitRule;
 class AcceptedIf extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be accepted';
-
-    /**
      * {@inheritDoc}
      */
     public function fillParameters(array $params): RakitRule

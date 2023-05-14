@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class NotInArray extends InArray
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute not allows :allowed_values';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool

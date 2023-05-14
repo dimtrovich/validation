@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class Lt extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a numeric value lower than :value.';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['value'];

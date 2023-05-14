@@ -75,7 +75,7 @@ describe("Validation / Validation", function() {
             ]);
             
             expect($validation->passes())->toBe(false);
-            expect($validation->errors()->first('password'))->toBe('The `mot de passe` only allows alphabet characters');
+            expect($validation->errors()->first('password'))->toBe('The `mot de passe` only allows alphabet characters.');
         });
 
         it("Traductions: Regles", function() {

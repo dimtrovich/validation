@@ -18,11 +18,6 @@ class Size extends AbstractRule
     use SizeTrait;
 
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must have :size';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['size'];

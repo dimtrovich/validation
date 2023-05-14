@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class Gte extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a numeric value greater or equal than :value.';
-
-    /**
      * @var array
      */
     protected $fillableParams = ['value'];

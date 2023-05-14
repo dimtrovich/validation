@@ -14,11 +14,6 @@ namespace Dimtrovich\Validation\Rules;
 class Slug extends AbstractRule
 {
     /**
-     * @var string
-     */
-    protected $message = 'The :attribute must be a valid slug';
-
-    /**
      * {@inheritDoc}
      */
     public function check($value): bool
