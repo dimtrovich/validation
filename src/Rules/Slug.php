@@ -18,6 +18,6 @@ class Slug extends AbstractRule
      */
     public function check($value): bool
     {
-        return is_string($value) && preg_match('/^([-a-z0-9_-])+$/i', $value);
+        return is_string($value) && preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $value);
     }
 }

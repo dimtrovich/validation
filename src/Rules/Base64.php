@@ -11,13 +11,17 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-class Ulid extends AbstractRule
+class Base64 extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * Check if the given value is a valid base64 encoded string
+     *
+     * @credit <a href="https://github.com/milwad-dev/laravel-validate">milwad/laravel-validate - Milwad\LaravelValidate\Rules\ValidBase64</a>
+     *
+     * @param mixed $value
      */
     public function check($value): bool
     {
-        return preg_match('/[0-7][0-9A-HJKMNP-TV-Z]{25}/', $value);
+        return base64_encode(base64_decode($value, true)) === $value;
     }
 }

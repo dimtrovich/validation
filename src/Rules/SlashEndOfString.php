@@ -11,13 +11,17 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-class Ulid extends AbstractRule
+class SlashEndOfString extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * Check write slash at the end of string.
+     *
+     * @credit <a href="https://github.com/milwad-dev/laravel-validate">milwad/laravel-validate - Milwad\LaravelValidate\Rules\ValidSlashEndOfString</a>
+     *
+     * @param mixed $value
      */
     public function check($value): bool
     {
-        return preg_match('/[0-7][0-9A-HJKMNP-TV-Z]{25}/', $value);
+        return preg_match('/\/+$/', $value);
     }
 }

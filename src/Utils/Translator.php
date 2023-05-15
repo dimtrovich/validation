@@ -14,14 +14,14 @@ namespace Dimtrovich\Validation\Utils;
 /**
  * Translation of validation rules errors
  */
-abstract class Translator 
+abstract class Translator
 {
     /**
      * Translations
      *
      * @var array<string, array<string, string>>
-     * 
-     * @example 
+     *
+     * @example
      * ```
      * [
      *  'en' => [
@@ -52,7 +52,7 @@ abstract class Translator
 
         if (empty(self::$translations[$locale])) {
             if (file_exists($file = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $locale . '.php')) {
-                self::$translations[$locale] = require  $file;
+                self::$translations[$locale] = require $file;
             }
         }
 

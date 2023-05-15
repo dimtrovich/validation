@@ -11,13 +11,17 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-class Ulid extends AbstractRule
+class CapitalCharWithNumber extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * Check all words are capital & with hyphen & number.
+     *
+     * @credit <a href="https://github.com/milwad-dev/laravel-validate">milwad/laravel-validate - Milwad\LaravelValidate\Rules\ValidCapitalCharWithNumber</a>
+     *
+     * @param mixed $value
      */
     public function check($value): bool
     {
-        return preg_match('/[0-7][0-9A-HJKMNP-TV-Z]{25}/', $value);
+        return preg_match('/[A-Z]{2,}-\d+/', $value);
     }
 }

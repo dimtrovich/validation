@@ -299,6 +299,22 @@ describe("Array", function() {
     });
 });
 
+describe("Base64", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'bWlsd2Fk'];
+
+        $validation = Validator::make($post, ['field' => 'base64']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'dimtrovich'];
+
+        $validation = Validator::make($post, ['field' => 'base64']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("Before", function() {
 
     it("1: Before - Utillisation d'une date", function() {
@@ -379,6 +395,70 @@ describe("BeforeOrEqual", function() {
         $validation = Validator::make($post, [
             'today'     => 'before_or_equal:my_day_3',
         ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("BitcoinAddress", function() {
+    it("1: Passe", function() {
+        $post = ['field' => '1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY'];
+
+        $validation = Validator::make($post, ['field' => 'bitcoin_address']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'loremipsum'];
+
+        $validation = Validator::make($post, ['field' => 'bitcoin_address']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("CamelCase", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'blitzPhp'];
+
+        $validation = Validator::make($post, ['field' => 'camelcase']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'lorem_ipsum'];
+
+        $validation = Validator::make($post, ['field' => 'camelcase']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("CapitalCharWithNumber", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'DIMTROVICH-237'];
+
+        $validation = Validator::make($post, ['field' => 'capital_char_with_number']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'Dimtrovich-237'];
+
+        $validation = Validator::make($post, ['field' => 'capital_char_with_number']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("CarNumber", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'KA01AB1234'];
+
+        $validation = Validator::make($post, ['field' => 'car_number']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => '854128'];
+
+        $validation = Validator::make($post, ['field' => 'car_number']);
         expect($validation->passes())->toBe(false);
     });
 });
@@ -618,6 +698,22 @@ describe("DeclinedIf", function() {
     });
 });
 
+describe("DiscordUsername", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'Dimtrovich#2134'];
+
+        $validation = Validator::make($post, ['field' => 'discord_username']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => '#2134'];
+
+        $validation = Validator::make($post, ['field' => 'discord_username']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("DoesntEndWith", function() {
     it("1: Passe", function() {
         $post = [
@@ -662,6 +758,56 @@ describe("DoesntStartWith", function() {
             'name'     => 'doesnt_start_with:bli',
         ]);
         
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Domain", function() {
+
+    it("1: Passe", function() {
+        $post = ['field' => 'github.com'];
+
+        $validation = Validator::make($post, ['field' => 'domain']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'github/com'];
+
+        $validation = Validator::make($post, ['field' => 'domain']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+xdescribe("Duplicate", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 1283456];
+
+        $validation = Validator::make($post, ['field' => 'duplicate']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 1123456];
+
+        $validation = Validator::make($post, ['field' => 'duplicate']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+xdescribe("DuplicateCharacter", function() {
+
+    it("1: Passe", function() {
+        $post = ['field' => '1,2,3,4,5,6,7,8,9'];
+
+        $validation = Validator::make($post, ['field' => 'duplicate_character']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => '1,2,2,3,3,3,4,5,6,7,8,9'];
+
+        $validation = Validator::make($post, ['field' => 'ducplicate_character']);
         expect($validation->passes())->toBe(false);
     });
 });
@@ -719,6 +865,23 @@ describe("Enum", function() {
         $validation = Validator::make(['suit' => 'O'], [
             'suit'     => 'enum:'.Suit::class
         ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("EvenNumber", function() {
+
+    it("1: Passe", function() {
+        $post = ['field' => '4'];
+
+        $validation = Validator::make($post, ['field' => 'even_number']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => '5'];
+
+        $validation = Validator::make($post, ['field' => 'even_number']);
         expect($validation->passes())->toBe(false);
     });
 });

@@ -11,13 +11,17 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-class Ulid extends AbstractRule
+class Kebabcase extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * Check if the given value is a kebab case string
+     *
+     * @credit <a href="https://github.com/milwad-dev/laravel-validate">milwad/laravel-validate - Milwad\LaravelValidate\Rules\ValidKebebCase</a>
+     *
+     * @param mixed $value
      */
     public function check($value): bool
     {
-        return preg_match('/[0-7][0-9A-HJKMNP-TV-Z]{25}/', $value);
+        return preg_match('/^(?:\p{Ll}+\-)*\p{Ll}+$/u', $value);
     }
 }

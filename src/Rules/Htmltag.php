@@ -11,13 +11,17 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-class Ulid extends AbstractRule
+class Htmltag extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * Check if a given value is a valid html tag.
+     *
+     * @credit <a href="https://github.com/milwad-dev/laravel-validate">milwad/laravel-validate - Milwad\LaravelValidate\Rules\ValidHtmltag</a>
+     *
+     * @param mixed $value
      */
     public function check($value): bool
     {
-        return preg_match('/[0-7][0-9A-HJKMNP-TV-Z]{25}/', $value);
+        return preg_match('/^<([a-z1-6]+)([^<]+)*(?:>(.*)<\/\1>| *\/>)$/', $value);
     }
 }

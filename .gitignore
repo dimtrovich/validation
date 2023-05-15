@@ -2,3 +2,4 @@
 /build
 clover.xml
 coveralls.json
+/composer.lock

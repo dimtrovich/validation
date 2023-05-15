@@ -23,6 +23,38 @@ describe("Timezone", function() {
     });
 });
 
+describe("Username", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'dimtrovich'];
+
+        $validation = Validator::make($post, ['field' => 'username']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'dimtrovich!@!'];
+
+        $validation = Validator::make($post, ['field' => 'username']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Ulid", function() {
+    it("1: Passe", function() {
+        $post = ['field' => '01ARZ3NDEKTSV4RRFFQ69G5FAV'];
+
+        $validation = Validator::make($post, ['field' => 'ulid']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => '01ARZ3NDEKTSV4RRFFQ69G5FA'];
+
+        $validation = Validator::make($post, ['field' => 'ulid']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("Uuid", function() {
     it("1: Passe", function() {
         $post = [
@@ -45,6 +77,22 @@ describe("Uuid", function() {
         ];
 
         $validation = Validator::make($post, ['uid' => 'uuid']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("VatId", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'EL123456789'];
+
+        $validation = Validator::make($post, ['field' => 'vatid']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'EL123456789123678912'];
+
+        $validation = Validator::make($post, ['field' => 'vatid']);
         expect($validation->passes())->toBe(false);
     });
 });

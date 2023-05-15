@@ -1,5 +1,7 @@
 <?php
 
+use Dimtrovich\Validation\Rule;
+use Dimtrovich\Validation\Utils\Country;
 use Dimtrovich\Validation\Validator;
 
 describe("MacAddress", function() {
@@ -76,6 +78,97 @@ describe("NotRegex", function() {
     });
 });
 
+describe("OddNumber", function() {
+    it("1: Passe", function() {
+        $post = ['field' => '5'];
+
+        $validation = Validator::make($post, ['field' => 'odd_number']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => '4'];
+
+        $validation = Validator::make($post, ['field' => 'odd_number']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Pascalcase", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'BlitzPhp'];
+
+        $validation = Validator::make($post, ['field' => 'pascalcase']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'blitzPhp'];
+
+        $validation = Validator::make($post, ['field' => 'pascalcase']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Pattern", function() {
+    it("1: Passe", function() {
+        $post = ['field' => '4444-4444-4444'];
+
+        $validation = Validator::make($post, ['field' => 'pattern:4']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => '4444-4444-44444'];
+
+        $validation = Validator::make($post, ['field' => 'pattern:4']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Phone", function() {
+    it("1: Passe", function() {
+        $rules = [
+            'phone_number' => 'phone',
+            'phone_cm'     => Rule::phone(Country::CAMEROON),
+        ];
+        $data = ['phone_number' => '09366000000', 'phone_cm' => '+237677889900'];
+    
+        $validation = Validator::make($data, $rules);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $rules = [
+            'phone_number' => 'phone',
+            'phone_bj' => Rule::phone(Country::BENIN),
+        ];
+        $data = [
+            'phone_number' => '123456789',
+            'phone_bj' => '+22697000000',
+        ];
+
+        $validation = Validator::make($data, $rules);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Port", function() {
+    it("1: Passe", function() {
+        $post = ['field' => '8080'];
+
+        $validation = Validator::make($post, ['field' => 'port']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => '158754'];
+
+        $validation = Validator::make($post, ['field' => 'port']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("Prohibited", function() {
     it("1: Passe", function() {
        $validation = Validator::make([], [
@@ -125,20 +218,34 @@ describe("Size", function() {
     });
 });
 
+describe("SlashEndOfString", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'dimtrovich/'];
+
+        $validation = Validator::make($post, ['field' => 'slash_end_of_string']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'dimtrovich'];
+
+        $validation = Validator::make($post, ['field' => 'slash_end_of_string']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("Slug", function() {
     it("1: Passe", function() {
         $post = [
             'slug_1'  => 'a-simple-article-of-blog',
             'slug_2'  => '2023-04-29-a-simple-article-of-blog',
-            'slug_3'  => '2023-04-29_a-simple-article-of-blog',
-            'slug_4'  => '2023-04-29',
+            'slug_3'  => '2023-04-29',
         ];
 
         $validation = Validator::make($post, [
             'slug_1' => 'slug',
             'slug_2' => 'slug',
             'slug_3' => 'slug',
-            'slug_4' => 'slug',
         ]);
         expect($validation->passes())->toBe(true);
     });
@@ -148,21 +255,28 @@ describe("Slug", function() {
             'slug_1'  => 'a.simple.article-of-blog',
             'slug_2'  => 'A simple article of blog',
             'slug_3'  => 2023,
+            'slug_4'  => '2023-04-29_a-simple-article-of-blog',
         ];
 
-        $validation = Validator::make($post, [
-            'slug_1' => 'slug',
-        ]);
-        expect($validation->passes())->toBe(false);
-        
-        $validation = Validator::make($post, [
-            'slug_2' => 'slug',
-        ]);
-        expect($validation->passes())->toBe(false);
+        foreach (array_keys($post) as $rule) {
+            $validation = Validator::make($post, [$rule => 'slug']);
+            expect($validation->passes())->toBe(false);
+        }
+    });
+});
 
-        $validation = Validator::make($post, [
-            'slug_3' => 'slug',
-        ]);
+describe("Snakecase", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'blitz_php'];
+
+        $validation = Validator::make($post, ['field' => 'snakecase']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'blitzPhp'];
+
+        $validation = Validator::make($post, ['field' => 'snakecase']);
         expect($validation->passes())->toBe(false);
     });
 });

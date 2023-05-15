@@ -11,13 +11,17 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-class Ulid extends AbstractRule
+class Pascalcase extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * Check if the given value is a pascal case string
+     *
+     * @credit <a href="https://github.com/milwad-dev/laravel-validate">milwad/laravel-validate - Milwad\LaravelValidate\Rules\ValidPascalCase</a>
+     *
+     * @param mixed $value
      */
     public function check($value): bool
     {
-        return preg_match('/[0-7][0-9A-HJKMNP-TV-Z]{25}/', $value);
+        return preg_match('/^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/', $value);
     }
 }
