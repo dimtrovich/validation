@@ -126,6 +126,7 @@ class Validation
             Rules\NotRegex::class,
             Rules\OddNumber::class,
             Rules\Pascalcase::class,
+            Rules\Password::class,
             Rules\Pattern::class,
             Rules\Phone::class,
             Rules\Port::class,
@@ -174,6 +175,16 @@ class Validation
         }
 
         return $this->validator->getValidator($rule);
+    }
+    
+    /**
+     * Set the actual validation instance
+     */
+    public function setValidation(?RakitValidation $validation): self
+    {
+        $this->validation = $validation;
+        
+        return $this;
     }
 
     /**

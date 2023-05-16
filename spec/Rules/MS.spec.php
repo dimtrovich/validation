@@ -110,6 +110,44 @@ describe("Pascalcase", function() {
     });
 });
 
+describe("Password", function() {
+    it("1: Passe", function() {
+        $post = ['field' => 'blitzphp'];
+
+        $validation = Validator::make($post, ['field' => 'password']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['field' => 'blitzphp'];
+
+        $validation = Validator::make($post, ['field' => 'password:9']);
+        expect($validation->passes())->toBe(false);
+    });
+    
+    it("3: Complexe", function() {
+        $post = ['field' => 'blitzphp'];
+
+        $validation = Validator::make($post, [
+            'field' => [Rule::password()->letters()->mixedCase()->numbers()]
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+
+    it("4: Complexe", function() {
+        $post = [
+            'field1' => 'Bl1tzphp@',
+            'field2' => 'Bl1tzphp@'
+        ];
+
+        $validation = Validator::make($post, [
+            'field1' => [Rule::password(9)->letters()->mixedCase()->numbers()->symbols()],
+            'field2' => [Rule::password()->strong()]
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+});
+
 describe("Pattern", function() {
     it("1: Passe", function() {
         $post = ['field' => '4444-4444-4444'];

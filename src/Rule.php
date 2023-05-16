@@ -92,6 +92,7 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Rakit\Validation\Rules\Numeric                    numeric()
  * @method static \Dimtrovich\Validation\Rules\OddNumber             oddNumber()
  * @method static \Dimtrovich\Validation\Rules\Pascalcase            pascalcase()
+ * @method static \Dimtrovich\Validation\Rules\Password              password(?int $min = null)
  * @method static \Dimtrovich\Validation\Rules\Pattern               pattern()
  * @method static \Dimtrovich\Validation\Rules\Phone                 phone(?string $country_code = null)
  * @method static \Dimtrovich\Validation\Rules\Port                  port()
