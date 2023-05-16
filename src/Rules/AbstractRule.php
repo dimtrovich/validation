@@ -23,13 +23,23 @@ abstract class AbstractRule extends Rule
      */
     protected const NAME = '';
 
-    public function __construct(protected string $locale)
+    /**
+     * Translation locale
+     */
+    protected string $locale = 'en';
+
+    public function __construct()
     {
-        if ($this->message === 'The :attribute is invalid') {
-            if (null !== $translation = $this->translate(static::name(), true)) {
-                $this->setMessage($translation);
-            }
+        $this->findTranslatedMessage($this->locale);
+    }
+
+    public function locale(string $locale): self 
+    {
+        if ($locale !== $this->locale) {
+            $this->findTranslatedMessage($locale);
         }
+
+        return $this;
     }
 
     /**
@@ -82,5 +92,16 @@ abstract class AbstractRule extends Rule
         $boolean           = $this->validation ? $this->validation->getTranslation($boolean) : $boolean;
         $allowedValuesText = Helper::join(Helper::wraps($values, "'"), ', ', ", {$boolean} ");
         $this->setParameterText('allowed_values', $allowedValuesText);
+    }
+
+    private function findTranslatedMessage($locale)
+    {
+        $this->locale = $locale;
+
+        if ($this->message === 'The :attribute is invalid') {
+            if (null !== $translation = $this->translate(static::name(), true)) {
+                $this->setMessage($translation);
+            }
+        }
     }
 }

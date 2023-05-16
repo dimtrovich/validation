@@ -13,6 +13,7 @@ namespace Dimtrovich\Validation;
 
 use BlitzPHP\Utilities\Helpers;
 use Dimtrovich\Validation\Exceptions\ValidationException;
+use Dimtrovich\Validation\Rules\AbstractRule;
 use InvalidArgumentException;
 use Rakit\Validation\ErrorBag;
 use Rakit\Validation\Rule;
@@ -183,6 +184,16 @@ class Validation
     public function setValidation(?RakitValidation $validation): self
     {
         $this->validation = $validation;
+
+        return $this;
+    }
+
+    /**
+     * Add rule validator
+     */
+    public function addValidator(string $name, AbstractRule $rule): self 
+    {
+        $this->validator->addValidator($name, $rule->locale($this->locale));
 
         return $this;
     }
@@ -423,7 +434,7 @@ class Validation
                 $rule = $key;
             }
 
-            $this->validator->addValidator($name, new $rule($this->locale));
+            $this->addValidator($name, new $rule());
         }
     }
 }
