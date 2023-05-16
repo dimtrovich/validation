@@ -65,22 +65,20 @@ class Password extends AbstractRule
     /**
      * The callback that will generate the "default" version of the password rule.
      *
-     * @var string|array|callable|null
+     * @var array|callable|string|null
      */
     public static $defaultCallback;
 
     /**
      * Get the default configuration of the password rule.
-     *
-     * @return static
      */
-    public function default()
+    public function default(): self
     {
         $password = is_callable(static::$defaultCallback)
                             ? call_user_func(static::$defaultCallback)
                             : static::$defaultCallback;
 
-        return $password instanceof Rule ? $password : $this->min(8);
+        return $password instanceof self ? $password : $this->min(8);
     }
 
     /**
@@ -91,7 +89,7 @@ class Password extends AbstractRule
         return (clone $this)->min(8)->symbols()->letters()->numbers()->mixedCase();
     }
 
-     /**
+    /**
      * Sets the minimum size of the password.
      */
     public function min(int $size): self
@@ -100,6 +98,7 @@ class Password extends AbstractRule
 
         return $this;
     }
+
     /**
      * Ensures the password has not been compromised in data leaks.
      */
@@ -176,24 +175,24 @@ class Password extends AbstractRule
         }
 
         $attribute = $this->getAttribute()->getKey();
-        
+
         $validator = Validator::make(
             [$attribute => $value],
-            [$attribute => array_merge(['string', 'min:'.$this->min], $this->customRules)],
+            [$attribute => array_merge(['string', 'min:' . $this->min], $this->customRules)],
             $this->validation->getMessages(),
         );
-        
+
         if ($this->mixedCase && ! preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/u', $value)) {
-            $this->validation->errors()->add($attribute, static::name().'.mixed', $this->translate('password.mixed'));
+            $this->validation->errors()->add($attribute, static::name() . '.mixed', $this->translate('password.mixed'));
         }
         if ($this->letters && ! preg_match('/\pL/u', $value)) {
-            $this->validation->errors()->add($attribute, static::name().'.letters', $this->translate('password.letters'));
+            $this->validation->errors()->add($attribute, static::name() . '.letters', $this->translate('password.letters'));
         }
         if ($this->symbols && ! preg_match('/\p{Z}|\p{S}|\p{P}/u', $value)) {
-            $this->validation->errors()->add($attribute, static::name().'.symbols', $this->translate('password.symbols'));
+            $this->validation->errors()->add($attribute, static::name() . '.symbols', $this->translate('password.symbols'));
         }
         if ($this->numbers && ! preg_match('/\pN/u', $value)) {
-            $this->validation->errors()->add($attribute, static::name().'.numbers', $this->translate('password.numbers'));
+            $this->validation->errors()->add($attribute, static::name() . '.numbers', $this->translate('password.numbers'));
         }
 
         return $validator->setValidation($this->validation)->passes();

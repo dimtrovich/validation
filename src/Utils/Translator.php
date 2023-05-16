@@ -43,8 +43,8 @@ abstract class Translator
     public static function translate(string $key, string $locale, bool $strict = false): ?string
     {
         $translations = self::translations($locale);
-        $translation = Arr::getRecursive($translations, $key);
-        
+        $translation  = Arr::getRecursive($translations, $key);
+
         return $translation ?? ($strict ? null : $key);
     }
 

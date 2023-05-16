@@ -21,11 +21,10 @@ class CountryPhoneCallback
     /**
      * Create a new phone validator instance.
      *
-     * @param mixed       $value     The phone number to validate.
-     * @param string      $code      The country codes to validate against. String can be separated by comma
-     * @param string|null $attribute
+     * @param mixed  $value The phone number to validate.
+     * @param string $code  The country codes to validate against. String can be separated by comma
      */
-    public function __construct(protected $value, protected string $code, $attribute = null)
+    public function __construct(protected $value, protected string $code)
     {
     }
 

@@ -176,14 +176,14 @@ class Validation
 
         return $this->validator->getValidator($rule);
     }
-    
+
     /**
      * Set the actual validation instance
      */
     public function setValidation(?RakitValidation $validation): self
     {
         $this->validation = $validation;
-        
+
         return $this;
     }
 
@@ -418,8 +418,7 @@ class Validation
             if (is_int($key)) {
                 $name = $value::name();
                 $rule = $value;
-            }
-            else {
+            } else {
                 $name = $value;
                 $rule = $key;
             }
