@@ -11,6 +11,8 @@
 
 namespace Dimtrovich\Validation\Utils;
 
+use BlitzPHP\Utilities\Iterable\Arr;
+
 /**
  * Translation of validation rules errors
  */
@@ -40,7 +42,10 @@ abstract class Translator
      */
     public static function translate(string $key, string $locale, bool $strict = false): ?string
     {
-        return self::translations($locale)[$key] ?? ($strict ? null : $key);
+        $translations = self::translations($locale);
+        $translation = Arr::getRecursive($translations, $key);
+        
+        return $translation ?? ($strict ? null : $key);
     }
 
     /**

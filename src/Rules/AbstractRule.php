@@ -26,7 +26,7 @@ abstract class AbstractRule extends Rule
     public function __construct(protected string $locale)
     {
         if ($this->message === 'The :attribute is invalid') {
-            if (null !== $translation = Translator::translate(static::name(), $this->locale, true)) {
+            if (null !== $translation = $this->translate(static::name(), true)) {
                 $this->setMessage($translation);
             }
         }
@@ -45,6 +45,14 @@ abstract class AbstractRule extends Rule
         $name  = array_pop($parts);
 
         return Text::snake($name);
+    }
+
+    /**
+     * Get the translation for a given key
+     */
+    protected function translate(?string $key, bool $strict = false): ?string
+    {
+        return Translator::translate($key ?: static::name(), $this->locale, $strict);
     }
 
     protected function getRuleValidator(string $rule): Rule
