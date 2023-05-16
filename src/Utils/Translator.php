@@ -44,8 +44,9 @@ abstract class Translator
     {
         $translations = self::translations($locale);
         $translation  = Arr::getRecursive($translations, $key);
+        $translation  = $translation ?? ($strict ? null : $key);
 
-        return $translation ?? ($strict ? null : $key);
+        return is_string($translation) ? $translation : null;
     }
 
     /**
