@@ -75,7 +75,75 @@ class Validation
     public function __construct(protected string $locale = 'en')
     {
         $this->validator = new RakitValidator($this->translations);
-        $this->registerRules();
+        $this->registerRules([
+            Rules\AcceptedIf::class,
+            Rules\ActiveURL::class,
+            Rules\After::class,
+            Rules\AfterOrEqual::class,
+            Rules\Alpha::class,
+            Rules\AlphaDash::class,
+            Rules\AlphaNum::class,
+            Rules\Ascii::class,
+            Rules\Base64::class,
+            Rules\Before::class,
+            Rules\BeforeOrEqual::class,
+            Rules\BitcoinAddress::class,
+            Rules\Camelcase::class,
+            Rules\CapitalCharWithNumber::class,
+            Rules\CarNumber::class,
+            Rules\Confirmed::class,
+            Rules\Contains::class,
+            Rules\ContainsAll::class,
+            Rules\Date::class,
+            Rules\DateEquals::class,
+            Rules\Decimal::class,
+            Rules\Declined::class,
+            Rules\DeclinedIf::class,
+            Rules\DiscordUsername::class,
+            Rules\DoesntEndWith::class,
+            Rules\DoesntStartWith::class,
+            Rules\Domain::class,
+            Rules\Duplicate::class,
+            Rules\DuplicateCharacter::class,
+            Rules\EndWith::class,
+            Rules\Enum::class,
+            Rules\EvenNumber::class,
+            Rules\Gt::class,
+            Rules\Gte::class,
+            Rules\Hashtag::class,
+            Rules\Hexcolor::class,
+            Rules\Htmltag::class,
+            Rules\Iban::class,
+            Rules\Image::class,
+            Rules\Imei::class,
+            Rules\InArray::class,
+            Rules\Jwt::class,
+            Rules\Kebabcase::class,
+            Rules\Lt::class,
+            Rules\Lte::class,
+            Rules\MacAddress::class,
+            Rules\NotInArray::class,
+            Rules\NotRegex::class,
+            Rules\OddNumber::class,
+            Rules\Pascalcase::class,
+            Rules\Pattern::class,
+            Rules\Phone::class,
+            Rules\Port::class,
+            Rules\Prohibited::class,
+            Rules\Size::class,
+            Rules\SlashEndOfString::class,
+            Rules\Slug::class,
+            Rules\Snakecase::class,
+            Rules\StartWith::class,
+            Rules\Timezone::class,
+            Rules\TypeArray::class,
+            Rules\TypeInstanceOf::class,
+            Rules\TypeString::class,
+            Rules\Ulid::class,
+            Rules\Username::class,
+            Rules\Uuid::class,
+            Rules\Vatid::class,
+        ]);
     }
 
     /**
@@ -331,82 +399,21 @@ class Validation
     /**
      * Register validation rules
      */
-    private function registerRules(): void
+    private function registerRules(array $rules): void
     {
         $this->validator->allowRuleOverride(true);
 
-        $rules = [
-            Rules\AcceptedIf::class,
-            Rules\ActiveURL::class,
-            Rules\After::class,
-            Rules\AfterOrEqual::class,
-            Rules\Alpha::class,
-            Rules\AlphaDash::class,
-            Rules\AlphaNum::class,
-            Rules\Ascii::class,
-            Rules\Base64::class,
-            Rules\Before::class,
-            Rules\BeforeOrEqual::class,
-            Rules\BitcoinAddress::class,
-            Rules\Camelcase::class,
-            Rules\CapitalCharWithNumber::class,
-            Rules\CarNumber::class,
-            Rules\Confirmed::class,
-            Rules\Contains::class,
-            Rules\ContainsAll::class,
-            Rules\Date::class,
-            Rules\DateEquals::class,
-            Rules\Decimal::class,
-            Rules\Declined::class,
-            Rules\DeclinedIf::class,
-            Rules\DiscordUsername::class,
-            Rules\DoesntEndWith::class,
-            Rules\DoesntStartWith::class,
-            Rules\Domain::class,
-            Rules\Duplicate::class,
-            Rules\DuplicateCharacter::class,
-            Rules\EndWith::class,
-            Rules\Enum::class,
-            Rules\EvenNumber::class,
-            Rules\Gt::class,
-            Rules\Gte::class,
-            Rules\Hashtag::class,
-            Rules\Hexcolor::class,
-            Rules\Htmltag::class,
-            Rules\Iban::class,
-            Rules\Image::class,
-            Rules\Imei::class,
-            Rules\InArray::class,
-            Rules\Jwt::class,
-            Rules\Kebabcase::class,
-            Rules\Lt::class,
-            Rules\Lte::class,
-            Rules\MacAddress::class,
-            Rules\NotInArray::class,
-            Rules\NotRegex::class,
-            Rules\OddNumber::class,
-            Rules\Pascalcase::class,
-            Rules\Pattern::class,
-            Rules\Phone::class,
-            Rules\Port::class,
-            Rules\Prohibited::class,
-            Rules\Size::class,
-            Rules\SlashEndOfString::class,
-            Rules\Slug::class,
-            Rules\Snakecase::class,
-            Rules\StartWith::class,
-            Rules\Timezone::class,
-            Rules\TypeArray::class,
-            Rules\TypeInstanceOf::class,
-            Rules\TypeString::class,
-            Rules\Ulid::class,
-            Rules\Username::class,
-            Rules\Uuid::class,
-            Rules\Vatid::class,
-        ];
+        foreach ($rules as $key => $value) {
+            if (is_int($key)) {
+                $name = $value::name();
+                $rule = $value;
+            }
+            else {
+                $name = $value;
+                $rule = $key;
+            }
 
-        foreach ($rules as $rule) {
-            $this->validator->addValidator($rule::name(), new $rule($this->locale));
+            $this->validator->addValidator($name, new $rule($this->locale));
         }
     }
 }
