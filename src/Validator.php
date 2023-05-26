@@ -12,13 +12,27 @@
 namespace Dimtrovich\Validation;
 
 use Dimtrovich\Validation\Exceptions\ValidationException;
+use InvalidArgumentException;
 use Rakit\Validation\Rule;
 
 class Validator
 {
+    /**
+     * Class to use for validation. 
+     * Useful if we have modified certain behaviors in the validation class (adding a new validator for example)
+     * 
+     * @var class-string<Validation>
+     */
+    protected static string $validationClass = Validation::class;
+
+    /**
+     * Initializes the validation process
+     */
     public static function make(array $data, array $rules, array $messages = []): Validation
     {
-        $instance = new Validation();
+        static::ensureValidValidationClass();
+
+        $instance = new static::$validationClass();
 
         $instance->data($data);
         $instance->rules($rules);
@@ -34,11 +48,13 @@ class Validator
      */
     public static function rule(string $rule)
     {
+        static::ensureValidValidationClass();
+        
         $args   = func_get_args();
         $rule   = array_shift($args);
         $params = $args;
 
-        $validator = Validation::instance()->getValidator($rule);
+        $validator = static::$validationClass::instance()->getValidator($rule);
         if (! ($validator instanceof Rule)) {
             throw ValidationException::ruleNotFound($rule);
         }
@@ -47,5 +63,15 @@ class Validator
         $clonedValidator->fillParameters($params);
 
         return $clonedValidator;
+    }
+
+    /**
+     * Make sure the class to use for validation is a subclass of Validation
+     */
+    private static function ensureValidValidationClass(): void
+    {
+        if (! is_a(static::$validationClass, Validation::class, true)) {
+            throw new InvalidArgumentException('Static property $validationClass must be a subclass of ' . Validation::class);
+        }
     }
 }
