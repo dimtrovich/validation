@@ -28,6 +28,13 @@ abstract class AbstractRule extends Rule
      */
     protected string $locale = 'en';
 
+    /**
+     * Aliases for attributes keys
+     *
+     * @var array<string, string>
+     */
+    private array $_alias = [];
+
     public function __construct()
     {
         $this->findTranslatedMessage($this->locale);
@@ -70,6 +77,17 @@ abstract class AbstractRule extends Rule
         $validator = $this->validation->getValidator();
 
         return $validator->getValidator($rule);
+    }
+
+    protected function getAttributeAlias(string $key): string
+    {
+        if (! empty($this->_alias[$key])) {
+            return $this->_alias[$key];
+        }
+
+        $alias = $this->validation->getAlias($key);
+
+        return $this->_alias[$key] = empty($alias) ? $key : $alias;
     }
 
     protected function fillAllowedParameters(array $params, string $name): self

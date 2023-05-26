@@ -13,7 +13,6 @@ namespace Dimtrovich\Validation\Rules;
 
 use BlitzPHP\Utilities\Iterable\Arr;
 use Dimtrovich\Validation\Validator;
-use Rakit\Validation\Rule;
 
 class Password extends AbstractRule
 {
@@ -68,7 +67,7 @@ class Password extends AbstractRule
      * @var array|callable|string|null
      */
     public static $defaultCallback;
-
+    
     /**
      * Get the default configuration of the password rule.
      */
@@ -183,18 +182,27 @@ class Password extends AbstractRule
         );
 
         if ($this->mixedCase && ! preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/u', $value)) {
-            $this->validation->errors()->add($attribute, static::name() . '.mixed', $this->translate('password.mixed'));
+            $this->validation->errors()->add($attribute, static::name() . '.mixed', $this->processTranslate('password.mixed'));
         }
         if ($this->letters && ! preg_match('/\pL/u', $value)) {
-            $this->validation->errors()->add($attribute, static::name() . '.letters', $this->translate('password.letters'));
+            $this->validation->errors()->add($attribute, static::name() . '.letters', $this->processTranslate('password.letters'));
         }
         if ($this->symbols && ! preg_match('/\p{Z}|\p{S}|\p{P}/u', $value)) {
-            $this->validation->errors()->add($attribute, static::name() . '.symbols', $this->translate('password.symbols'));
+            $this->validation->errors()->add($attribute, static::name() . '.symbols', $this->processTranslate('password.symbols'));
         }
         if ($this->numbers && ! preg_match('/\pN/u', $value)) {
-            $this->validation->errors()->add($attribute, static::name() . '.numbers', $this->translate('password.numbers'));
+            $this->validation->errors()->add($attribute, static::name() . '.numbers', $this->processTranslate('password.numbers'));
         }
 
         return $validator->setValidation($this->validation)->passes();
+    }
+
+    private function processTranslate(string $key): string
+    {
+        return str_replace(
+            ':attribute', 
+            $this->getAttributeAlias($this->getAttribute()->getKey()), 
+            $this->translate($key)
+        );
     }
 }

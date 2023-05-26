@@ -21,7 +21,7 @@ class Confirmed extends AbstractRule
         $anotherAttribute = $this->getAttribute()->getKey() . '_confirmation';
         $anotherValue     = $this->getAttribute()->getValue($anotherAttribute);
 
-        $this->setParameterText('field', $this->getAttribute()->getKey());
+        $this->setParameterText('field', $this->getAttributeAlias($anotherAttribute));
 
         return $value === $anotherValue;
     }
