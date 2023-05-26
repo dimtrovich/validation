@@ -76,6 +76,7 @@ class Validation
     public function __construct(protected string $locale = 'en')
     {
         $this->validator = new RakitValidator($this->translations);
+        $this->validator->allowRuleOverride(true);
         $this->registerRules([
             Rules\AcceptedIf::class,
             Rules\ActiveURL::class,
@@ -156,7 +157,7 @@ class Validation
     public static function instance()
     {
         if (static::$_instance === null) {
-            static::$_instance = new self();
+            static::$_instance = new static();
         }
 
         return static::$_instance;
@@ -405,26 +406,10 @@ class Validation
     }
 
     /**
-     * Magic method to create a rule
-     *
-     * @throws ValidationException
-     */
-    public function __invoke(string $rule): Rule
-    {
-        try {
-            return $this->validator->__invoke(...func_get_args());
-        } catch (RuleNotFoundException $e) {
-            throw ValidationException::ruleNotFound($rule);
-        }
-    }
-
-    /**
      * Register validation rules
      */
-    private function registerRules(array $rules): void
+    protected function registerRules(array $rules): void
     {
-        $this->validator->allowRuleOverride(true);
-
         foreach ($rules as $key => $value) {
             if (is_int($key)) {
                 $name = $value::name();
@@ -435,6 +420,20 @@ class Validation
             }
 
             $this->addValidator($name, new $rule());
+        }
+    }
+
+    /**
+     * Magic method to create a rule
+     *
+     * @throws ValidationException
+     */
+    public function __invoke(string $rule): Rule
+    {
+        try {
+            return $this->validator->__invoke(...func_get_args());
+        } catch (RuleNotFoundException $e) {
+            throw ValidationException::ruleNotFound($rule);
         }
     }
 }
