@@ -40,7 +40,7 @@ abstract class AbstractRule extends Rule
         $this->findTranslatedMessage($this->locale);
     }
 
-    public function locale(string $locale): self 
+    public function locale(string $locale): self
     {
         if ($locale !== $this->locale) {
             $this->findTranslatedMessage($locale);

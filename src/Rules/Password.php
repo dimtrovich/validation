@@ -67,7 +67,7 @@ class Password extends AbstractRule
      * @var array|callable|string|null
      */
     public static $defaultCallback;
-    
+
     /**
      * Get the default configuration of the password rule.
      */
@@ -153,7 +153,7 @@ class Password extends AbstractRule
     /**
      * Specify additional validation rules that should be merged with the default rules during validation.
      */
-    public function rules(string|array $rules): self
+    public function rules(array|string $rules): self
     {
         $this->customRules = Arr::wrap($rules);
 
@@ -200,8 +200,8 @@ class Password extends AbstractRule
     private function processTranslate(string $key): string
     {
         return str_replace(
-            ':attribute', 
-            $this->getAttributeAlias($this->getAttribute()->getKey()), 
+            ':attribute',
+            $this->getAttributeAlias($this->getAttribute()->getKey()),
             $this->translate($key)
         );
     }

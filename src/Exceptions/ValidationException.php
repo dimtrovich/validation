@@ -38,7 +38,7 @@ class ValidationException extends Exception
 
         parent::__construct($message);
     }
-    
+
     /**
      * Get errors
      */

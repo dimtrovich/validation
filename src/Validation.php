@@ -192,7 +192,7 @@ class Validation
     /**
      * Add rule validator
      */
-    public function addValidator(string $name, AbstractRule $rule): self 
+    public function addValidator(string $name, AbstractRule $rule): self
     {
         $this->validator->addValidator($name, $rule->locale($this->locale));
 
@@ -314,7 +314,7 @@ class Validation
     /**
      * Definition of the aliases of the data to be validated
      */
-    public function alias(string|array $key, string $value = ''): self
+    public function alias(array|string $key, string $value = ''): self
     {
         if (is_array($key)) {
             $this->aliases = array_merge($this->aliases, $key);
@@ -441,7 +441,7 @@ class Validation
      * Lève l'exception donnée si la condition donnée est vraie.
      *
      * @throws Throwable
-	 */
+     */
     private function throwIf(mixed $condition)
     {
         if (is_a($this->exception, ValidationException::class)) {

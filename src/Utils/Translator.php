@@ -57,7 +57,7 @@ abstract class Translator
         $locale = strtolower(substr($locale, 0, 2));
 
         if (empty(self::$translations[$locale])) {
-            foreach ([$locale, 'en'] as $lang) { 
+            foreach ([$locale, 'en'] as $lang) {
                 if (file_exists($file = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR . $lang . '.php')) {
                     self::$translations[$locale] = require $file;
                     break;
