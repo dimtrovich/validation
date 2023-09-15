@@ -444,7 +444,7 @@ class Validation
      */
     private function throwIf(mixed $condition)
     {
-        if (is_a($this->exception, ValidationException::class)) {
+        if (is_a($this->exception, ValidationException::class, true)) {
             Helpers::throwIf($condition, $this->exception, '', $this);
         } else {
             Helpers::throwIf($condition, $this->exception, ValidationException::summarize($this));

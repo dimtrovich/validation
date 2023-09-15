@@ -50,7 +50,7 @@ class ValidationException extends Exception
     /**
      * Set errors
      */
-    public function setErrors(ErrorBag $errors): self
+    public function setErrors(?ErrorBag $errors): self
     {
         $this->errors = $errors;
 
