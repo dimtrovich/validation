@@ -13,9 +13,50 @@ namespace Dimtrovich\Validation\Exceptions;
 
 use Dimtrovich\Validation\Validation;
 use Exception;
+use Rakit\Validation\ErrorBag;
 
 class ValidationException extends Exception
 {
+    /**
+     * Validation errors list
+     */
+    protected ?ErrorBag $errors = null;
+
+    /**
+     * Error code
+     *
+     * @var int
+     */
+    protected $code = 400;
+
+    public function __construct(string $message = '', ?Validation $validator = null)
+    {
+        if ($validator) {
+            $message      = self::summarize($validator);
+            $this->errors = $validator->errors();
+        }
+
+        parent::__construct($message);
+    }
+    
+    /**
+     * Get errors
+     */
+    public function getErrors(): ?ErrorBag
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Set errors
+     */
+    public function setErrors(ErrorBag $errors): self
+    {
+        $this->errors = $errors;
+
+        return $this;
+    }
+
     /**
      * Create an error message summary from the validation errors.
      */

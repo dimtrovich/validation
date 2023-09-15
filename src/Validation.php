@@ -228,7 +228,7 @@ class Validation
      */
     public function validate(): array
     {
-        Helpers::throwIf($this->fails(), $this->exception, ValidationException::summarize($this));
+        $this->throwIf($this->fails());
 
         return $this->validated();
     }
@@ -270,7 +270,7 @@ class Validation
     {
         $this->passes();
 
-        Helpers::throwIf($this->invalid(), $this->exception, ValidationException::summarize($this));
+        $this->throwIf($this->invalid());
 
         return $this->validation->getValidatedData();
     }
@@ -434,6 +434,20 @@ class Validation
             return $this->validator->__invoke(...func_get_args());
         } catch (RuleNotFoundException $e) {
             throw ValidationException::ruleNotFound($rule);
+        }
+    }
+
+    /**
+     * Lève l'exception donnée si la condition donnée est vraie.
+     *
+     * @throws Throwable
+	 */
+    private function throwIf(mixed $condition)
+    {
+        if (is_a($this->exception, ValidationException::class)) {
+            Helpers::throwIf($condition, $this->exception, '', $this);
+        } else {
+            Helpers::throwIf($condition, $this->exception, ValidationException::summarize($this));
         }
     }
 }
