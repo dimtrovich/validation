@@ -50,12 +50,11 @@ class CountryPhoneCallback
 
     protected function validateCM()
     {
-        return 
+        return
             preg_match('/^(\+237\s?|00237\s?|237\s?)?6\s?[5-9]{1}[0-9]{1}[-. ]?([0-9]{2}[-. ]?){3}$/', $this->value) // Orange, MTN, Nextel
-            ||
-            preg_match('/^(\+237\s?|00237\s?|237\s?)?(2|3|4)\s?[2-3]{1}[0-9]{1}[-. ]?([0-9]{2}[-. ]?){3}$/', $this->value); // Camtel
+            || preg_match('/^(\+237\s?|00237\s?|237\s?)?(2|3|4)\s?[2-3]{1}[0-9]{1}[-. ]?([0-9]{2}[-. ]?){3}$/', $this->value); // Camtel
     }
-    
+
     protected function validateFR()
     {
         return preg_match('/^(\+33\s?|0033\s?|33\s?)?0[1-68]([-. ]?[0-9]{2}){4}$/', $this->value);

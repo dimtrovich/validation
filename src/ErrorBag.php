@@ -24,6 +24,6 @@ class ErrorBag extends RakitErrorBag
             return null;
         }
 
-        return join($separator, $errors);
+        return implode($separator, $errors);
     }
 }
