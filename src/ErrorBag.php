@@ -12,11 +12,13 @@
 namespace Dimtrovich\Validation;
 
 use ArrayAccess;
+use ArrayIterator;
 use BlitzPHP\Contracts\Support\Arrayable;
+use IteratorAggregate;
 use Rakit\Validation\ErrorBag as RakitErrorBag;
 use Traversable;
 
-class ErrorBag extends RakitErrorBag implements Arrayable, ArrayAccess, Traversable
+class ErrorBag extends RakitErrorBag implements Arrayable, ArrayAccess, IteratorAggregate
 {
     /**
      * Returns key validation errors as a string
@@ -68,5 +70,13 @@ class ErrorBag extends RakitErrorBag implements Arrayable, ArrayAccess, Traversa
     public function offsetUnset(mixed $offset): void
     {
         unset($this->messages[$offset]);
+    }
+
+	/**
+     * {@inheritDoc}
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->messages);
     }
 }
