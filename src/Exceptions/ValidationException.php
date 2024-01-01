@@ -11,9 +11,9 @@
 
 namespace Dimtrovich\Validation\Exceptions;
 
+use Dimtrovich\Validation\ErrorBag;
 use Dimtrovich\Validation\Validation;
 use Exception;
-use Rakit\Validation\ErrorBag;
 
 class ValidationException extends Exception
 {

@@ -15,7 +15,6 @@ use BlitzPHP\Utilities\Helpers;
 use Dimtrovich\Validation\Exceptions\ValidationException;
 use Dimtrovich\Validation\Rules\AbstractRule;
 use InvalidArgumentException;
-use Rakit\Validation\ErrorBag;
 use Rakit\Validation\Rule;
 use Rakit\Validation\RuleNotFoundException;
 use Rakit\Validation\Validation as RakitValidation;
@@ -308,7 +307,7 @@ class Validation
             throw new RuntimeException();
         }
 
-        return $this->validation->errors();
+        return ErrorBag::fromBase($this->validation->errors());
     }
 
     /**

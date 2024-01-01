@@ -31,6 +31,14 @@ class ErrorBag extends RakitErrorBag implements Arrayable, ArrayAccess, Traversa
     }
 
     /**
+     * Creates a new error bag from base errors
+     */
+    public static function fromBase(RakitErrorBag $bag): static
+    {
+        return new static($bag->toArray());
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function offsetExists(mixed $offset): bool
