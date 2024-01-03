@@ -146,7 +146,7 @@ class ErrorBag extends RakitErrorBag implements Arrayable, ArrayAccess, Iterator
         unset($this->messages[$offset]);
     }
 
-	/**
+    /**
      * {@inheritDoc}
      */
     public function getIterator(): Traversable

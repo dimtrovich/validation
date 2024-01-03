@@ -30,7 +30,7 @@ class Validator
      */
     public static function make(array $data, array $rules, array $messages = []): Validation
     {
-        static::ensureValidValidationClass();
+        self::ensureValidValidationClass();
 
         $instance = new static::$validationClass();
 
@@ -48,7 +48,7 @@ class Validator
      */
     public static function rule(string $rule)
     {
-        static::ensureValidValidationClass();
+        self::ensureValidValidationClass();
 
         $args   = func_get_args();
         $rule   = array_shift($args);

@@ -439,7 +439,7 @@ class Validation
     /**
      * Lève l'exception donnée si la condition donnée est vraie.
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     private function throwIf(mixed $condition)
     {
