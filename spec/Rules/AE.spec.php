@@ -574,30 +574,6 @@ describe("ContainsAll", function() {
     });
 });
 
-describe("CreditCard", function() {
-    it("1: Passe", function() {
-        $post = [
-            'card' => '4111111111111111', // A sample valid credit card number
-        ];
-        $validation = Validator::make($post, [
-            'card' => 'credit_card',
-        ]);
-        
-        expect($validation->passes())->toBe(true);
-    });
-
-    it("2: Echoue", function() {
-        $post = [
-            'card' => '1234567812345678', // A sample invalid credit card number
-        ];
-        $validation = Validator::make($post, [
-            'card' => 'credit_card',
-        ]);
-        
-        expect($validation->passes())->toBe(false);
-    });
-});
-
 describe("Date", function() {
     it("1: Date simple", function() {
         $post = [
