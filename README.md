@@ -62,6 +62,7 @@ if ($validation->fails()) {
     // validation passes
     echo "Success!";
 }
+```
 
 ### Attribute Alias
 
