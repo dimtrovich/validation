@@ -28,6 +28,7 @@ return [
     'confirmed'                => 'The :attribute must be same with :field.',
     'contains'                 => 'The :attribute must contains :allowed_values',
     'contains_all'             => 'The :attribute must contains all of :allowed_values',
+    'credit_card'              => 'The :attribute is not valid credit card number.',
     'date'                     => 'The :attribute is not valid date.',
     'date_equals'              => 'The :attribute must be a equals date to :date.',
     'decimal'                  => 'The :attribute is not valid decimal number.',

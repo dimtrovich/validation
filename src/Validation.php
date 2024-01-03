@@ -95,6 +95,7 @@ class Validation
             Rules\Confirmed::class,
             Rules\Contains::class,
             Rules\ContainsAll::class,
+            Rules\CreditCard::class,
             Rules\Date::class,
             Rules\DateEquals::class,
             Rules\Decimal::class,

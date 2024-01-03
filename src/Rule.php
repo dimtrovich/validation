@@ -40,6 +40,7 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Dimtrovich\Validation\Rules\Confirmed             confirmed()
  * @method static \Dimtrovich\Validation\Rules\Contains              contains()
  * @method static \Dimtrovich\Validation\Rules\ContainsAll           containsAll()
+ * @method static \Dimtrovich\Validation\Rules\CreditCard            creditCard()
  * @method static \Dimtrovich\Validation\Rules\Date                  date()
  * @method static \Dimtrovich\Validation\Rules\DateEquals            dateEquals()
  * @method static \Dimtrovich\Validation\Rules\Decimal               decimal(float $min, float $max = null)
