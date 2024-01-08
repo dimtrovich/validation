@@ -28,7 +28,7 @@ class Validator
     /**
      * Initializes the validation process
      */
-    public static function make(array $data, array $rules, array $messages = []): Validation
+    public static function make(array $data, array $rules, array $messages = [], array $alias = []): Validation
     {
         self::ensureValidValidationClass();
 
@@ -37,6 +37,7 @@ class Validator
         $instance->data($data);
         $instance->rules($rules);
         $instance->messages($messages);
+		$instance->alias($alias);
 
         return $instance;
     }
