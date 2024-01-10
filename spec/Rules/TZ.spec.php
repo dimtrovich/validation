@@ -3,6 +3,34 @@
 use BlitzPHP\Utilities\String\Uuid;
 use Dimtrovich\Validation\Validator;
 
+describe("Time", function() {
+    it("1: Passe", function() {
+        $post = [
+            'time'        => '10:49',
+            'with_second' => '10:49:05',
+        ];
+        
+        $validation = Validator::make($post, [
+            'time'        => 'time',
+            'with_second' => 'time:strict',
+        ]);
+        expect($validation->passes())->toBeTruthy();
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'time'        => '2024-01-10 10:49',
+            'with_second' => '2024-01-10 10:49:05',
+        ];
+
+        $validation = Validator::make($post, [
+            'time'        => 'time',
+            'with_second' => 'time:strict',
+        ]);
+        expect($validation->passes())->toBeFalsy();
+    });
+});
+
 describe("Timezone", function() {
     it("1: Passe", function() {
         $post = [

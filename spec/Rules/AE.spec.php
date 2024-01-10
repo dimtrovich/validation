@@ -618,6 +618,32 @@ describe("Date", function() {
     });
 });
 
+describe("Datetime", function() {
+    it("1: Passe", function() {
+        $post = [
+            'day' => '2024-01-10 10:49:05',
+        ];
+        
+        $validation = Validator::make($post, [
+            'day' => 'datetime',
+        ]);
+        expect($validation->passes())->toBeTruthy();
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'dateinterface' => Date::now(),
+            'badformat'     => '2024-01-10',
+        ];
+
+        $validation = Validator::make($post, [
+            'badformat'     => 'datetime',
+            'dateinterface' => 'datetime',
+        ]);
+        expect($validation->passes())->toBeFalsy();
+    });
+});
+
 describe("DateEquals", function() {
     it("1: DateEquals - Utillisation d'une date", function() {
         $post = [
