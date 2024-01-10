@@ -56,7 +56,7 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Dimtrovich\Validation\Rules\Domain                domain()
  * @method static \Dimtrovich\Validation\Rules\Duplicate             duplicate()
  * @method static \Dimtrovich\Validation\Rules\DuplicateCharacter    duplicateCharacter()
- * @method static \Rakit\Validation\Rules\Email                      email()
+ * @method static \Dimtrovich\Validation\Rules\Email                 email()
  * @method static \Dimtrovich\Validation\Rules\EndWith               endWith()
  * @method static \Dimtrovich\Validation\Rules\Enum                  enum(string $type = null)
  * @method static \Dimtrovich\Validation\Rules\EvenNumber            evenNumber()

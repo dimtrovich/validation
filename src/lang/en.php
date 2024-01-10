@@ -40,6 +40,7 @@ return [
     'domain'                   => 'The :attribute must be a valid domain name.',
     'duplicate'                => 'The :attribute contains duplicated items.',
     'duplicate_character'      => 'The :attribute contains duplicated items.',
+    'email'                    => 'The :attribute is not valid email.',
     'end_with'                 => 'The :attribute must end with :allowed_values.',
     'enum'                     => 'The selected :attribute is invalid.',
     'even_number'              => 'The :attribute must be a even number.',

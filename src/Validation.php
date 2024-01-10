@@ -108,6 +108,7 @@ class Validation
             Rules\Duplicate::class,
             Rules\DuplicateCharacter::class,
             Rules\EndWith::class,
+            Rules\Email::class,
             Rules\Enum::class,
             Rules\EvenNumber::class,
             Rules\Gt::class,

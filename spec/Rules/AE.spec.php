@@ -838,6 +838,57 @@ describe("DuplicateCharacter", function() {
     });
 });
 
+describe("Email", function() {
+    it("1: Passe", function() {
+        $post = [
+            'email'        => 'contact@example.com',
+            'valid_syntax' => 'contact@32.com'
+        ];
+        $validation = Validator::make($post, [
+            'email'        => 'email',
+            'valid_syntax' => 'email',
+        ]);
+        
+        expect($validation->passes())->toBe(true);
+        
+        $post = ['email'  => 'contact@example.com'];
+        $validation = Validator::make($post, [
+            'email' => 'email:dns',
+        ]);
+        
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'email' => 'contact-example.com',
+        ];
+        $validation = Validator::make($post, [
+            'email' => 'email',
+        ]);
+        
+        expect($validation->passes())->toBeFalsy();
+        
+        $post = ['valid_syntax'  => 'contact@32.com'];
+        $validation = Validator::make($post, [
+            'valid_syntax' => 'email:dns',
+        ]);
+        
+        expect($validation->passes())->toBeFalsy();
+
+        $post = [
+            'empty'      => '',
+            'not_string' => 1,
+        ];
+        $validation = Validator::make($post, [
+            'empty'      => 'email',
+            'not_string' => 'email',
+        ]);
+        
+        expect($validation->passes())->toBeFalsy();
+    });
+});
+
 describe("EndWith", function() {
     it("1: Passe", function() {
         $post = [
