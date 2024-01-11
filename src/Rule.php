@@ -87,6 +87,7 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Rakit\Validation\Rules\Max                        max()
  * @method static \Rakit\Validation\Rules\Mimes                      mimes(array $allowed_types)
  * @method static \Rakit\Validation\Rules\Min                        min()
+ * @method static \Dimtrovich\Validation\Rules\MultipleOf            multipleOf()
  * @method static \Rakit\Validation\Rules\NotIn                      notIn()
  * @method static \Dimtrovich\Validation\Rules\NotInArray            notInArray()
  * @method static \Dimtrovich\Validation\Rules\NotRegex              notRegex()

@@ -24,6 +24,48 @@ describe("MacAddress", function() {
     });
 });
 
+describe("MultipleOf", function() {
+    it("1: Passe", function() {
+        $post = [
+            'a' => 5, 
+            'b' => 15,
+            'c' => 3,
+            'd' => 9,
+            'e' => 0,
+        ];
+
+        $validation = Validator::make($post, [
+            'a' => 'multiple_of:5',
+            'b' => 'multiple_of:3',
+            'd' => 'multiple_of:c',
+            'e' => 'multiple_of:5'
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'a' => 5, 
+            'b' => 15,
+            'c' => 3,
+            'd' => 9,
+            'e' => 0,
+            'f' => 0,
+            'g' => false,
+        ];
+
+        $validation = Validator::make($post, [
+            'a' => 'multiple_of:4',
+            'b' => 'multiple_of:4',
+            'c' => 'multiple_of:d',
+            'd' => 'multiple_of:0',
+            'e' => 'multiple_of:f',
+            'g' => 'multiple_of:f',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("NotInArray", function() {
     it("1: Passe", function() {
         $post = [

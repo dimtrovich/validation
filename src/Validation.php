@@ -126,6 +126,7 @@ class Validation
             Rules\Lt::class,
             Rules\Lte::class,
             Rules\MacAddress::class,
+            Rules\MultipleOf::class,
             Rules\NotInArray::class,
             Rules\NotRegex::class,
             Rules\OddNumber::class,

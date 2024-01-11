@@ -58,6 +58,7 @@ return [
     'lt'                       => 'The :attribute must be a numeric value lower than :value.',
     'lte'                      => 'The :attribute must be a numeric value lower or equal than :value.',
     'mac_address'              => 'The :attribute a valid mac address.',
+    'multiple_of'              => 'The :attribute must be a numeric value multiple of :value.',
     'not_in_array'             => 'The :attribute not allows :allowed_values.',
     'not_regex'                => 'The :attribute is not valid format.',
     'odd_number'               => 'The :attribute must be a odd number.',
