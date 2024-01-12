@@ -107,9 +107,15 @@ abstract class AbstractRule extends Rule
 
     protected function setAllowedValues(array $values, string $boolean = 'or'): void
     {
+        $this->setParameterTextValues($values, 'allowed_values', $boolean);
+    }
+
+    protected function setParameterTextValues(mixed $values, string $name, string $boolean = 'or'): void
+    {
+        $values            = (array) $values;
         $boolean           = $this->validation ? $this->validation->getTranslation($boolean) : $boolean;
         $allowedValuesText = Helper::join(Helper::wraps($values, "'"), ', ', ", {$boolean} ");
-        $this->setParameterText('allowed_values', $allowedValuesText);
+        $this->setParameterText($name, $allowedValuesText);
     }
 
     private function findTranslatedMessage($locale)
