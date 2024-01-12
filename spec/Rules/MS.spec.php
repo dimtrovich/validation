@@ -24,6 +24,151 @@ describe("MacAddress", function() {
     });
 });
 
+describe("Missing", function() {
+    it("1: Passe", function() {
+        $post = ['a' => 5];
+
+        $validation = Validator::make($post, ['b' => 'missing']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = ['b' => 15];
+
+        $validation = Validator::make($post, ['b' => 'missing']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("MissingIf", function() {
+    it("1: Passe", function() {
+        $post = [
+            'name'  => 'blitz',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_if:name,blitz',
+        ]);
+        
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'name'  => 'blitz',
+            'admin' => 'present',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_if:name,blitz',
+        ]);
+        
+        expect($validation->passes())->toBe(false);
+    });
+
+    it("3: Passe - car les donnees ne correspondent pas", function() {
+        $post = [
+            'name'  => 'not-blitz',
+            'admin' => 'present',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_if:name,blitz',
+        ]);
+        expect($validation->passes())->toBe(true);
+
+        $post = [
+            'name'  => 'not-blitz',
+            'admin' => 'present',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_if:name,not-blitz',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("MissingUnless", function() {
+    it("1: Passe", function() {
+        $post = [
+            'name'  => 'blitz',
+            'admin' => 'present',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_unless:name,blitz',
+        ]);
+        
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'name'  => 'blitz',
+            'admin' => 'true',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_unless:name,not-blitz',
+        ]);
+
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("MissingWith", function() {
+    it("1: Passe", function() {
+        $post = [
+            'name'  => 'blitz',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_with:name,blitz',
+        ]);
+        
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'schild' => 'blitz',
+            'admin'  => 'true',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_with:schild,blitz',
+        ]);
+
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("MissingWithAll", function() {
+    it("1: Passe", function() {
+        $post = [
+            'name'  => 'blitz',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_with_all:name,blitz',
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'schild' => 'blitz',
+            'admin'  => 'true',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'required',
+            'admin' => 'missing_with_all:schild,blitz',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("MultipleOf", function() {
     it("1: Passe", function() {
         $post = [
