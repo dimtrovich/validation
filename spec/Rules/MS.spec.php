@@ -414,6 +414,76 @@ describe("Prohibited", function() {
     });
 });
 
+describe("ProhibitedIf", function() {
+    it("1: Passe", function() {
+        $post = [
+            'name' => true,
+        ];
+        $validation = Validator::make($post, [
+            'foo' => 'prohibited_if:name,blitz',
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'name' => 'blitz',
+            'foo'  => 'bar',
+        ];
+        $validation = Validator::make($post, [
+            'foo' => 'prohibited_if:name,blitz',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("ProhibitedUnless", function() {
+    it("1: Passe", function() {
+        $post = [
+            'name' => 'blitz',
+        ];
+        $validation = Validator::make($post, [
+            'foo' => 'prohibited_unless:name,blitz',
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'name' => 'blitz',
+            'foo'  => 'bar',
+        ];
+        $validation = Validator::make($post, [
+            'foo' => 'prohibited_unless:name,bar',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Prohibits", function() {
+    it("1: Passe", function() {
+        $post = [
+            'foo' => 'bar',
+        ];
+        $validation = Validator::make($post, [
+            'foo' => 'prohibits:name,version',
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'name'    => 'blitz',
+            'version' => '1.0',
+            'foo'     => 'bar',
+        ];
+        $validation = Validator::make($post, [
+            'foo' => 'prohibits:name,version',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("Size", function() {
     it("1: Passe", function() {
         $post = [
