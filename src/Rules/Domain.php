@@ -23,7 +23,7 @@ class Domain extends AbstractRule
     public function check($value): bool
     {
         $labels = $this->getLabels($value); // get labels of domainname
-        $tld = end($labels); // most right label of domainname is tld
+        $tld    = end($labels); // most right label of domainname is tld
 
         // domain must have 2 labels minimum
         if (count($labels) <= 1) {
@@ -38,17 +38,11 @@ class Domain extends AbstractRule
         }
 
         // tld must be valid
-        if (! $this->isValidTld($tld)) {
-            return false;
-        }
-
-        return true;
+        return ! (! $this->isValidTld($tld));
     }
 
     /**
      * Get all labels of domainname
-     *
-     * @return array
      */
     private function getLabels(mixed $value): array
     {
@@ -57,9 +51,6 @@ class Domain extends AbstractRule
 
     /**
      * Determine if given string is valid idn label
-     *
-     * @param  string  $value
-     * @return boolean
      */
     private function isValidLabel(string $value): bool
     {
@@ -70,9 +61,6 @@ class Domain extends AbstractRule
      * Determine if given value is valid A-Label
      *
      * Begins with "xn--" and is resolvable by PunyCode algorithm
-     *
-     * @param  string  $value
-     * @return boolean
      */
     private function isValidALabel(string $value): bool
     {
@@ -81,20 +69,14 @@ class Domain extends AbstractRule
 
     /**
      * Determine if given value is valud NR-LDH label
-     *
-     * @param  string  $value
-     * @return boolean
      */
     private function isValidNrLdhLabel(string $value): bool
     {
-        return (bool) preg_match("/^(?!\-)[a-z0-9\-]{1,63}(?<!\-)$/i", $value);
+        return (bool) preg_match('/^(?!\\-)[a-z0-9\\-]{1,63}(?<!\\-)$/i', $value);
     }
 
     /**
      * Determine if given value is valid TLD
-     *
-     * @param  string  $value
-     * @return boolean
      */
     private function isValidTld(string $value): bool
     {
@@ -102,14 +84,11 @@ class Domain extends AbstractRule
             return true;
         }
 
-        return (bool) preg_match("/^[a-z]{2,63}$/i", $value);
+        return (bool) preg_match('/^[a-z]{2,63}$/i', $value);
     }
 
     /**
      * Wrapper method for idn_to_utf8 call
-     *
-     * @param  string $domain
-     * @return string
      */
     private function idnToUtf8(string $domain): string
     {
@@ -118,9 +97,6 @@ class Domain extends AbstractRule
 
     /**
      * Wrapper method for idn_to_ascii call
-     *
-     * @param  string $domain
-     * @return string
      */
     private function idnToAscii(string $domain): string
     {

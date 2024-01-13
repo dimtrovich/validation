@@ -37,7 +37,7 @@ class MissingUnless extends Missing
         $definedValues    = $this->parameter('values');
         $anotherValue     = $this->getAttribute()->getValue($anotherAttribute);
 
-        if ( ! in_array($anotherValue, $definedValues, is_bool($anotherValue) || is_null($anotherValue))) {
+        if (! in_array($anotherValue, $definedValues, is_bool($anotherValue) || null === $anotherValue)) {
             return parent::check($value);
         }
 

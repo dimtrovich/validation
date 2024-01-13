@@ -15,16 +15,16 @@ class Issn extends AbstractRule
 {
     /**
      * Check if the current value is a valid International Standard Serial Number (ISSN).
-     * 
+     *
      * @see https://en.wikipedia.org/wiki/International_Standard_Serial_Number
-     * 
+     *
      * @credit <a href="https://github.com/Intervention/validation">Intervention/validation - \Intervention\Validation\Rules\Issn</a>
      *
      * @param mixed $value
      */
     public function check($value): bool
     {
-        return preg_match("/^[0-9]{4}-[0-9]{3}[0-9xX]$/", $value) && $this->checkSumMatches($value);
+        return preg_match('/^[0-9]{4}-[0-9]{3}[0-9xX]$/', $value) && $this->checkSumMatches($value);
     }
 
     /**
@@ -40,11 +40,11 @@ class Issn extends AbstractRule
      */
     private function calculateChecksum(string $value): int
     {
-        $checksum = 0;
+        $checksum     = 0;
         $issn_numbers = str_replace('-', '', $value);
 
         foreach (range(8, 2) as $num => $multiplicator) {
-            $checksum += intval($issn_numbers[$num]) * $multiplicator;
+            $checksum += (int) ($issn_numbers[$num]) * $multiplicator;
         }
 
         $remainder = ($checksum % 11);
@@ -59,6 +59,6 @@ class Issn extends AbstractRule
     {
         $last = substr($value, -1);
 
-        return strtolower($last) === 'x' ? 10 : intval($last);
+        return strtolower($last) === 'x' ? 10 : (int) $last;
     }
 }

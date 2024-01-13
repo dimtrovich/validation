@@ -23,14 +23,14 @@ class Email extends AbstractRule
      */
     public function check($value): bool
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return false;
         }
 
         if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
             return false;
         }
-        
+
         if ($this->parameter('mode') === 'dns') {
             $domain = ltrim(stristr($value, '@'), '@') . '.';
             if (function_exists('idn_to_ascii') && defined('INTL_IDNA_VARIANT_UTS46')) {

@@ -21,9 +21,9 @@ class Username extends AbstractRule
      *  - starts with an letter (alpha)
      *  - underscores and minus are not allowed at the beginning or end
      *  - multiple underscores and minus are not allowed (-- or _____)
-     * 
+     *
      * @credit <a href="https://github.com/Intervention/validation">Intervention/validation - \Intervention\Validation\Rules\Username</a>
-     * 
+     *
      * @param mixed $value
      */
     public function check($value): bool

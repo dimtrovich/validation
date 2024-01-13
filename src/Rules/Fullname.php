@@ -15,13 +15,13 @@ class Fullname extends AbstractRule
 {
     /**
      * Check if the given value is a valid fullname
-     * 
+     *
      * A string should represent a full name (at least 6 characters, at least 2 word, each word at least 2 characters long)
      *
      * @credit <a href="https://github.com/siriusphp/validation">siriusphp/validation - Sirius\Validation\Rule\FullName</a>
      *
      * This is not going to work with Asian names, http://en.wikipedia.org/wiki/Chinese_name.
-     * 
+     *
      * @param mixed $value
      */
     public function check($value): bool

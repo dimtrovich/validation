@@ -37,7 +37,7 @@ class Validator
         $instance->data($data);
         $instance->rules($rules);
         $instance->messages($messages);
-		$instance->alias($alias);
+        $instance->alias($alias);
 
         return $instance;
     }

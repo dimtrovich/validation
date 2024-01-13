@@ -20,6 +20,7 @@ use Rakit\Validation\RuleNotFoundException;
 use Rakit\Validation\Validation as RakitValidation;
 use Rakit\Validation\Validator as RakitValidator;
 use RuntimeException;
+use Throwable;
 
 class Validation
 {
@@ -463,7 +464,7 @@ class Validation
     /**
      * Lève l'exception donnée si la condition donnée est vraie.
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     private function throwIf(mixed $condition)
     {

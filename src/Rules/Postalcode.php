@@ -53,7 +53,7 @@ class Postalcode extends AbstractRule
      */
     public static function reference(string $reference): static
     {
-        $rule = new static();
+        $rule            = new static();
         $rule->reference = $reference;
 
         return $rule;
@@ -64,7 +64,7 @@ class Postalcode extends AbstractRule
      */
     public static function countrycode(array $countrycodes): static
     {
-        $rule = new static();
+        $rule               = new static();
         $rule->countrycodes = $countrycodes;
 
         return $rule;
@@ -72,9 +72,9 @@ class Postalcode extends AbstractRule
 
     /**
      * Check if the current value is a valid Postal Code
-     * 
+     *
      * @see https://en.wikipedia.org/wiki/Postal_code
-     * 
+     *
      * @credit <a href="https://github.com/Intervention/validation">Intervention/validation - \Intervention\Validation\Rules\PostalCode</a>
      *
      * @param mixed $value
@@ -97,12 +97,12 @@ class Postalcode extends AbstractRule
     {
         $patterns = array_map(fn ($countrycode) => $this->getPattern($countrycode), $this->getCountryCodes());
 
-        return array_filter($patterns, fn ($pattern) => !is_null($pattern));
+        return array_filter($patterns, fn ($pattern) => null !== $pattern);
     }
 
     protected function getCountryCodes(): array
     {
-        if (count($this->countrycodes) == 0) {
+        if (count($this->countrycodes) === 0) {
             // return country code by reference
             if (is_array($this->data) && array_key_exists($this->reference, $this->data)) {
                 return [$this->data[$this->reference]];
@@ -160,38 +160,38 @@ class Postalcode extends AbstractRule
             case 'ua':
             case 'us':
             case 'vi':
-                return "/^[0-9]{5}$/";
+                return '/^[0-9]{5}$/';
 
             case 'fo':
             case 'is':
             case 'mg':
             case 'pg':
-                return "/^[0-9]{3}$/";
+                return '/^[0-9]{3}$/';
 
             case 'cz':
             case 'gr':
             case 'sk':
             case 'se':
-                return "/^[0-9]{3} [0-9]{2}$/";
+                return '/^[0-9]{3} [0-9]{2}$/';
 
             case 'il':
-                return "/^[0-9]{5}([0-9]{2})?$/";
+                return '/^[0-9]{5}([0-9]{2})?$/';
 
             case 'br':
-                return "/^[0-9]{5}(-?[0-9]{3})?$/";
+                return '/^[0-9]{5}(-?[0-9]{3})?$/';
 
             case 'gg':
             case 'je':
-                return "/^[a-z]{2}[0-9][0-9]? [0-9][a-z]{2}$/i";
+                return '/^[a-z]{2}[0-9][0-9]? [0-9][a-z]{2}$/i';
 
             case 'bn':
-                return "/^[a-z]{2}[0-9]{4}$/i";
+                return '/^[a-z]{2}[0-9]{4}$/i';
 
             case 'jp':
-                return "/^[0-9]{3}-[0-9]{4}$/";
+                return '/^[0-9]{3}-[0-9]{4}$/';
 
             case 'nl':
-                return "/^[0-9]{4}\s?[a-z]{2}$/i";
+                return '/^[0-9]{4}\\s?[a-z]{2}$/i';
 
             case 'ar':
             case 'am':
@@ -217,20 +217,20 @@ class Postalcode extends AbstractRule
             case 'za':
             case 'ch':
             case 'tn':
-                return "/^[0-9]{4}$/";
+                return '/^[0-9]{4}$/';
 
             case 'mv':
             case 'mx':
-                return "/^[0-9]{4}[0-9]?$/";
+                return '/^[0-9]{4}[0-9]?$/';
 
             case 'mn':
-                return "/^[0-9]{5}[0-9]?$/";
+                return '/^[0-9]{5}[0-9]?$/';
 
             case 'pl':
-                return "/^[0-9]{2}-[0-9]{3}$/";
+                return '/^[0-9]{2}-[0-9]{3}$/';
 
             case 'pt':
-                return "/^[0-9]{4}(-[0-9]{3})?$/";
+                return '/^[0-9]{4}(-[0-9]{3})?$/';
 
             case 'by':
             case 'cn':
@@ -243,22 +243,22 @@ class Postalcode extends AbstractRule
             case 'sg':
             case 'tj':
             case 'zu':
-                return "/^[0-9]{6}$/";
+                return '/^[0-9]{6}$/';
 
             case 'ca':
-                return "/^[a-z][0-9][a-z] [0-9][a-z]([0-9])?$/i";
+                return '/^[a-z][0-9][a-z] [0-9][a-z]([0-9])?$/i';
 
             case 'az':
-                return "/^[0-9]{4}([0-9]{2})?$/";
+                return '/^[0-9]{4}([0-9]{2})?$/';
 
             case 'sz':
-                return "/^[a-z]{1}[0-9]{3}$/i";
+                return '/^[a-z]{1}[0-9]{3}$/i';
 
             case 'tw':
-                return "/^[0-9]{3}([0-9]{2})?$/";
+                return '/^[0-9]{3}([0-9]{2})?$/';
 
             case 'gb':
-                return "/^(([a-z][0-9])|([a-z][0-9]{2})|([a-z][0-9][a-z])|([a-z]{2}[0-9])|([a-z]{2}[0-9]{2})|([a-z]{2}[0-9][a-z])) [0-9][a-z]{2}$/i";
+                return '/^(([a-z][0-9])|([a-z][0-9]{2})|([a-z][0-9][a-z])|([a-z]{2}[0-9])|([a-z]{2}[0-9]{2})|([a-z]{2}[0-9][a-z])) [0-9][a-z]{2}$/i';
         }
 
         return null;

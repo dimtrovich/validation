@@ -22,7 +22,7 @@ class Prohibits extends AbstractRule
     public function fillParameters(array $params): RakitRule
     {
         $this->params['fields'] = $params;
-        
+
         return $this;
     }
 
@@ -34,7 +34,7 @@ class Prohibits extends AbstractRule
         $this->requireParameters(['fields']);
 
         $parameters = $this->parameter('fields');
- 
+
         $this->setParameterTextValues($parameters, 'other');
 
         $validator         = $this->validation->getValidator();

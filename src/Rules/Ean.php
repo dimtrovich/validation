@@ -27,7 +27,7 @@ class Ean extends AbstractRule
         }
 
         $this->lengths = $params;
-        
+
         return $this;
     }
 
@@ -64,7 +64,7 @@ class Ean extends AbstractRule
      */
     protected function cutChecksum(string $value): int
     {
-        return intval(substr($value, -1));
+        return (int) (substr($value, -1));
     }
 
     /**
@@ -79,7 +79,7 @@ class Ean extends AbstractRule
 
         foreach ($chars as $key => $char) {
             $multiplier = $key % 2 ? 1 : 3;
-            $checksum += intval($char) * $multiplier;
+            $checksum += (int) $char * $multiplier;
         }
 
         $remainder = $checksum % 10;

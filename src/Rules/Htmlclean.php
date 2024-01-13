@@ -17,11 +17,11 @@ class Htmlclean extends AbstractRule
      * Check if a given value is free of any html code.
      *
      * @credit <a href="https://github.com/Intervention/validation">Intervention/validation - \Intervention\Validation\Rules\Htmlclean</a>
-     * 
+     *
      * @param mixed $value
      */
     public function check($value): bool
     {
-        return (strip_tags($value) == $value);
+        return strip_tags($value) === $value;
     }
 }

@@ -22,7 +22,7 @@ class ProhibitedIf extends AbstractRule
     {
         $this->params['field']  = array_shift($params);
         $this->params['values'] = $params;
-        
+
         return $this;
     }
 
@@ -43,7 +43,7 @@ class ProhibitedIf extends AbstractRule
         $validator         = $this->validation->getValidator();
         $requiredValidator = $validator('required');
 
-        if (in_array($anotherValue, $definedValues, is_bool($anotherValue) || is_null($anotherValue))) {
+        if (in_array($anotherValue, $definedValues, is_bool($anotherValue) || null === $anotherValue)) {
             return ! $requiredValidator->check($value, []);
         }
 

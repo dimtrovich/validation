@@ -30,23 +30,23 @@ class Gtin extends Ean
     /**
      * Check if the current value is a valid Global Trade Item Number.
      *
-     * Value must be either GTIN-13 or GTIN-8, which is checked as EAN by parent class. 
+     * Value must be either GTIN-13 or GTIN-8, which is checked as EAN by parent class.
      * Or value must be GTIN-14 or GTIN-12 which will be handled like this:
      *
      * - GTIN-14 will be checked as EAN-13 after cropping first char
      * - GTIN-12 will be checked as EAN-13 after adding leading zero
-     * 
+     *
      * @credit <a href="https://github.com/Intervention/validation">Intervention/validation - \Intervention\Validation\Rules\Gtin</a>
      *
      * @param mixed $value
      */
     public function check($value): bool
     {
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             return false;
         }
 
-        if (!$this->hasAllowedLength($value)) {
+        if (! $this->hasAllowedLength($value)) {
             return false;
         }
 

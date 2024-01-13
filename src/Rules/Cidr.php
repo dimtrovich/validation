@@ -44,10 +44,6 @@ class Cidr extends AbstractRule
         }
 
         // and it should be between 0 and 32 inclusive
-        if ($parts[1] < 0 || $parts[1] > 32) {
-            return false;
-        }
-
-        return true;
+        return ! ($parts[1] < 0 || $parts[1] > 32);
     }
 }

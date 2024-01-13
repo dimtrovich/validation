@@ -29,9 +29,9 @@ class Isbn extends Ean
 
     /**
      * Check if the current value is a valid International Standard Book Number (ISBN).
-     * 
+     *
      * @see https://en.wikipedia.org/wiki/International_Standard_Book_Number
-     * 
+     *
      * @credit <a href="https://github.com/Intervention/validation">Intervention/validation - \Intervention\Validation\Rules\Isbn</a>
      *
      * @param mixed $value
@@ -39,9 +39,9 @@ class Isbn extends Ean
     public function check($value): bool
     {
         // normalize value
-        $value = preg_replace("/[^0-9x]/i", '', $value);
+        $value = preg_replace('/[^0-9x]/i', '', $value);
 
-        if (!$this->hasAllowedLength($value)) {
+        if (! $this->hasAllowedLength($value)) {
             return false;
         }
 
@@ -50,7 +50,7 @@ class Isbn extends Ean
                 return $this->shortChecksumMatches($value);
 
             case 13: // isbn-13 is a subset of ean-13
-                return preg_match("/^(978|979)/", $value) && parent::checksumMatches($value);
+                return preg_match('/^(978|979)/', $value) && parent::checksumMatches($value);
         }
 
         return false;
@@ -69,10 +69,11 @@ class Isbn extends Ean
      */
     private function getShortChecksum(string $value): int
     {
-        $checksum = 0;
+        $checksum   = 0;
         $multiplier = 10;
+
         foreach (str_split($value) as $digit) {
-            $digit = strtolower($digit) == 'x' ? 10 : intval($digit);
+            $digit = strtolower($digit) === 'x' ? 10 : (int) $digit;
             $checksum += $digit * $multiplier;
             $multiplier--;
         }

@@ -37,16 +37,15 @@ class MultipleOf extends AbstractRule
             $compare = $this->getAttribute()->getValue($compare);
         }
 
-        
-        if (! is_numeric($value) || ! is_numeric($compare) || ($compare == 0 && $value == 0)) {
+        if (! is_numeric($value) || ! is_numeric($compare) || ($compare === 0 && $value === 0)) {
             return false;
         }
-        
-        if ($value == 0) {
+
+        if ($value === 0) {
             return true;
         }
 
-        if ($compare == 0) {
+        if ($compare === 0) {
             return false;
         }
 

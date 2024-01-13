@@ -41,7 +41,7 @@ class Titlecase extends AbstractRule
      */
     private function getWords(string $value): array
     {
-        return explode(" ", $value);
+        return explode(' ', $value);
     }
 
     /**
@@ -49,6 +49,6 @@ class Titlecase extends AbstractRule
      */
     private function isValidWord(string $word): bool
     {
-        return (bool) preg_match("/^[\p{Lu}0-9]/u", $word);
+        return (bool) preg_match('/^[\\p{Lu}0-9]/u', $word);
     }
 }

@@ -15,10 +15,10 @@ class Semver extends AbstractRule
 {
     /**
      * Check if the given value is a valid version numbers using Semantic Versioning.
-     * 
+     *
      * @see https://semver.org/
      * @credit <a href="https://github.com/Intervention/validation">Intervention/validation - \Intervention\Validation\Rules\Semver</a>
-     * 
+     *
      * @param mixed $value
      */
     public function check($value): bool

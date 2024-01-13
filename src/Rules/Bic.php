@@ -23,6 +23,6 @@ class Bic extends AbstractRule
      */
     public function check($value): bool
     {
-        return preg_match("/^[A-Za-z]{4} ?[A-Za-z]{2} ?[A-Za-z0-9]{2} ?([A-Za-z0-9]{3})?$/", $value) > 0;
+        return preg_match('/^[A-Za-z]{4} ?[A-Za-z]{2} ?[A-Za-z0-9]{2} ?([A-Za-z0-9]{3})?$/', $value) > 0;
     }
 }
