@@ -425,6 +425,28 @@ describe("BeforeOrEqual", function() {
     });
 });
 
+describe("Bic", function() {
+    it('Bic', function() {
+        $values = [
+            [true, 'PBNKDEFF'],
+            [true, 'NOLADE21SHO'],
+            [false, 'foobar'],
+            [false, 'xxx'],
+            [false, 'ABNFDBF'],
+            [false, 'GR82WEST'],
+            [false, '5070081'],
+            [false, 'DEUTDBBER'],
+        ];
+    
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+    
+            $validation = Validator::make($post, ['field' => 'bic']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+});
+
 describe("BitcoinAddress", function() {
     it("1: Passe", function() {
         $post = ['field' => '1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY'];
@@ -486,6 +508,31 @@ describe("CarNumber", function() {
 
         $validation = Validator::make($post, ['field' => 'car_number']);
         expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Cidr", function() {
+    it("Cidr", function() {
+        $values = [
+            [true, '0.0.0.0/0'],
+            [true, '10.0.0.0/8'],
+            [true, '1.1.1.1/32'],
+            [true, '192.168.1.0/24'],
+            [true, '192.168.1.1/24'],
+            [false, '192.168.1.1'],
+            [false, '1.1.1.1/3.14'],
+            [false, '1.1.1.1/33'],
+            [false, '1.1.1.1/100'],
+            [false, '1.1.1.1/-3'],
+            [false, '1.1.1/3'],
+        ];
+    
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+    
+            $validation = Validator::make($post, ['field' => 'cidr']);
+            expect($validation->passes())->toBe($value[0]);
+        }
     });
 });
 
@@ -861,6 +908,77 @@ describe("DuplicateCharacter", function() {
 
         $validation = Validator::make($post, ['field' => 'duplicate_character']);
         expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Ean", function() {
+    it('Ean sans parametre', function() {       
+        $values = [
+            [true, '9789510475270'],
+            [true, '4012345678901'],
+            [true, '0712345678911'],
+            [true, '5901234123457'],
+            [true, '40123455'],
+            [true, '96385074'],
+            [true, '65833254'],
+            [false, 'foo'],
+            [false, '0000000000001'],
+            [false, 'FFFFFFFFFFFFF'],
+            [false, 'FFFFFFFFFFFF0'],
+            [false, '4012345678903'],
+            [false, '1xxxxxxxxxxx0'],
+            [false, '4012342678901'],
+            [false, '07123456789110712345678911'],
+            [false, '10123455'],
+            [false, '40113455'],
+            [false, '978-3499255496'],
+            [false, '00123456000018'], // GTIN-14
+            [false, '012345678905'], // GTIN-12
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'ean']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Ean13', function() {       
+        $values = [
+            [true, '9789510475270'],
+            [true, '4012345678901'],
+            [true, '0712345678911'],
+            [true, '5901234123457'],
+            [false, '40123455'],
+            [false, '96385074'],
+            [false, '65833254'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'ean:13']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Ean8', function() {       
+        $values = [
+            [false, '4012345678901'],
+            [false, '0712345678911'],
+            [false, '5901234123457'],
+            [true, '40123455'],
+            [true, '96385074'],
+            [true, '65833254'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'ean:8']);
+            expect($validation->passes())->toBe($value[0]);
+        }
     });
 });
 

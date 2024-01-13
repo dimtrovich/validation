@@ -3,6 +3,77 @@
 use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Validator;
 
+xdescribe("Fullname", function() {
+    it('Ean sans parametre', function() {       
+        $values = [
+            [true, '9789510475270'],
+            [true, '4012345678901'],
+            [true, '0712345678911'],
+            [true, '5901234123457'],
+            [true, '40123455'],
+            [true, '96385074'],
+            [true, '65833254'],
+            [false, 'foo'],
+            [false, '0000000000001'],
+            [false, 'FFFFFFFFFFFFF'],
+            [false, 'FFFFFFFFFFFF0'],
+            [false, '4012345678903'],
+            [false, '1xxxxxxxxxxx0'],
+            [false, '4012342678901'],
+            [false, '07123456789110712345678911'],
+            [false, '10123455'],
+            [false, '40113455'],
+            [false, '978-3499255496'],
+            [false, '00123456000018'], // GTIN-14
+            [false, '012345678905'], // GTIN-12
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'ean']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Ean13', function() {       
+        $values = [
+            [true, '9789510475270'],
+            [true, '4012345678901'],
+            [true, '0712345678911'],
+            [true, '5901234123457'],
+            [false, '40123455'],
+            [false, '96385074'],
+            [false, '65833254'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'ean:13']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Ean8', function() {       
+        $values = [
+            [false, '4012345678901'],
+            [false, '0712345678911'],
+            [false, '5901234123457'],
+            [true, '40123455'],
+            [true, '96385074'],
+            [true, '65833254'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'ean:8']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+});
+
 describe("Gt", function() {
     it("1: Passe", function() {
         $post = [
@@ -71,6 +142,186 @@ describe("Gte", function() {
     });
 });
 
+describe("Gtin", function() {
+    it('Gtin sans parametre', function() {       
+        $values = [
+            [true, '9789510475270'],
+            [true, '4012345678901'],
+            [true, '0712345678911'],
+            [true, '5901234123457'],
+            [true, '40123455'],
+            [true, '96385074'],
+            [true, '65833254'],
+            [true, '00123456000018'],
+            [true, '012345678905'],
+            [true, '012345000041'],
+            [true, '012345000058'],
+            [false, 'foo'],
+            [false, '0000000000001'],
+            [false, 'FFFFFFFFFFFFF'],
+            [false, 'FFFFFFFFFFFF0'],
+            [false, '4012345678903'],
+            [false, '1xxxxxxxxxxx0'],
+            [false, '4012342678901'],
+            [false, '07123456789110712345678911'],
+            [false, '10123455'],
+            [false, '40113455'],
+            [false, '012341000058'],
+            [false, '1012345678905'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'gtin']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Gtin 8', function() {       
+        $values = [
+            [false, '4012345678901'],
+            [false, '0712345678911'],
+            [false, '5901234123457'],
+            [true, '40123455'],
+            [true, '96385074'],
+            [true, '65833254'],
+            [false, '00123456000018'],
+            [false, '012345678905'],
+            [false, '012345000041'],
+            [false, '012345000058'],
+            [false, 'foo'],
+            [false, '0000000000001'],
+            [false, 'FFFFFFFFFFFFF'],
+            [false, 'FFFFFFFFFFFF0'],
+            [false, '4012345678903'],
+            [false, '1xxxxxxxxxxx0'],
+            [false, '4012342678901'],
+            [false, '07123456789110712345678911'],
+            [false, '10123455'],
+            [false, '40113455'],
+            [false, '012341000058'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'gtin:8']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Gtin 12', function() {       
+        $values = [
+            [false, '4012345678901'],
+            [false, '0712345678911'],
+            [false, '5901234123457'],
+            [false, '40123455'],
+            [false, '96385074'],
+            [false, '65833254'],
+            [false, '00123456000018'],
+            [true, '012345678905'],
+            [true, '012345000041'],
+            [true, '012345000058'],
+            [true, '012345000058'],
+            [false, 'foo'],
+            [false, '0000000000001'],
+            [false, 'FFFFFFFFFFFFF'],
+            [false, 'FFFFFFFFFFFF0'],
+            [false, '4012345678903'],
+            [false, '1xxxxxxxxxxx0'],
+            [false, '4012342678901'],
+            [false, '07123456789110712345678911'],
+            [false, '10123455'],
+            [false, '40113455'],
+            [false, '012341000058'],
+            [true, '000040123455'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'gtin:12']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Gtin 13', function() {       
+        $values = [
+            [true, '9789510475270'],
+            [true, '0012345000058'],
+            [true, '4012345678901'],
+            [true, '0712345678911'],
+            [true, '5901234123457'],
+            [false, '40123455'],
+            [false, '96385074'],
+            [false, '65833254'],
+            [false, '00123456000018'],
+            [false, '012345678905'],
+            [false, '012345000041'],
+            [false, '012345000058'],
+            [false, 'foo'],
+            [false, '0000000000001'],
+            [false, 'FFFFFFFFFFFFF'],
+            [false, 'FFFFFFFFFFFF0'],
+            [false, '4012345678903'],
+            [false, '1xxxxxxxxxxx0'],
+            [false, '4012342678901'],
+            [false, '07123456789110712345678911'],
+            [false, '10123455'],
+            [false, '40113455'],
+            [false, '012341000058'],
+            [true, '0000040123455'],
+            [true, '0012345000058'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'gtin:13']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Gtin 14', function() {       
+        $values = [
+            [true, '00012345000058'],
+            [false, 'w0012345000058'],
+            [false, '4012345678901'],
+            [false, '0712345678911'],
+            [false, '5901234123457'],
+            [false, '40123455'],
+            [false, '96385074'],
+            [false, '65833254'],
+            [true, '00123456000018'],
+            [false, '012345678905'],
+            [false, '012345000041'],
+            [false, '012345000058'],
+            [false, 'foo'],
+            [false, '0000000000001'],
+            [false, 'FFFFFFFFFFFFF'],
+            [false, 'FFFFFFFFFFFF0'],
+            [false, '4012345678903'],
+            [false, '1xxxxxxxxxxx0'],
+            [false, '4012342678901'],
+            [false, '07123456789110712345678911'],
+            [false, '10123455'],
+            [false, '40113455'],
+            [false, '012341000058'],
+            [true, '00000040123455'],
+            [true, '00012345000058'],
+            [true, '05901234123457'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'gtin:14']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+});
+
 describe("Hashtag", function() {
     it("1: Passe", function() {
         $post = ['field' => '#php'];
@@ -100,6 +351,39 @@ describe("Hexcolor", function() {
 
         $validation = Validator::make($post, ['field' => 'hexcolor']);
         expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Htmlclean", function() {
+    it("Htmlclean", function() {
+        $values = [
+            [true, '123456'],
+            [true, '1+2=3'],
+            [true, 'The quick brown fox jumps over the lazy dog.'],
+            [true, '>>>test'],
+            [true, '>test'],
+            [true, 'test>'],
+            [true, 'attr="test"'],
+            [true, 'one < two'],
+            [true, 'two>one'],
+            [false, 'The quick brown fox jumps <strong>over</strong> the lazy dog.'],
+            [false, '<html>'],
+            [false, '<HTML>test</HTML>'],
+            [false, '<html attr="test">'],
+            [false, 'Test</p>'],
+            [false, 'Test</>'],
+            [false, 'Test<>'],
+            [false, '<0>'],
+            [false, '<>'],
+            [false, '><'],
+        ];
+    
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+    
+            $validation = Validator::make($post, ['field' => 'htmlclean']);
+            expect($validation->passes())->toBe($value[0]);
+        }
     });
 });
 
@@ -297,6 +581,130 @@ describe("InArray", function() {
             'name' => 'in_array:author',
         ]);
         expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Isbn", function() {
+    it('Isbn sans parametre', function() {       
+        $values = [
+            [true, '3498016709'],
+            [true, '978-3499255496'],
+            [true, '85-359-0277-5'],
+            [true, '048665088X'],
+            [true, '9788371815102'],
+            [true, '9971502100'],
+            [true, '99921-58-10-7'],
+            [true, '960 425 059 0'],
+            [true, '9780306406157'],
+            [true, '978-0-306-40615-7'],
+            [true, '978 0 306 40615 7'],
+            [false, '123459181'],
+            [false, '048665088A'],
+            [false, '03064061521'],
+            [false, '048662088X'],
+            [false, '12'],
+            [false, '123'],
+            [false, 'ABC'],
+            [false, '978-0-306-40615-6'],
+            [false, '99921-58-10-6'],
+            [false, '0123456789012'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'isbn']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Isbn long', function() {       
+        $values = [
+            [false, '3498016709'],
+            [true, '978-3499255496'],
+            [false, '978-3495255496'],
+            [false, '85-359-0277-5'],
+            [false, '048665088X'],
+            [true, '9788371815102'],
+            [false, '9971502100'],
+            [false, '99921-58-10-7'],
+            [false, '960 425 059 0'],
+            [true, '9780306406157'],
+            [true, '978-0-306-40615-7'],
+            [true, '978 0 306 40615 7'],
+            [false, '123459181'],
+            [false, '048665088A'],
+            [false, '03064061521'],
+            [false, '048662088X'],
+            [false, '12'],
+            [false, '123'],
+            [false, 'ABC'],
+            [false, '978-0-306-40615-6'],
+            [false, '99921-58-10-6'],
+            [false, '0123456789012'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'isbn:13']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+
+    it('Isbn short', function() {       
+        $values = [
+            [true, '3498016709'],
+            [false, '978-3499255496'],
+            [true, '85-359-0277-5'],
+            [true, '048665088X'],
+            [false, '9788371815102'],
+            [true, '9971502100'],
+            [true, '99921-58-10-7'],
+            [true, '960 425 059 0'],
+            [false, '9780306406157'],
+            [false, '978-0-306-40615-7'],
+            [false, '978 0 306 40615 7'],
+            [false, '123459181'],
+            [false, '048665088A'],
+            [false, '03064061521'],
+            [false, '048662088X'],
+            [false, '12'],
+            [false, '123'],
+            [false, 'ABC'],
+            [false, '978-0-306-40615-6'],
+            [false, '99921-58-10-6'],
+        ];
+
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+
+            $validation = Validator::make($post, ['field' => 'isbn:10']);
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+});
+
+describe("Issn", function() {
+    it("Issn", function() {
+        $values = [
+            [true, '2049-3630'],
+            [false, '0317-8472'],
+            [false, '1982047x'],
+            [false, 'DE0005810058'],
+            [false, 'ZA9382189201'],
+            [false, '2434-561Y'],
+            [false, '2434561X'],
+            [false, 'foo'],
+            [false, '1234-1234'],
+        ];
+    
+        foreach ($values as $value) {
+            $post = ['field' => $value[1]];
+    
+            $validation = Validator::make($post, ['field' => 'issn']);
+            expect($validation->passes())->toBe($value[0]);
+        }
     });
 });
 
