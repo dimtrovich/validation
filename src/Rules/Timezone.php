@@ -11,13 +11,23 @@
 
 namespace Dimtrovich\Validation\Rules;
 
+use BlitzPHP\Utilities\String\Text;
+use DateTimeZone;
+
 class Timezone extends AbstractRule
 {
+    protected $fillableParams = ['settings'];
+
     /**
      * {@inheritDoc}
      */
     public function check($value): bool
     {
-        return in_array($value, timezone_identifiers_list(), true);
+        [$timezoneGroup, $countryCode] = explode(',', $this->parameter('settings', 'ALL')) + [1 => null];
+
+        return in_array($value, timezone_identifiers_list(
+            constant(DateTimeZone::class . '::' . Text::upper($timezoneGroup)),
+            null !== $countryCode ? Text::upper($countryCode) : null,
+        ), true);
     }
 }
