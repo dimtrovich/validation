@@ -11,6 +11,7 @@
 
 namespace Dimtrovich\Validation\Rules;
 
+use BlitzPHP\Utilities\Iterable\Arr;
 use BlitzPHP\Utilities\String\Text;
 use Rakit\Validation\Rule;
 
@@ -33,6 +34,14 @@ class EndWith extends AbstractRule
 
         $this->setAllowedValues($allowedValues = $this->parameter('allowed_values'));
 
-        return Text::endsWith($value, $allowedValues);
+        if (is_array($value)) {
+            return Arr::last($value) === $allowedValues;
+        }
+
+        if (is_string($value)) {
+            return Text::endsWith($value, $allowedValues);
+        }
+
+        return false;
     }
 }

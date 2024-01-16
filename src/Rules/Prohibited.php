@@ -11,8 +11,6 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-use Dimtrovich\Validation\Rule;
-
 class Prohibited extends AbstractRule
 {
     /**
@@ -20,6 +18,6 @@ class Prohibited extends AbstractRule
      */
     public function check($value): bool
     {
-        return ! Rule::required()->check($value);
+        return false;
     }
 }

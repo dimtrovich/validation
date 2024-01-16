@@ -11,17 +11,36 @@
 
 namespace Dimtrovich\Validation\Rules;
 
+use Dimtrovich\Validation\Traits\CanConvertValuesToBooleans;
 use Rakit\Validation\Rule as RakitRule;
 
 class ProhibitedUnless extends AbstractRule
 {
+    use CanConvertValuesToBooleans;
+
+    protected $implicit = true;
+
     /**
      * {@inheritDoc}
      */
     public function fillParameters(array $params): RakitRule
     {
         $this->params['field']  = array_shift($params);
-        $this->params['values'] = $params;
+        $this->params['values'] = $this->convertStringsToBoolean($params);
+
+        return $this;
+    }
+
+    public function field(string $field): static
+    {
+        $this->params['field'] = $field;
+
+        return $this;
+    }
+
+    public function values(array $values): static
+    {
+        $this->params['values'] = $values;
 
         return $this;
     }
@@ -37,7 +56,7 @@ class ProhibitedUnless extends AbstractRule
         $definedValues    = $this->parameter('values');
         $anotherValue     = $this->getAttribute()->getValue($anotherAttribute);
 
-        $this->setParameterTextValues($definedValues, 'other');
+        $this->setParameterTextValues($this->convertBooleansToString($definedValues), 'other');
         $this->setParameterTextValues([$anotherValue], 'values');
 
         $validator         = $this->validation->getValidator();
