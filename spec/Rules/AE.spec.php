@@ -621,6 +621,36 @@ describe("ContainsAll", function() {
     });
 });
 
+describe("Currency", function() {
+    it("Currency", function() {
+        $values = [
+            // normal
+            ['USD', true],
+            ['CAD', true],
+            ['XAF', true],
+
+            // should not be case-sensitive
+            ['jpy', true],
+            ['EuR', true],
+            ['xof', true],
+
+            // should fail
+            ['US', false],
+            ['USDD', false],
+            ['US D', false],
+            ['US-D', false],
+            ['ABC', false],
+            ['123', false],
+        ];
+
+        foreach ($values as $value) {
+            $validation = Validator::make(['field' => $value[0]], ['field' => 'currency']);
+
+            expect($validation->passes())->toBe($value[1]);
+        }
+    });
+});
+
 describe("Date", function() {
     it("1: Date simple", function() {
         $post = [

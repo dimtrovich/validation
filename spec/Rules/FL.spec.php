@@ -322,6 +322,53 @@ describe("Gtin", function() {
     });
 });
 
+describe("Hash", function() {
+    it("1: Passe", function() {
+        $values = [
+            [hash('md5', ''), 'md5', false],
+            [strtoupper(hash('md5', '')), 'md5', true],
+            [hash('sha1', ''), 'sha1', false],
+            [hash('sha256', ''), 'SHA256', false],
+            [hash('sha512', ''), 'SHA512', false],
+            [hash('crc32', ''), 'CRC32', false],
+        ];
+        foreach ($values as $value) {
+            $validation = Validator::make(
+                ['field' => $value[0]], 
+                ['field' => 'hash:' . implode(',', [$value[1], $value[2]])]
+            );
+            expect($validation->passes())->toBe(true);
+        }
+    });
+
+    it("2: Echoue", function() {
+        $values = [
+            [hash('sha512', ''), 'MD5', false],
+            [strtoupper(hash('md5', '')), 'MD5', false],
+            [hash('md5', ''), 'SHA1', false],
+            [hash('crc32', ''), 'SHA256', false],
+            [hash('sha1', ''), 'SHA512', false],
+            [hash('sha256', ''), 'CRC32', false],
+        ];
+        foreach ($values as $value) {
+            $validation = Validator::make(
+                ['field' => $value[0]], 
+                ['field' => 'hash:' . implode(',', [$value[1], $value[2]])]
+            );
+            expect($validation->passes())->toBe(false);
+        }
+    });
+
+    it("2: Echoue - Leve une exception", function() {
+        $validation = Validator::make(
+            ['field' => md5('foo')], 
+            ['field' => 'hash:cezar']
+        );
+        
+        expect(fn() => $validation->passes())->toThrow(new \InvalidArgumentException());
+    });
+});
+
 describe("Hashtag", function() {
     it("1: Passe", function() {
         $post = ['field' => '#php'];
