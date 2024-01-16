@@ -3,3 +3,4 @@
 clover.xml
 coveralls.json
 /composer.lock
+/.vscode

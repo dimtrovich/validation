@@ -51,6 +51,41 @@ describe("Timezone", function() {
     });
 });
 
+describe("Titlecase", function() {
+    it("Titlecase", function() {
+        $values = [
+            [true, 'Foo'],
+            [true, 'FooBar'],
+            [true, 'Foo Bar'],
+            [true, 'F Bar'],
+            [true, '6 Bar'],
+            [true, 'FooBar Baz'],
+            [true, 'Foo Bar Baz'],
+            [true, 'Foo-Bar Baz'],
+            [true, 'Ba_r Baz'],
+            [true, 'F00 Bar Baz'],
+            [true, 'Ês Üm Ñõ'],
+            [false, 21],
+            [false, 'foo'],
+            [false, 'Foo '],
+            [false, ' Foo'],
+            [false, 'Foo bar'],
+            [false, 'foo bar'],
+            [false, 'Foo Bar baz'],
+            [false, 'Foo bar baz'],
+            [false, '-fooBar'],
+            [false, '-fooBar-'],
+            [false, 'The quick brown fox jumps over the lazy dog.'],
+        ];
+
+        foreach ($values as $value) {
+            $validation = Validator::make(['field' => $value[1]], ['field' => 'titlecase']);
+
+            expect($validation->passes())->toBe($value[0]);
+        }
+    });
+});
+
 describe("Username", function() {
     it("1: Passe", function() {
         $post = ['field' => 'dimtrovich'];

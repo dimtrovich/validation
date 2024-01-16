@@ -163,6 +163,7 @@ class Validation
             Rules\StartWith::class,
             Rules\Time::class,
             Rules\Timezone::class,
+            Rules\Titlecase::class,
             Rules\TypeArray::class,
             Rules\TypeInstanceOf::class,
             Rules\TypeString::class,
