@@ -90,6 +90,20 @@ abstract class AbstractRule extends Rule
         return $this->_alias[$key] = empty($alias) ? $key : $alias;
     }
 
+    
+
+    /**
+     * {@inheritDoc}
+     */
+    public function parameter(string $key, mixed $default = null): mixed
+    {
+        if (null === $value = parent::parameter($key)) {
+            $value = $default;
+        }
+
+        return $value;
+    }
+
     protected function fillAllowedParameters(array $params, string $name): self
     {
         if (count($params) === 1 && is_array($params[0])) {
