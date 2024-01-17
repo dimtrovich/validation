@@ -379,6 +379,12 @@ class Validation
      */
     public function rules(array $rules): self
     {
+        foreach ($rules as &$value) {
+            if ($value instanceof Rule) {
+                $value = [$value];
+            }
+        }
+        
         $this->rules = array_merge($this->rules, $rules);
 
         return $this;
