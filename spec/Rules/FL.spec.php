@@ -3,6 +3,34 @@
 use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Validator;
 
+describe("Float", function() {
+    it('1: Passe', function() {  
+        $post = [
+            'long'  => '3.1415926535897932384626433832795',
+            'long2' => 3.1415926535897932384626433832795,
+        ];
+
+        $validation = Validator::make($post, [
+            'long'  => 'float',
+            'long2' => 'float',
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it('2: Echoue', function() {       
+        $validation = Validator::make([
+            'foo' => 'bar',
+            'bar' => 1.121,
+            'baz' => '1.121',
+        ], [
+            'foo' => 'float',
+            'bar' => 'float',
+            'baz' => 'float',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 xdescribe("Fullname", function() {
     it('Ean sans parametre', function() {       
         $values = [
@@ -828,6 +856,37 @@ describe("Kebabcase", function() {
     });
 });
 
+describe("Length", function() {
+    it('1: Passe', function() {  
+        $post = [
+            'a' => 'foobar',
+            'b' => 'футбол',
+            'c' => 23,
+        ];
+
+        $validation = Validator::make($post, [
+            'a'  => 'length:6',
+            'b' => 'length:6',
+            'c' => 'length:2',
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it('2: Echoue', function() {       
+        $post = [
+            'a' => 'foobar',
+            'b' => 'футбол',
+            'c' => 23,
+        ];
+
+        $validation = Validator::make($post, [
+            'a'  => 'length:5',
+            'b' => 'length:5',
+            'c' => 'length:6',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
 
 describe("Lt", function() {
     it("1: Passe", function() {

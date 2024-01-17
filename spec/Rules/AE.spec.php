@@ -87,6 +87,53 @@ describe("ActiveURL", function() {
     });
 });
 
+describe("AnyOf", function() {
+    it("1: Passe", function() {
+        $post = [
+            'name'  => 'dimtrovich',
+            'admin' => 'foo',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'any_of:blitz,admin,dimtrovich',
+            'admin' => 'any_of:foo,bar',
+        ]);
+        
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'name'  => 'dimtrovich',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => 'any_of:blitz,admin',
+        ]);
+        
+        expect($validation->passes())->toBe(false);
+    });
+
+    it("3: Strict", function() {
+        $post = [
+            'name'  => 1,
+            'admin' => true,
+        ];
+
+        // Not strict
+        $validation = Validator::make($post, [
+            'name'  => 'any_of:1,2,3',
+            'admin' => 'any_of:1,2,3',
+        ]);
+        expect($validation->passes())->toBe(true);
+
+        // Strict
+        $validation = Validator::make($post, [
+            'name'  => Rule::anyOf(['1', '2', '3'])->strict(),
+            'admin' => Rule::anyOf(['1', '2', '3'])->strict(),
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("After", function() {
 
     it("1: After - Utillisation d'une date", function() {
@@ -293,6 +340,69 @@ describe("Array", function() {
         ];
         $validation = Validator::make($post, [
             'author'     => 'array',
+        ]);
+        
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("ArrayCanOnlyHaveKeys", function() {
+    it("1: Passe", function() {
+        $post = [
+            'name' => ['foo' => 'bar', 'baz' => 'bob'],
+        ];
+        $validation = Validator::make($post, [
+            'name'     => 'array_can_only_have_keys:foo,bar,baz',
+        ]);
+        
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'name' => ['foo' => 'bar', 'bob' => 'baz'],
+        ];
+        $validation = Validator::make($post, [
+            'name'     => 'array_can_only_have_keys:foo,bar,baz',
+        ]);
+        
+        expect($validation->passes())->toBe(false);
+
+        $post = [
+            'name' => 'foo',
+        ];
+        $validation = Validator::make($post, [
+            'name'     => 'array_can_only_have_keys:foo,bar,baz',
+        ]);
+        
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("ArrayMustHaveKeys", function() {
+    it("1: Passe", function() {
+        $post = [
+            'cart' => [
+                'qty' => 'xyz',
+                'itemName' => 'Lorem ipsum',
+            ]
+        ];
+        $validation = Validator::make($post, [
+            'cart' => 'array|array_must_have_keys:itemName,qty',
+        ]);
+        
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'cart' => [
+                'qty' => 'xyz',
+                'itemName' => 'Lorem ipsum',
+            ]
+        ];
+        $validation = Validator::make($post, [
+            'cart' => 'array|array_must_have_keys:itemName,qty,amount',
         ]);
         
         expect($validation->passes())->toBe(false);
