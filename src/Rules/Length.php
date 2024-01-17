@@ -19,6 +19,6 @@ class Length extends AbstractRule
     {
         $this->requireParameters($this->fillableParams);
 
-        return (int)$this->parameter('length') === mb_strlen((string)$value);
+        return (int) $this->parameter('length') === mb_strlen((string) $value);
     }
 }

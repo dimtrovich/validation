@@ -214,7 +214,7 @@ class CreditCard extends AbstractRule
         $validPrefix = false;
 
         foreach ($prefixes as $prefix) {
-            if (strpos($value, $prefix) === 0) {
+            if (str_starts_with($value, $prefix)) {
                 $validPrefix = true;
                 break;
             }

@@ -40,17 +40,17 @@ class Hash extends AbstractRule
         $this->requireParameters(['algo']);
 
         $algo = strtoupper($this->parameter('algo'));
-        
+
         if (! isset($this->algorithmsLengths[$algo])) {
             $algos = array_keys($this->algorithmsLengths);
 
-           throw new InvalidArgumentException('algo parameter must be one of ' . implode('/', $algos));
+            throw new InvalidArgumentException('algo parameter must be one of ' . implode('/', $algos));
         }
 
         $this->setParameterText('algorithm', $algo);
 
         $length        = $this->algorithmsLengths[$algo];
-        $caseSensitive = boolval($this->parameter('allowUppercase', false)) ? 'i' : '';
+        $caseSensitive = (bool) ($this->parameter('allowUppercase', false)) ? 'i' : '';
 
         return preg_match(sprintf('/^[0-9a-f]{%s}$/%s', $length, $caseSensitive), $value) === 1;
     }

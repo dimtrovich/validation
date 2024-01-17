@@ -16,7 +16,7 @@ use Rakit\Validation\Rule;
 class AnyOf extends AbstractRule
 {
     protected bool $strict = false;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -54,7 +54,7 @@ class AnyOf extends AbstractRule
         $this->requireParameters(['allowed_values']);
 
         $valid  = true;
-        $values = is_string($value) ? explode($this->parameter('separator', ','), $value) : (array)$value;
+        $values = is_string($value) ? explode($this->parameter('separator', ','), $value) : (array) $value;
 
         foreach ($values as $v) {
             $valid = $valid && in_array($v, $this->parameter('allowed_values'), $this->strict);

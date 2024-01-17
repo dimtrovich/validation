@@ -36,7 +36,7 @@ class ArrayMustHaveKeys extends AbstractRule
     {
         $this->requireParameters(['keys']);
 
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             return false;
         }
 

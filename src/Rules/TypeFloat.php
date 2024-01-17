@@ -21,14 +21,14 @@ class TypeFloat extends AbstractRule
     public function check($value): bool
     {
         // https://www.php.net/manual/en/function.is-float.php#117304
-        if (!is_scalar($value)) {
+        if (! is_scalar($value)) {
             return false;
         }
 
         if ('double' === gettype($value)) {
             return true;
-        } else {
-            return preg_match('/^\\d+\\.\\d+$/', (string)$value) === 1;
         }
+
+        return preg_match('/^\\d+\\.\\d+$/', (string) $value) === 1;
     }
 }

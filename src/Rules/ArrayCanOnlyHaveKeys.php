@@ -36,12 +36,12 @@ class ArrayCanOnlyHaveKeys extends AbstractRule
     {
         $this->requireParameters(['keys']);
 
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             return false;
         }
 
         foreach (array_keys($value) as $test) {
-            if (!in_array($test, $this->parameter('keys'))) {
+            if (! in_array($test, $this->parameter('keys'), true)) {
                 return false;
             }
         }

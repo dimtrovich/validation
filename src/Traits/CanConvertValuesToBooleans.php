@@ -21,7 +21,8 @@ trait CanConvertValuesToBooleans
         return array_map(function ($value) {
             if ($value === 'true') {
                 return true;
-            } elseif ($value === 'false') {
+            }
+            if ($value === 'false') {
                 return false;
             }
 
@@ -34,11 +35,12 @@ trait CanConvertValuesToBooleans
         return array_map(function ($value) {
             if ($value === true) {
                 return 'true';
-            } elseif ($value === false) {
+            }
+            if ($value === false) {
                 return 'false';
             }
 
-            return (string)$value;
+            return (string) $value;
         }, $values);
     }
 }

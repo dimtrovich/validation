@@ -389,7 +389,7 @@ class Validation
                 $value = [$value];
             }
         }
-        
+
         $this->rules = array_merge($this->rules, $rules);
 
         return $this;

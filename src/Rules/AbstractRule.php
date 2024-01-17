@@ -90,8 +90,6 @@ abstract class AbstractRule extends Rule
         return $this->_alias[$key] = empty($alias) ? $key : $alias;
     }
 
-    
-
     /**
      * {@inheritDoc}
      */

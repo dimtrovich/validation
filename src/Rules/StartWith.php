@@ -37,7 +37,7 @@ class StartWith extends AbstractRule
         if (is_array($value)) {
             return Arr::first($value) === $allowedValues;
         }
-        
+
         if (is_string($value)) {
             return Text::startsWith($value, $allowedValues);
         }

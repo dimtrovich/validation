@@ -44,7 +44,6 @@ class Date extends AbstractRule
             $date = DateTime::createFromFormat($format, $value);
 
             return $date && $date->format($format) === $value;
-
             // return date_create_from_format($format, $value) !== false;
         }
 
