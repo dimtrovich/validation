@@ -57,6 +57,7 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Rakit\Validation\Rules\Different                  different()
  * @method static \Rakit\Validation\Rules\Digits                     digits()
  * @method static \Rakit\Validation\Rules\DigitsBetween              digitsBetween()
+ * @method static \Dimtrovich\Validation\Rules\Distinct              distinct()
  * @method static \Dimtrovich\Validation\Rules\DiscordUsername       discordUsername()
  * @method static \Dimtrovich\Validation\Rules\DoesntEndWith         doesntEndWith()
  * @method static \Dimtrovich\Validation\Rules\DoesntStartWith       doesntStartWith()

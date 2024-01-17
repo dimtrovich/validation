@@ -110,6 +110,7 @@ class Validation
             Rules\Declined::class,
             Rules\DeclinedIf::class,
             Rules\DiscordUsername::class,
+            Rules\Distinct::class,
             Rules\DoesntEndWith::class,
             Rules\DoesntStartWith::class,
             Rules\Domain::class,

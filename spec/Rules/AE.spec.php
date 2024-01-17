@@ -937,6 +937,95 @@ describe("DeclinedIf", function() {
     });
 });
 
+describe("Distinct", function() {
+    it("1: Passe", function() {
+        $post = [
+            'integer' => [81, 3, 15],
+            'string'  => ['white', 'green', 'blue'],
+            'mixed'   => [81, false, 'orange'],
+            'foo' => [
+                [
+                    'id' => 5,
+                    'name' => 'foo',
+                ],
+                [
+                    'id' => 6,
+                    'name' => 'bar',
+                ],
+                [
+                    'id' => 4,
+                    'name' => 'baz',
+                ]
+            ]
+        ];
+        $validation = Validator::make($post, [
+            'foo.*.id' => 'distinct',
+            'integer' => 'distinct',
+            'string'  => 'distinct',
+            'mixed'   => 'distinct',
+        ]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("2: Echoue", function() {
+        $post = [
+            'integer' => [81, 3, 15, 3],
+            'string'  => ['white', 'green', 'blue', 'blue'],
+            'foo' => [
+                [
+                    'id' => 5,
+                    'name' => 'foo',
+                ],
+                [
+                    'id' => 6,
+                    'name' => 'bar',
+                ],
+                [
+                    'id' => 5,
+                    'name' => 'baz',
+                ]
+            ]
+        ];
+        $validation = Validator::make($post, [
+            'foo.*.id' => 'distinct',
+            'integer' => 'distinct',
+            'string'  => 'distinct',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+
+    it("3: Ignore case", function() {
+        $post = [
+            'string'  => ['white', 'green', 'BLUE', 'blue'],
+            'foo' => [
+                [
+                    'id' => 5,
+                    'name' => 'foo',
+                ],
+                [
+                    'id' => 6,
+                    'name' => 'BAR',
+                ],
+                [
+                    'id' => 5,
+                    'name' => 'bar',
+                ]
+            ]
+        ];
+        $validation = Validator::make($post, [
+            'foo.*.name' => 'distinct',
+            'string'  => 'distinct',
+        ]);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, [
+            'foo.*.name' => 'distinct:ignore_case',
+            'string'  => 'distinct:ignore_case',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
 describe("DiscordUsername", function() {
     it("1: Passe", function() {
         $post = ['field' => 'Dimtrovich#2134'];
