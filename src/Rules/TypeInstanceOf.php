@@ -41,7 +41,7 @@ class TypeInstanceOf extends AbstractRule
         if (is_object($value)) {
             return $value instanceof $type || get_class($value) === $type;
         }
-
-        return is_subclass_of($value, $type);
+        
+        return is_subclass_of($value, $type) || is_a($value, $type) || $value === $type;
     }
 }

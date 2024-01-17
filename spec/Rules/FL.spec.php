@@ -778,7 +778,8 @@ describe("InstanceOf", function() {
         expect($validation->passes())->toBe(true);
         
         $validation = Validator::make($post, [
-            'obj' => Rule::instanceOf(new Test),
+            'obj'      => Rule::instanceOf(new Test),
+            'obj_name' => Rule::instanceOf(new Test),
         ]);
         expect($validation->passes())->toBe(true);
     });
