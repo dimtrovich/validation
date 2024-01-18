@@ -11,11 +11,13 @@
 
 namespace Dimtrovich\Validation\Rules;
 
+use Dimtrovich\Validation\Traits\FileTrait;
 use Rakit\Validation\Rules\Traits\SizeTrait;
 
 class Size extends AbstractRule
 {
     use SizeTrait;
+    use FileTrait;
 
     /**
      * @var array
@@ -31,6 +33,12 @@ class Size extends AbstractRule
 
         $this->setParameterText('size', $size = $this->parameter('size'));
 
-        return (float) $size === $this->getValueSize($value);
+        if ($this->isValidFileInstance($value)) {
+            $valueSize = $value->getSize() / 1024;
+        } else {
+            $valueSize = $this->getValueSize($value);
+        }
+        
+        return (float) $size === (float) $valueSize;
     }
 }
