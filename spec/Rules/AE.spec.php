@@ -1,5 +1,6 @@
 <?php
 
+use BlitzPHP\Filesystem\Files\UploadedFile;
 use BlitzPHP\Utilities\Date;
 use BlitzPHP\Utilities\Helpers;
 use Dimtrovich\Validation\Rule;
@@ -1332,6 +1333,51 @@ describe("EvenNumber", function() {
         $post = ['field' => '5'];
 
         $validation = Validator::make($post, ['field' => 'even_number']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Ext", function() {
+    it("1: Passe", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('clientExtension')->andReturn('pdf');
+    
+        expect($file->clientExtension())->toBe('pdf');
+
+        $validation = Validator::make(['file' => $file], ['file' => 'ext:pdf']);
+        expect($validation->passes())->toBe(true);
+
+        //----------------------------------------------------------------
+        
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('clientExtension')->andReturn('jpg');
+
+        $validation = Validator::make(['file' => $file], ['file' => 'ext:jpg']);
+        expect($validation->passes())->toBe(true);
+        
+        //----------------------------------------------------------------
+
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('clientExtension')->andReturn('jpg');
+
+        $validation = Validator::make(['file' => $file], ['file' => 'ext:jpeg,jpg']);
+        expect($validation->passes())->toBe(true);
+    });
+    
+    it("2: Echoue", function() {
+        
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('clientExtension')->andReturn('jpg');
+
+        $validation = Validator::make(['file' => $file], ['file' => 'ext:jpeg']);
+        expect($validation->passes())->toBe(false);
+        
+        //----------------------------------------------------------------
+
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('clientExtension')->andReturn('jpeg');
+
+        $validation = Validator::make(['file' => $file], ['file' => 'mimes:jpg|ext:jpg']);
         expect($validation->passes())->toBe(false);
     });
 });
