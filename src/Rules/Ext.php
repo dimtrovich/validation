@@ -25,9 +25,7 @@ class Ext extends AbstractRule
      */
     public function fillParameters(array $params): Rule
     {
-        $this->parameters = $params;
-
-        return $this;
+        return $this->fillAllowedValuesParameters($params);
     }
 
     /**
@@ -35,6 +33,9 @@ class Ext extends AbstractRule
      */
     public function check($value): bool
     {
+        $this->requireParameters(['allowed_values']);
+        $this->setAllowedValues($this->parameters = $this->parameter('allowed_values'));
+        
         if (! $this->isValidFileInstance($value)) {
             return false;
         }
