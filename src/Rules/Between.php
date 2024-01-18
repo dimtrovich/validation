@@ -17,7 +17,9 @@ class Between extends AbstractRule
 {
     use SizeTrait;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $fillableParams = ['min', 'max'];
 
     /**
@@ -31,7 +33,7 @@ class Between extends AbstractRule
         $max       = $this->getBytesSize($this->parameter('max'));
         $valueSize = $this->getValueSize($value);
 
-        if (!is_numeric($valueSize)) {
+        if (! is_numeric($valueSize)) {
             return false;
         }
 

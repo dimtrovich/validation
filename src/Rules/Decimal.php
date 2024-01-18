@@ -33,11 +33,11 @@ class Decimal extends AbstractRule
         $max = $this->parameter('max');
 
         $matches = [];
-         
+
         if (preg_match('/^[+-]?\d*\.?(\d*)$/', $value, $matches) !== 1) {
             return false;
         }
-        
+
         $decimals = strlen(end($matches));
 
         if (empty($max)) {

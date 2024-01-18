@@ -123,6 +123,7 @@ class Validation
             Rules\Enum::class,
             Rules\EvenNumber::class,
             Rules\Ext::class,
+            Rules\File::class,
             Rules\Fullname::class,
             Rules\Gt::class,
             Rules\Gte::class,
