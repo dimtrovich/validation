@@ -25,6 +25,51 @@ describe("MacAddress", function() {
     });
 });
 
+describe("Max", function() {
+    it("1: Passe", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('isValid')->andReturn(true);
+        allow($file)->toReceive('getSize')->andReturn(3072);
+
+        $values = [
+            ['anc', 'max:3'],
+            ['3', 'numeric|max:3'], // an equal value qualifies.
+            ['2.001', 'numeric|max:3'], // '2.001' is considered as a float when the "Numeric" rule exists.
+            ['3', 'decimal:0|max:3'], // an equal value qualifies.
+            ['2.001', 'decimal:0,3|max:3'], // '2.001' is considered as a float when the "Numeric" rule exists.
+            ['22', 'numeric|max:33'],
+            [[1, 2, 3], 'array|max:4'],
+            [$file, 'max:10'],
+        ];
+
+        foreach ($values as $value) {
+            $validation = Validator::make(['foo' => $value[0]], ['foo' => $value[1]]);
+            expect($validation->passes())->toBe(true);
+        }
+    });
+    
+    it("2: Echoue", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('getSize')->andReturn(4072);
+        allow($file)->toReceive('isValid')->andReturn(true);
+
+        $values = [
+            [false, 'max:3'], // not countable
+            ['aslksd', 'max:3'],
+            ['211', 'numeric|max:100'],
+            ['2.001', 'max:3'],  // '2.001' is a string of length 5 in absence of the "Numeric" rule.
+            ['211', 'decimal:0|max:100'],
+            [[1, 2, 3], 'array|max:2'],
+            [$file, 'max:2'],
+        ];
+        
+        foreach ($values as $value) {
+            $validation = Validator::make(['foo' => $value[0]], ['foo' => $value[1]]);
+            expect($validation->passes())->toBe(false);
+        }
+    });
+});
+
 describe("Mimes", function() {
     it("ValidMimes", function() {
         $file = [
@@ -103,6 +148,50 @@ describe("Mimetypes", function() {
 
         $validation = Validator::make(['file' => $file], ['file' => 'mimetypes:text/rtf']);
         expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Min", function() {
+    it("1: Passe", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('getSize')->andReturn(3072);
+
+        $values = [
+            ['3', 'numeric|min:3'], // an equal value qualifies.
+            ['anc', 'min:3'],
+            ['2.001', 'min:3'], // '2.001' is a string of length 5 in absence of the "Numeric" rule.
+            ['3', 'decimal:0|min:3'], // an equal value qualifies.
+            ['5', 'numeric|min:3'],
+            [[1, 2, 3, 4], 'array|min:3'],
+            [$file, 'min:2'],
+        ];
+
+        foreach ($values as $value) {
+            $validation = Validator::make(['foo' => $value[0]], ['foo' => $value[1]]);
+            expect($validation->passes())->toBe(true);
+        }
+    });
+    
+    it("2: Echoue", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('getSize')->andReturn(4072);
+
+        $values = [
+            [false, 'min:3'], // not countable
+            ['3', 'min:3'],
+            ['2.001', 'numeric|min:3'], // '2.001' is considered as a float when the "Numeric" rule exists.
+            ['2', 'numeric|min:3'],
+            ['20', 'min:3'], // '20' is a string of length 2 in absence of the "Numeric" rule.
+            ['2', 'decimal:0|min:3'],
+            ['2.001', 'decimal:0|min:3'], // '2.001' is considered as a float when the "Numeric" rule exists.
+            [[1, 2], 'array|min:3'],
+            [$file, 'min:10'],
+        ];
+
+        foreach ($values as $value) {
+            $validation = Validator::make(['foo' => $value[0]], ['foo' => $value[1]]);
+            expect($validation->passes())->toBe(false);
+        }
     });
 });
 

@@ -536,6 +536,50 @@ describe("BeforeOrEqual", function() {
     });
 });
 
+describe("Between", function() {
+    it("1: Passe", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('getSize')->andReturn(3072);
+
+        $values = [
+            ['anc', 'between:3,5'],
+            ['ancf', 'between:3,5'],
+            ['ancfs', 'between:3,5'],
+            ['123', 'numeric|between:123,200'], // inclusive on min
+            ['123', 'numeric|between:0,123'], // inclusive on max
+            ['0.02', 'numeric|between:0.01,0.02'], // can work with float
+            ['0.02', 'numeric|between:0.01,0.03'],
+            ['3', 'numeric|between:1,5'],
+            [[1, 2, 3], 'array|between:1,5'],
+            [$file, 'between:1,5'],
+        ];
+
+        foreach ($values as $value) {
+            $validation = Validator::make(['foo' => $value[0]], ['foo' => $value[1]]);
+            expect($validation->passes())->toBe(true);
+        }
+    });
+    
+    it("2: Echoue", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('getSize')->andReturn(4072);
+
+        $values = [
+            [false, 'between:3,4'], // not countable
+            ['asdad', 'between:3,4'],
+            ['123', 'numeric|between:50,100'],
+            ['0.001', 'numeric|between:0.01,0.03'],
+            [[1, 2, 3], 'array|between:1,2'],
+            [$file, 'between:1,2'],
+        ];
+
+        foreach ($values as $value) {
+            $validation = Validator::make(['foo' => $value[0]], ['foo' => $value[1]]);
+            expect($validation->passes())->toBe(false);
+        }
+    });
+});
+
 describe("Bic", function() {
     it('Bic', function() {
         $values = [
