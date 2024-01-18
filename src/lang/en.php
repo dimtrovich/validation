@@ -69,6 +69,8 @@ return [
     'lt'                       => 'The :attribute must be a numeric value lower than :value.',
     'lte'                      => 'The :attribute must be a numeric value lower or equal than :value.',
     'mac_address'              => 'The value :attribute is no valid MAC address.',
+    'mimes'                    => 'The :attribute field must be a file of type: :allowed_values.',
+    'mimetypes'                => 'The :attribute field must be a file of type: :allowed_values.',
     'missing'                  => 'The :attribute field must be missing.',
     'missing_if'               => 'The :attribute field must be missing when :other is :value.',
     'missing_unless'           => 'The :attribute field must be missing unless :other is :value.',

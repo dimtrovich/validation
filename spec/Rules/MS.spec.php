@@ -1,5 +1,6 @@
 <?php
 
+use BlitzPHP\Filesystem\Files\UploadedFile;
 use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Utils\Country;
 use Dimtrovich\Validation\Validator;
@@ -20,6 +21,87 @@ describe("MacAddress", function() {
         ];
 
         $validation = Validator::make($post, ['mac' => 'mac_address']);
+        expect($validation->passes())->toBe(false);
+    });
+});
+
+describe("Mimes", function() {
+    it("ValidMimes", function() {
+        $file = [
+            'name' => pathinfo(__FILE__, PATHINFO_BASENAME),
+            'type' => 'text/plain',
+            'size' => filesize(__FILE__),
+            'tmp_name' => __FILE__,
+            'error' => UPLOAD_ERR_OK
+        ];
+
+        allow(\Rakit\Validation\Rules\Mimes::class)->toReceive('isUploadedFile')->andReturn(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'mimes:txt']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("Filetypes", function() {
+        allow(\Rakit\Validation\Rules\Mimes::class)->toReceive('isUploadedFile')->andReturn(true);
+
+        $validation = Validator::make(['file' => [
+            'name' => pathinfo(__FILE__, PATHINFO_BASENAME),
+            'type' => 'text/plain',
+            'size' => 1024, // 1K
+            'tmp_name' => __FILE__,
+            'error' => 0
+        ]], ['file' => 'mimes:png,jpeg']);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make(['file' => [
+            'name' => pathinfo(__FILE__, PATHINFO_BASENAME),
+            'type' => 'image/png',
+            'size' => 10 * 1024,
+            'tmp_name' => __FILE__,
+            'error' => 0
+        ]], ['file' => 'mimes:png,jpeg']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['file' => [
+            'name' => pathinfo(__FILE__, PATHINFO_BASENAME),
+            'type' => 'image/jpeg',
+            'size' => 10 * 1024,
+            'tmp_name' => __FILE__,
+            'error' => 0
+        ]], ['file' => 'mimes:png,jpeg']);
+        expect($validation->passes())->toBe(true);
+    });
+});
+
+describe("Mimetypes", function() {
+    beforeEach(function() {
+        allow(UploadedFile::class)->toReceive('clientExtension')->andReturn('rtf');
+        allow(UploadedFile::class)->toReceive('guessExtension')->andReturn('rtf');
+    });
+
+    it("1: Passe", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('getMimeType')->andReturn('text/rtf');
+        
+        expect($file->getMimeType())->toBe('text/rtf');
+
+        $validation = Validator::make(['file' => $file], ['file' => 'mimetypes:text/*']);
+        expect($validation->passes())->toBe(true);
+
+        //----------------------------------------------------------------
+        
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('getMimeType')->andReturn('image/jpeg');
+
+        $validation = Validator::make(['file' => $file], ['file' => 'mimetypes:image/jpeg']);
+        expect($validation->passes())->toBe(true);
+    });
+    
+    it("2: Echoue", function() {
+        $file = new UploadedFile(__FILE__, null, 0);
+        allow($file)->toReceive('getMimeType')->andReturn('application/pdf');
+
+        $validation = Validator::make(['file' => $file], ['file' => 'mimetypes:text/rtf']);
         expect($validation->passes())->toBe(false);
     });
 });

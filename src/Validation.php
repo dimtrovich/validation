@@ -144,6 +144,8 @@ class Validation
             Rules\Lt::class,
             Rules\Lte::class,
             Rules\MacAddress::class,
+            Rules\Mimes::class,
+            Rules\Mimetypes::class,
             Rules\Missing::class,
             Rules\MissingIf::class,
             Rules\MissingUnless::class,
