@@ -38,7 +38,7 @@ class Size extends AbstractRule
         } else {
             $valueSize = $this->getValueSize($value);
         }
-        
+
         return (float) $size === (float) $valueSize;
     }
 }

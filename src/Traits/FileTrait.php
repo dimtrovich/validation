@@ -31,11 +31,11 @@ trait FileTrait
     /**
      * Check if PHP uploads are explicitly allowed.
      *
-     * @param  array<int, int|string>  $parameters
+     * @param array<int, int|string> $parameters
      */
     protected function shouldBlockPhpUpload(mixed $value, array $parameters): bool
     {
-        if (in_array('php', $parameters)) {
+        if (in_array('php', $parameters, true)) {
             return false;
         }
 
@@ -43,6 +43,6 @@ trait FileTrait
             'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'phar',
         ];
 
-        return in_array(trim(strtolower($value->clientExtension())), $phpExtensions);
+        return in_array(trim(strtolower($value->clientExtension())), $phpExtensions, true);
     }
 }

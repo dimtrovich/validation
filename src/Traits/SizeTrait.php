@@ -23,7 +23,8 @@ trait SizeTrait
      * Get size (int) value from given $value
      *
      * @param mixed $value
-     * @return float|false
+     *
+     * @return false|float
      */
     protected function getValueSize($value)
     {
@@ -33,14 +34,14 @@ trait SizeTrait
             }
         }
 
-        $size = match(true) {
+        $size = match (true) {
             is_int($value) || is_float($value) => $value,
-            is_string($value) => mb_strlen($value, 'UTF-8'),
+            is_string($value)                  => mb_strlen($value, 'UTF-8'),
             $this->isUploadedFileValue($value) => $value['size'],
-            is_array($value) => count($value),
+            is_array($value)                   => count($value),
             $this->isValidFileInstance($value) => $value->getSize() / 1024,
-            $value instanceof Countable => $value->count(),
-            default => false
+            $value instanceof Countable        => $value->count(),
+            default                            => false
         };
 
         return $size === false ? false : (float) $size;

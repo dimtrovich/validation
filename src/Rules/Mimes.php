@@ -18,7 +18,7 @@ use Rakit\Validation\Rules\Mimes as RulesMimes;
 class Mimes extends AbstractRule
 {
     use FileTrait;
-    
+
     protected array $parameters = [];
 
     /**
@@ -36,7 +36,7 @@ class Mimes extends AbstractRule
     {
         $this->requireParameters(['allowed_values']);
         $this->setAllowedValues($this->parameters = $this->parameter('allowed_values'));
-        
+
         if (! $this->isValidFileInstance($value)) {
             $rule = new RulesMimes();
             $rule->setAttribute($this->getAttribute());
@@ -45,7 +45,7 @@ class Mimes extends AbstractRule
             $rule->setParameters($this->getParameters());
             $rule->setMessage($this->getMessage());
             $rule->allowTypes($this->parameters);
-            
+
             return $rule->check($value);
         }
 
@@ -53,6 +53,6 @@ class Mimes extends AbstractRule
             return false;
         }
 
-        return $value->getPath() !== '' && in_array($value->guessExtension(), $this->parameters);
+        return $value->getPath() !== '' && in_array($value->guessExtension(), $this->parameters, true);
     }
 }

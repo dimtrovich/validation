@@ -17,7 +17,9 @@ class Min extends AbstractRule
 {
     use SizeTrait;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $fillableParams = ['min'];
 
     /**
@@ -29,8 +31,8 @@ class Min extends AbstractRule
 
         $min       = $this->getBytesSize($this->parameter('min'));
         $valueSize = $this->getValueSize($value);
-        
-        if (!is_numeric($valueSize)) {
+
+        if (! is_numeric($valueSize)) {
             return false;
         }
 

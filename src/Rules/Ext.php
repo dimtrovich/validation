@@ -17,7 +17,7 @@ use Rakit\Validation\Rule;
 class Ext extends AbstractRule
 {
     use FileTrait;
-    
+
     protected array $parameters = [];
 
     /**
@@ -35,7 +35,7 @@ class Ext extends AbstractRule
     {
         $this->requireParameters(['allowed_values']);
         $this->setAllowedValues($this->parameters = $this->parameter('allowed_values'));
-        
+
         if (! $this->isValidFileInstance($value)) {
             return false;
         }
@@ -44,6 +44,6 @@ class Ext extends AbstractRule
             return false;
         }
 
-        return in_array(strtolower($value->clientExtension()), $this->parameters);
+        return in_array(strtolower($value->clientExtension()), $this->parameters, true);
     }
 }

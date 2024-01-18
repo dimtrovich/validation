@@ -17,7 +17,7 @@ use Rakit\Validation\Rule;
 class Mimetypes extends AbstractRule
 {
     use FileTrait;
-    
+
     protected array $parameters = [];
 
     /**
@@ -35,7 +35,7 @@ class Mimetypes extends AbstractRule
     {
         $this->requireParameters(['allowed_values']);
         $this->setAllowedValues($this->parameters = $this->parameter('allowed_values'));
-        
+
         if (! $this->isValidFileInstance($value)) {
             return false;
         }
@@ -44,8 +44,8 @@ class Mimetypes extends AbstractRule
             return false;
         }
 
-        return $value->getPath() !== '' &&
-                (in_array($value->getMimeType(), $this->parameters) ||
-                 in_array(explode('/', $value->getMimeType())[0].'/*', $this->parameters));
+        return $value->getPath() !== ''
+                && (in_array($value->getMimeType(), $this->parameters, true)
+                 || in_array(explode('/', $value->getMimeType())[0] . '/*', $this->parameters, true));
     }
 }

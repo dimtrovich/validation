@@ -32,7 +32,7 @@ class Distinct extends AbstractRule
     {
         return $this->_setParams('ignore_case', $bool);
     }
-    
+
     public function strict(bool $bool = true): static
     {
         return $this->_setParams('strict', $bool);
@@ -44,18 +44,18 @@ class Distinct extends AbstractRule
     public function check($value): bool
     {
         if (! is_array($value)) {
-            if (null === $attribute  = $this->attribute->getPrimaryAttribute()) {
+            if (null === $attribute = $this->attribute->getPrimaryAttribute()) {
                 return false;
             }
 
             $value = array_map(
-                fn($attribute) => $attribute->getValue(),
+                fn ($attribute) => $attribute->getValue(),
                 Invader::make($this->validation)->parseArrayAttribute($attribute)
             );
         }
 
         if (in_array('ignore_case', $this->parameters, true)) {
-            $value = array_map(function($v) {
+            $value = array_map(function ($v) {
                 if (is_string($v)) {
                     $v = strtolower($v);
                 }
@@ -65,7 +65,7 @@ class Distinct extends AbstractRule
         }
 
         return $value === array_unique($value, SORT_REGULAR);
-    }    
+    }
 
     private function _setParams(string $param, bool $bool = true): static
     {
@@ -73,7 +73,7 @@ class Distinct extends AbstractRule
             $this->parameters[] = $param;
             $this->parameters   = array_unique($this->parameters);
         } else {
-            $this->parameters = array_filter($this->parameters, fn($value) => $value !== $param);
+            $this->parameters = array_filter($this->parameters, fn ($value) => $value !== $param);
         }
 
         return $this;

@@ -26,7 +26,7 @@ class FileFactory
         }
 
         return Helpers::tap(new File($name, tmpfile()), function ($file) use ($kilobytes, $mimeType) {
-            $file->sizeToReport = $kilobytes * 1024;
+            $file->sizeToReport     = $kilobytes * 1024;
             $file->mimeTypeToReport = $mimeType;
         });
     }
@@ -48,12 +48,14 @@ class FileFactory
     /**
      * Create a new fake image.
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     public function image(string $name, int $width = 10, int $height = 10): File
     {
         return new File($name, $this->generateImage(
-            $width, $height, pathinfo($name, PATHINFO_EXTENSION)
+            $width,
+            $height,
+            pathinfo($name, PATHINFO_EXTENSION)
         ));
     }
 
@@ -62,7 +64,7 @@ class FileFactory
      *
      * @return resource
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     protected function generateImage(int $width, int $height, string $extension)
     {
@@ -73,7 +75,7 @@ class FileFactory
         return Helpers::tap(tmpfile(), function ($temp) use ($width, $height, $extension) {
             ob_start();
 
-            $extension = in_array($extension, ['jpeg', 'png', 'gif', 'webp', 'wbmp', 'bmp'])
+            $extension = in_array($extension, ['jpeg', 'png', 'gif', 'webp', 'wbmp', 'bmp'], true)
                 ? strtolower($extension)
                 : 'jpeg';
 
@@ -85,7 +87,7 @@ class FileFactory
                 throw new LogicException("{$functionName} function is not defined and image cannot be generated.");
             }
 
-            call_user_func($functionName, $image);
+            $functionName($image);
 
             fwrite($temp, ob_get_clean());
         });

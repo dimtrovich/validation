@@ -55,7 +55,7 @@ class File extends AbstractRule
     /**
      * The callback that will generate the "default" version of the file rule.
      *
-     * @var string|array|callable|null
+     * @var array|callable|string|null
      */
     public static $defaultCallback;
 
@@ -64,17 +64,18 @@ class File extends AbstractRule
      *
      * If no arguments are passed, the default file rule configuration will be returned.
      *
-     * @param  static|callable|null  $callback
+     * @param callable|static|null $callback
+     *
      * @return static|null
      */
     public static function defaults($callback = null)
     {
-        if (is_null($callback)) {
+        if (null === $callback) {
             return static::default();
         }
 
         if (! is_callable($callback) && ! $callback instanceof static) {
-            throw new InvalidArgumentException('The given callback should be callable or an instance of '.static::class);
+            throw new InvalidArgumentException('The given callback should be callable or an instance of ' . static::class);
         }
 
         static::$defaultCallback = $callback;
@@ -103,7 +104,7 @@ class File extends AbstractRule
     /**
      * Limit the uploaded file to the given MIME types or file extensions.
      *
-     * @param  string|array<int, string>  $mimetypes
+     * @param array<int, string>|string $mimetypes
      */
     public static function types(array|string $mimetypes): static
     {
@@ -113,7 +114,7 @@ class File extends AbstractRule
     /**
      * Limit the uploaded file to the given file extensions.
      *
-     * @param  string|array<int, string>  $extensions
+     * @param array<int, string>|string $extensions
      */
     public function extensions(array|string $extensions): static
     {
@@ -175,14 +176,14 @@ class File extends AbstractRule
             return $size;
         }
 
-        $value = floatval($size);
+        $value = (float) $size;
 
         return round(match (true) {
             Text::endsWith($size, 'kb') => $value * 1,
             Text::endsWith($size, 'mb') => $value * 1000,
             Text::endsWith($size, 'gb') => $value * 1000000,
             Text::endsWith($size, 'tb') => $value * 1000000000,
-            default => throw new InvalidArgumentException('Invalid file size suffix.'),
+            default                     => throw new InvalidArgumentException('Invalid file size suffix.'),
         });
     }
 
@@ -237,15 +238,15 @@ class File extends AbstractRule
         $rules = array_merge($rules, $this->buildMimetypes());
 
         if (! empty($this->allowedExtensions)) {
-            $rules[] = 'ext:'.implode(',', array_map('strtolower', $this->allowedExtensions));
+            $rules[] = 'ext:' . implode(',', array_map('strtolower', $this->allowedExtensions));
         }
 
         $rules[] = match (true) {
-            is_null($this->minimumFileSize) && is_null($this->maximumFileSize) => null,
-            is_null($this->maximumFileSize) => "min:{$this->minimumFileSize}",
-            is_null($this->minimumFileSize) => "max:{$this->maximumFileSize}",
-            $this->minimumFileSize !== $this->maximumFileSize => "between:{$this->minimumFileSize},{$this->maximumFileSize}",
-            default => "size:{$this->minimumFileSize}",
+            null === $this->minimumFileSize && null === $this->maximumFileSize => null,
+            null === $this->maximumFileSize                                    => "min:{$this->minimumFileSize}",
+            null === $this->minimumFileSize                                    => "max:{$this->maximumFileSize}",
+            $this->minimumFileSize !== $this->maximumFileSize                  => "between:{$this->minimumFileSize},{$this->maximumFileSize}",
+            default                                                            => "size:{$this->minimumFileSize}",
         };
 
         return array_merge(array_filter($rules), $this->customRules);
@@ -270,11 +271,11 @@ class File extends AbstractRule
         $mimes = array_diff($this->allowedMimetypes, $mimetypes);
 
         if (count($mimetypes) > 0) {
-            $rules[] = 'mimetypes:'.implode(',', $mimetypes);
+            $rules[] = 'mimetypes:' . implode(',', $mimetypes);
         }
 
         if (count($mimes) > 0) {
-            $rules[] = 'mimes:'.implode(',', $mimes);
+            $rules[] = 'mimes:' . implode(',', $mimes);
         }
 
         return $rules;

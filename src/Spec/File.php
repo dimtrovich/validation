@@ -13,7 +13,6 @@ namespace Dimtrovich\Validation\Spec;
 
 use BlitzPHP\Filesystem\Files\Mimes;
 use BlitzPHP\Filesystem\Files\UploadedFile;
-use Rakit\Validation\MimeTypeGuesser;
 
 class File extends UploadedFile
 {
@@ -48,12 +47,13 @@ class File extends UploadedFile
     /**
      * Create a new file instance.
      *
-     * @param  resource  $tempFile
+     * @param resource $tempFile
+     *
      * @return void
      */
     public function __construct(string $name, $tempFile)
     {
-        $this->name = $name;
+        $this->name     = $name;
         $this->tempFile = $tempFile;
 
         parent::__construct($this->tempFilePath(), null, 0, $name, $this->getMimeType());
@@ -64,7 +64,7 @@ class File extends UploadedFile
      */
     public static function create(string $name, int|string $kilobytes = 0): static
     {
-        return (new FileFactory)->create($name, $kilobytes);
+        return (new FileFactory())->create($name, $kilobytes);
     }
 
     /**
@@ -72,7 +72,7 @@ class File extends UploadedFile
      */
     public static function createWithContent(string $name, string $content): static
     {
-        return (new FileFactory)->createWithContent($name, $content);
+        return (new FileFactory())->createWithContent($name, $content);
     }
 
     /**
@@ -80,7 +80,7 @@ class File extends UploadedFile
      */
     public static function image(string $name, int $width = 10, int $height = 10): static
     {
-        return (new FileFactory)->image($name, $width, $height);
+        return (new FileFactory())->image($name, $width, $height);
     }
 
     /**

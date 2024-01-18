@@ -17,7 +17,9 @@ class Max extends AbstractRule
 {
     use SizeTrait;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $fillableParams = ['max'];
 
     /**
@@ -29,8 +31,8 @@ class Max extends AbstractRule
 
         $max       = $this->getBytesSize($this->parameter('max'));
         $valueSize = $this->getValueSize($value);
-        
-        if (!is_numeric($valueSize)) {
+
+        if (! is_numeric($valueSize)) {
             return false;
         }
 
