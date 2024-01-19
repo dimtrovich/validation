@@ -1,0 +1,49 @@
+name: Kahlan
+
+on:
+  push:
+    paths:
+      - 'src/**.php'
+      - 'spec/**.php'
+      - composer.json
+      - kahlan-config.php
+      - .github/workflows/test-kahlan.yml
+
+  pull_request:
+    paths:
+      - 'src/**.php'
+      - 'spec/**.php'
+      - composer.json
+      - kahlan-config.php
+      - .github/workflows/test-kahlan.yml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['8.1', '8.2']
+    name: Test with PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: curl #optional
+          coverage: xdebug
+      - name: Install dependencies
+        run: composer install --no-interaction
+      - name: Run Kahlan
+        run: vendor/bin/kahlan --reporter=verbose --clover=clover.xml
+      

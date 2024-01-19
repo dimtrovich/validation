@@ -3,11 +3,11 @@ use Kahlan\Filter\Filters;
 use Kahlan\Reporter\Coverage;
 use Kahlan\Reporter\Coverage\Driver\Xdebug;
 use Kahlan\Reporter\Coverage\Driver\Phpdbg;
-use Kahlan\Reporter\Coverage\Exporter\Coveralls;
+use Kahlan\Reporter\Coverage\Exporter\Clover;
 
 $commandLine = $this->commandLine();
 $commandLine->option('ff', 'default', 1);
-$commandLine->option('coverage-coveralls', 'default', 'coveralls.json');
+$commandLine->option('coverage-scrutinizer', 'default', 'scrutinizer.xml');
 
 Filters::apply($this, 'reporting', function($next) {
 
@@ -15,16 +15,13 @@ Filters::apply($this, 'reporting', function($next) {
     $reporter = $this->reporters()->get('coverage');
 
     // Abort if no coverage is available.
-    if (!$reporter || !$this->commandLine()->exists('coverage-coveralls')) {
+    if (!$reporter || !$this->commandLine()->exists('coverage-scrutinizer')) {
         return $next();
     }
 
-    // Use the `Coveralls` class to write the JSON coverage into a file
-    Coveralls::write([
+    Clover::write([
         'collector' => $reporter,
-        'file' => $this->commandLine()->get('coverage-coveralls'),
-        'service_name' => 'travis-ci',
-        'service_job_id' => getenv('TRAVIS_JOB_ID') ?: null
+        'file' => $this->commandLine()->get('coverage-scrutinizer'),
     ]);
 
     return $next();
@@ -39,10 +36,6 @@ Filters::apply($this, 'coverage', function($next) {
         'verbosity' => $this->commandLine()->get('coverage'),
         'driver'    => PHP_SAPI !== 'phpdbg' ? new Xdebug() : new Phpdbg(),
         'path'      => $this->commandLine()->get('src'),
-        'exclude'   => [
-            //Exclude init script
-            'src/Core/Application.php',
-        ],
         'colors'    => !$this->commandLine()->get('no-colors')
     ]);
     $reporters->add('coverage', $coverage);

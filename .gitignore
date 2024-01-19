@@ -4,3 +4,4 @@ clover.xml
 coveralls.json
 /composer.lock
 /.vscode
+/scrutinizer.xml

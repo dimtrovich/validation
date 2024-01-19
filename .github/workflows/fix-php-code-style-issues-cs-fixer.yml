@@ -1,0 +1,27 @@
+name: Check & fix styling
+
+on: [push]
+
+permissions:
+  contents: write
+
+jobs:
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install Composer packages
+        run: composer update --ansi --no-interaction
+
+      - name: Run PHP-CS-Fixer Lint
+        run: vendor/bin/php-cs-fixer fix
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Fix styling

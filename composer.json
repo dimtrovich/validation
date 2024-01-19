@@ -27,17 +27,30 @@
         }
     ],
     "scripts": {
-        "analyze": "phpstan analyse",
-        "test": "kahlan",
-        "test-coverage": "kahlan --coverage=3 --reporter=verbose --clover=clover.xml",
-        "cs": [
+        "analyze": [
+            "Composer\\Config::disableProcessTimeout",
+            "bash -c \"XDEBUG_MODE=off phpstan analyse\""
+        ],
+		"phpstan:baseline": [
+            "Composer\\Config::disableProcessTimeout",
+            "bash -c \"XDEBUG_MODE=off phpstan analyse --generate-baseline phpstan-baseline.php\""
+		],
+		"cs": [
+            "Composer\\Config::disableProcessTimeout",
             "php-cs-fixer fix --ansi --verbose --dry-run --diff"
         ],
-        "cs-fix": [
+        "cs:fix": [
+            "Composer\\Config::disableProcessTimeout",
             "php-cs-fixer fix --ansi --verbose --diff"
-        ]
+        ],
+        "sa": "@analyze",
+        "style": "@cs:fix",
+        "test": "kahlan",
+        "test:cov": [
+			"Composer\\Config::disableProcessTimeout",
+			"kahlan --coverage=3 --reporter=verbose --clover=scrutinizer.xml"
+		]
     },
-    
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

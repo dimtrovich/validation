@@ -1,4 +1,10 @@
 parameters:
-    level: 4
-    paths:
-        - src
+	phpVersion: 80100
+	tmpDir: build/phpstan
+	level: 4
+	paths:
+		- src
+	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false
+	checkMissingCallableSignature: true
+	treatPhpDocTypesAsCertain: false
