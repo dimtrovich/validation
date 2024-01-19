@@ -1,6 +1,22 @@
 Dimtrovich Validation - PHP Standalone Validation Library
 ======================================================
 
+[![Kahlan](https://github.com/dimtrovich/validation/workflows/Kahlan/badge.svg)](https://github.com/dimtrovich/validation/actions/workflows/test-kahlan.yml)
+[![Coding Standards](https://github.com/dimtrovich/validation/actions/workflows/test-coding-standards.yml/badge.svg)](https://github.com/dimtrovich/validation/actions/workflows/test-coding-standards.yml)
+[![PHPStan](https://github.com/dimtrovich/validation/actions/workflows/test-phpstan.yml/badge.svg)](https://github.com/dimtrovich/validation/actions/workflows/test-phpstan.yml)
+[![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dimtrovich/validation/pulls)
+[![PHPStan level](https://img.shields.io/badge/PHPStan-level%204-brightgreen)](phpstan.neon.dist)
+[![Build Status](https://scrutinizer-ci.com/g/dimtrovich/validation/badges/build.png?b=main)](https://scrutinizer-ci.com/g/dimtrovich/validation/build-status/main)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/dimtrovich/validation/badges/code-intelligence.svg?b=main)](https://scrutinizer-ci.com/code-intelligence)
+[![Quality Score](https://img.shields.io/scrutinizer/g/dimtrovich/validation.svg?style=flat-square)](https://scrutinizer-ci.com/g/dimtrovich/validation)
+[![Code Coverage](https://scrutinizer-ci.com/g/dimtrovich/validation/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/dimtrovich/validation/?branch=main)
+[![Total Downloads](https://poser.pugx.org/dimtrovich/validation/downloads)](https://packagist.org/packages/dimtrovich/validation)
+[![Latest Version](https://img.shields.io/packagist/v/dimtrovich/validation.svg?style=flat-square)](https://packagist.org/packages/dimtrovich/validation)
+[![GitHub stars](https://img.shields.io/github/stars/dimtrovich/validation)](https://packagist.org/packages/dimtrovich/validation)
+
+<br>
+
 PHP Standalone library for validating data. Inspired by `Illuminate\Validation` Laravel and extends [Rakit Validation][rakit_validation_repo].
 
 ## Features
