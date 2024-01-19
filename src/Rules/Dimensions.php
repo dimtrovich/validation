@@ -28,8 +28,8 @@ class Dimensions extends AbstractRule
      */
     public function check($value): bool
     {
-        if ($this->isValidFileInstance($value) && 
-            in_array($value->getMimeType(), ['image/svg+xml', 'image/svg'], true)) {
+        if ($this->isValidFileInstance($value)
+            && in_array($value->getMimeType(), ['image/svg+xml', 'image/svg'], true)) {
             return true;
         }
 
@@ -48,7 +48,7 @@ class Dimensions extends AbstractRule
         if (! $this->isValidFileInstance($value)) {
             return false;
         }
-        
+
         $dimensions = method_exists($value, 'dimensions')
             ? $value->dimensions()
             : @getimagesize($value->realPath());
@@ -61,33 +61,29 @@ class Dimensions extends AbstractRule
 
         $parameters = $this->parseNamedParameters($this->params);
 
-        if ($this->failsBasicDimensionChecks($parameters, $width, $height) ||
-            $this->failsRatioCheck($parameters, $width, $height)) {
-            return false;
-        }
-
-        return true;
+        return ! ($this->failsBasicDimensionChecks($parameters, $width, $height)
+            || $this->failsRatioCheck($parameters, $width, $height));
     }
 
     /**
      * Test if the given width and height fail any conditions.
      *
-     * @param  array<string,string>  $parameters
+     * @param array<string,string> $parameters
      */
     protected function failsBasicDimensionChecks(array $parameters, int $width, int $height): bool
     {
-        return (isset($parameters['width']) && $parameters['width'] != $width) ||
-               (isset($parameters['min_width']) && $parameters['min_width'] > $width) ||
-               (isset($parameters['max_width']) && $parameters['max_width'] < $width) ||
-               (isset($parameters['height']) && $parameters['height'] != $height) ||
-               (isset($parameters['min_height']) && $parameters['min_height'] > $height) ||
-               (isset($parameters['max_height']) && $parameters['max_height'] < $height);
+        return (isset($parameters['width']) && $parameters['width'] !== $width)
+               || (isset($parameters['min_width']) && $parameters['min_width'] > $width)
+               || (isset($parameters['max_width']) && $parameters['max_width'] < $width)
+               || (isset($parameters['height']) && $parameters['height'] !== $height)
+               || (isset($parameters['min_height']) && $parameters['min_height'] > $height)
+               || (isset($parameters['max_height']) && $parameters['max_height'] < $height);
     }
 
     /**
      * Determine if the given parameters fail a dimension ratio check.
      *
-     * @param  array<string,string>  $parameters
+     * @param array<string,string> $parameters
      */
     protected function failsRatioCheck(array $parameters, int $width, int $height): bool
     {
@@ -96,7 +92,8 @@ class Dimensions extends AbstractRule
         }
 
         [$numerator, $denominator] = array_replace(
-            [1, 1], array_filter(sscanf($parameters['ratio'], '%f/%d'))
+            [1, 1],
+            array_filter(sscanf($parameters['ratio'], '%f/%d'))
         );
 
         $precision = 1 / (max($width, $height) + 1);
