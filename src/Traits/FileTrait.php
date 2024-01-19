@@ -21,11 +21,11 @@ trait FileTrait
      */
     public function isValidFileInstance(mixed $value): bool
     {
-        if ($value instanceof UploadedFile) {
+        if (class_exists(UploadedFile::class) && $value instanceof UploadedFile) {
             return $value->isValid();
         }
 
-        return $value instanceof File;
+        return class_exists(File::class) && $value instanceof File;
     }
 
     /**
