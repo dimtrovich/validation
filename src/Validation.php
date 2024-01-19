@@ -110,6 +110,7 @@ class Validation
             Rules\Decimal::class,
             Rules\Declined::class,
             Rules\DeclinedIf::class,
+            Rules\Dimensions::class,
             Rules\DiscordUsername::class,
             Rules\Distinct::class,
             Rules\DoesntEndWith::class,

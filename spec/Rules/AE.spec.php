@@ -5,6 +5,7 @@ use BlitzPHP\Utilities\Date;
 use BlitzPHP\Utilities\Helpers;
 use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Validator;
+use Rakit\Validation\MissingRequiredParameterException;
 
 describe("AcceptedIf", function() {
     it("1: Passe", function() {
@@ -979,6 +980,107 @@ describe("DeclinedIf", function() {
         ]);
         
         expect($validation->passes())->toBe(true);
+    });
+});
+
+describe("Dimensions", function() {
+    it("Dimension", function() {
+        $validation = Validator::make(['file' => [
+            'name' => __DIR__ . '/../fixtures/image.png',
+            'type' => 'image/png',
+            'size' => 1024, // 1K
+            'tmp_name' => __DIR__ . '/../fixtures/image.png',
+            'error' => 0
+        ]], ['file' => 'dimensions:min_width=5']);
+        expect($validation->passes())->toBe(false);
+
+        $file = new UploadedFile(__DIR__.'/../fixtures/image.png', null, 0);
+
+        $validation = Validator::make(['file' => 'file'], ['file' => 'dimensions']);
+        expect(fn() => $validation->passes())->toThrow(new MissingRequiredParameterException());
+        
+        $validation = Validator::make(['file' => 'file'], ['file' => 'dimensions:ratio=1/2']);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:min_width=5']);
+        expect($validation->fails())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:max_width=1']);
+        expect($validation->fails())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:min_height=5']);
+        expect($validation->fails())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:max_height=1']);
+        expect($validation->fails())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:ratio=1/1']);
+        expect($validation->fails())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:ratio=1']);
+        expect($validation->fails())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:min_width=1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:max_width=10']);
+        expect($validation->passes())->toBe(true);
+        
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:min_height=1']);
+        expect($validation->passes())->toBe(true);
+        
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:max_height=10']);
+        expect($validation->passes())->toBe(true);
+        
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:width=3']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:height=2']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:min_height=2,ratio=3/2']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:ratio=1.5']);
+        expect($validation->passes())->toBe(true);
+
+        // Knowing that demo image2.png has width = 4 and height = 2
+        $file = new UploadedFile(__DIR__.'/../fixtures/image2.png', null, 0);
+        
+        // Ensure validation doesn't erroneously fail when ratio has no fractional part
+        $validation = Validator::make(['file' => $file], ['file' => 'dimensions:ratio=2/1']);
+        expect($validation->passes())->toBe(true);
+
+        // This test fails without suppressing warnings on getimagesize() due to a read error.
+        $emptyUploadedFile = new UploadedFile(__DIR__.'/../fixtures/empty.png', null, 0);
+        
+        $validation = Validator::make(['file' => $emptyUploadedFile], ['file' => 'dimensions:min_width=1']);
+        expect($validation->fails())->toBe(true);
+        
+        // Knowing that demo image3.png has width = 7 and height = 10
+        $uploadedFile = new UploadedFile(__DIR__.'/../fixtures/image3.png', null, 0);
+
+        // Ensure validation doesn't erroneously fail when ratio has no fractional part
+        $validation = Validator::make(['file' => $uploadedFile], ['file' => 'dimensions:ratio=2/3']);
+        expect($validation->passes())->toBe(true);
+
+        // Ensure svg images always pass as size is irrelevant (image/svg+xml)
+        $svgXmlUploadedFile = new UploadedFile(__DIR__.'/../fixtures/image.svg', null, 0, null, 'image/svg+xml');
+ 
+        $validation = Validator::make(['file' => $svgXmlUploadedFile], ['file' => 'dimensions:max_width=1,max_height=1']);
+        expect($validation->passes())->toBe(true);
+
+        // Ensure svg images always pass as size is irrelevant (image/svg)
+        $svgUploadedFile = new UploadedFile(__DIR__.'/../fixtures/image2.svg', null, 0);
+
+        $validation = Validator::make(['file' => $svgUploadedFile], ['file' => 'dimensions:max_width=1,max_height=1']);
+        expect($validation->passes())->toBe(true);
+
+        // Knowing that demo image4.png has width = 64 and height = 65
+        $uploadedFile = new UploadedFile(__DIR__.'/../fixtures/image4.png', null, 0);
+
+        $validation = Validator::make(['file' => $uploadedFile], ['file' => 'dimensions:ratio=1']);
+        expect($validation->passes())->toBe(false);
     });
 });
 

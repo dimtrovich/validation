@@ -13,9 +13,12 @@ namespace Dimtrovich\Validation\Traits;
 
 use BlitzPHP\Filesystem\Files\File;
 use BlitzPHP\Filesystem\Files\UploadedFile;
+use Rakit\Validation\Rules\Traits\FileTrait as TraitsFileTrait;
 
 trait FileTrait
 {
+    use TraitsFileTrait;
+    
     /**
      * Check that the given value is a valid file instance.
      */

@@ -38,6 +38,7 @@ return [
     'decimal'                  => 'The :attribute is not valid decimal number.',
     'declined'                 => 'The :attribute must be declined.',
     'declined_if'              => 'The :attribute must be declined.',
+    'dimensions'               => 'The :attribute field has invalid image dimensions.',
     'distinct'                 => 'The :attribute field has a duplicate value.',
     'discord_username'         => 'The :attribute must be a valid discord username.',
     'doesnt_end_with'          => 'The :attribute must not end with :allowed_values.',
