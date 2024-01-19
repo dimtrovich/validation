@@ -63,7 +63,7 @@ class ProhibitedUnless extends AbstractRule
         $requiredValidator = $validator('required');
 
         if (! in_array($anotherValue, $definedValues, is_bool($anotherValue) || null === $anotherValue)) {
-            return ! $requiredValidator->check($value, []);
+            return ! $requiredValidator->check($value);
         }
 
         return true;

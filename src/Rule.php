@@ -84,7 +84,7 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Dimtrovich\Validation\Rules\Htmlclean             htmlclean()
  * @method static \Dimtrovich\Validation\Rules\Htmltag               htmltag()
  * @method static \Dimtrovich\Validation\Rules\Iban                  iban(array|string $countries = [])
- * @method static \Rakit\Validation\Rules\Ibsn                       ibsn(array lengths = [10, 13])
+ * @method static \Dimtrovich\Validation\Rules\Isbn                  isbn(array $lengths = [10, 13])
  * @method static \Dimtrovich\Validation\Rules\Image                 image()
  * @method static \Dimtrovich\Validation\Rules\Imei                  imei()
  * @method static \Rakit\Validation\Rules\In                         in()

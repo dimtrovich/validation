@@ -90,7 +90,7 @@ class File extends AbstractRule
             ? call_user_func(static::$defaultCallback)
             : static::$defaultCallback;
 
-        return $file instanceof self ? $file : new self();
+        return $file instanceof static ? $file : new static();
     }
 
     /**

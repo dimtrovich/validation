@@ -62,7 +62,7 @@ class File extends UploadedFile
     /**
      * Create a new fake file.
      */
-    public static function create(string $name, int|string $kilobytes = 0): static
+    public static function create(string $name, int|string $kilobytes = 0): self
     {
         return (new FileFactory())->create($name, $kilobytes);
     }
@@ -70,7 +70,7 @@ class File extends UploadedFile
     /**
      * Create a new fake file with content.
      */
-    public static function createWithContent(string $name, string $content): static
+    public static function createWithContent(string $name, string $content): self
     {
         return (new FileFactory())->createWithContent($name, $content);
     }
@@ -78,7 +78,7 @@ class File extends UploadedFile
     /**
      * Create a new fake image.
      */
-    public static function image(string $name, int $width = 10, int $height = 10): static
+    public static function image(string $name, int $width = 10, int $height = 10): self
     {
         return (new FileFactory())->image($name, $width, $height);
     }
