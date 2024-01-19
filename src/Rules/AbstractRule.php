@@ -130,6 +130,24 @@ abstract class AbstractRule extends Rule
         $this->setParameterText($name, $allowedValuesText);
     }
 
+    
+
+    /**
+     * Parse named parameters to $key => $value items.
+     *
+     * @param  array<int, int|string>  $parameters
+     */
+    protected function parseNamedParameters(array $parameters): array
+    {
+        return array_reduce($parameters, function ($result, $item) {
+            [$key, $value] = array_pad(explode('=', $item, 2), 2, null);
+
+            $result[$key] = $value;
+
+            return $result;
+        });
+    }
+
     private function findTranslatedMessage($locale)
     {
         $this->locale = $locale;
