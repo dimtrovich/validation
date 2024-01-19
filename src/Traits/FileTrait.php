@@ -18,7 +18,7 @@ use Rakit\Validation\Rules\Traits\FileTrait as TraitsFileTrait;
 trait FileTrait
 {
     use TraitsFileTrait;
-    
+
     /**
      * Check that the given value is a valid file instance.
      */

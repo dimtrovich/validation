@@ -130,12 +130,10 @@ abstract class AbstractRule extends Rule
         $this->setParameterText($name, $allowedValuesText);
     }
 
-    
-
     /**
      * Parse named parameters to $key => $value items.
      *
-     * @param  array<int, int|string>  $parameters
+     * @param array<int, int|string> $parameters
      */
     protected function parseNamedParameters(array $parameters): array
     {
