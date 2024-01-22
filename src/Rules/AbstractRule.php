@@ -126,7 +126,7 @@ abstract class AbstractRule extends Rule
     {
         $values            = (array) $values;
         $boolean           = $this->validation ? $this->validation->getTranslation($boolean) : $boolean;
-        $allowedValuesText = Helper::join(Helper::wraps($values, "'"), ', ', ", {$boolean} ");
+        $allowedValuesText = Helper::join(Helper::wraps($values, "'"), ', ', " {$boolean} ");
         $this->setParameterText($name, $allowedValuesText);
     }
 
