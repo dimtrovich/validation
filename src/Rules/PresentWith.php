@@ -15,7 +15,9 @@ use Rakit\Validation\Rule;
 
 class PresentWith extends AbstractRule
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $implicit = true;
 
     /**

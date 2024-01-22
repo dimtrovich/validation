@@ -15,7 +15,9 @@ use Rakit\Validation\Rule;
 
 class PresentUnless extends AbstractRule
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $implicit = true;
 
     /**
@@ -43,7 +45,7 @@ class PresentUnless extends AbstractRule
         $this->setParameterTextValues((array) $anotherAttribute, 'other_attribute');
         $this->setParameterTextValues((array) $definedValues, 'other_value');
 
-        if (! in_array($anotherValue, $definedValues, is_bool($anotherValue) || is_null($definedValues))) {
+        if (! in_array($anotherValue, $definedValues, is_bool($anotherValue) || null === $definedValues)) {
             $validator        = $this->validation->getValidator();
             $presentValidator = $validator('present');
 

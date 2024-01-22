@@ -15,7 +15,9 @@ use Rakit\Validation\Rule;
 
 class PresentWithAll extends AbstractRule
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $implicit = true;
 
     /**
@@ -39,9 +41,9 @@ class PresentWithAll extends AbstractRule
         $validator = $this->validation->getValidator();
 
         $this->setParameterTextValues($fields, 'values');
-        
+
         foreach ($fields as $field) {
-            if (!$this->validation->hasValue($field)) {
+            if (! $this->validation->hasValue($field)) {
                 return true;
             }
         }
@@ -50,7 +52,7 @@ class PresentWithAll extends AbstractRule
 
         $presentValidator->setValidation($this->validation);
         $presentValidator->setAttribute($this->attribute);
-        
+
         return $presentValidator->check($value);
     }
 }

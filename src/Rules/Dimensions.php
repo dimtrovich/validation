@@ -72,8 +72,8 @@ class Dimensions extends AbstractRule
      */
     protected function failsBasicDimensionChecks(array $parameters, int $width, int $height): bool
     {
-        $parameters = array_map(fn($v) => (int) $v, $parameters);
-        
+        $parameters = array_map(fn ($v) => (int) $v, $parameters);
+
         return (isset($parameters['width']) && $parameters['width'] !== $width)
                || (isset($parameters['min_width']) && $parameters['min_width'] > $width)
                || (isset($parameters['max_width']) && $parameters['max_width'] < $width)

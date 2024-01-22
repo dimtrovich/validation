@@ -15,7 +15,9 @@ use Rakit\Validation\Rule;
 
 class PresentIf extends AbstractRule
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $implicit = true;
 
     /**
@@ -23,8 +25,9 @@ class PresentIf extends AbstractRule
      */
     public function fillParameters(array $params): Rule
     {
-        $this->params['field'] = array_shift($params);
+        $this->params['field']  = array_shift($params);
         $this->params['values'] = $params;
+
         return $this;
     }
 
@@ -41,14 +44,14 @@ class PresentIf extends AbstractRule
 
         $this->setParameterTextValues((array) $anotherAttribute, 'other_attribute');
         $this->setParameterTextValues((array) $definedValues, 'other_value');
-        
-        if (in_array($anotherValue, $definedValues, is_bool($anotherValue) || is_null($definedValues))) {
+
+        if (in_array($anotherValue, $definedValues, is_bool($anotherValue) || null === $definedValues)) {
             $validator        = $this->validation->getValidator();
             $presentValidator = $validator('present');
 
             $presentValidator->setValidation($this->validation);
             $presentValidator->setAttribute($this->attribute);
-            
+
             return $presentValidator->check($value);
         }
 
