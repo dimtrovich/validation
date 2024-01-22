@@ -565,6 +565,134 @@ describe("Port", function() {
     });
 });
 
+describe("PresentIf", function() {
+    it('1: Passe', function() {  
+        $validation = Validator::make(['bar' => 1, 'foo' => null], ['foo' => 'present_if:bar,2']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 1, 'foo' => ''], ['foo' => 'present_if:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 1, 'foo' => [['id' => '', 'name' => 'a']]], ['foo.*.id' => 'present_if:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 1, 'foo' => [['id' => null, 'name' => 'a']]], ['foo.*.id' => 'present_if:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 1, 'foo' => '2'], ['foo' => 'present_if:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 2], ['foo' => 'present_if:bar,1']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it('2: Echoue', function() {
+        $validation = Validator::make(['bar' => 1], ['foo' => 'present_if:bar,1']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('foo'))->toBe("The Foo field must be present when 'bar' is '1'.");
+        
+        $validation = Validator::make(['bar' => 1, 'foo' => [['name' => 'a']]], ['foo.*.id' => 'present_if:bar,1']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('foo.0.id'))->toBe("The Foo 1 id field must be present when 'bar' is '1'.");
+    });
+});
+
+describe("PresentUnless", function() {
+    it('1: Passe', function() {  
+        $validation = Validator::make(['bar' => 2, 'foo' => null], ['foo' => 'present_unless:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 2, 'foo' => ''], ['foo' => 'present_unless:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 2, 'foo' => [['id' => '', 'name' => 'a']]], ['foo.*.id' => 'present_unless:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 2, 'foo' => [['id' => null, 'name' => 'a']]], ['foo.*.id' => 'present_unless:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 2, 'foo' => '2'], ['foo' => 'present_unless:bar,1']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['bar' => 1], ['foo' => 'present_unless:bar,1']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it('2: Echoue', function() {
+        $validation = Validator::make(['bar' => 2], ['foo' => 'present_unless:bar,1']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('foo'))->toBe("The Foo field must be present unless 'bar' is '1'.");
+        
+        $validation = Validator::make(['bar' => 2, 'foo' => [['name' => 'a']]], ['foo.*.id' => 'present_unless:bar,1']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('foo.0.id'))->toBe("The Foo 1 id field must be present unless 'bar' is '1'.");
+    });
+});
+
+describe("PresentWith", function() {
+    it('1: Passe', function() {  
+        $validation = Validator::make(['foo' => 1, 'bar' => 2], ['foo' => 'present_with:bar']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => null, 'bar' => 2], ['foo' => 'present_with:bar']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => '', 'bar' => 2], ['foo' => 'present_with:bar']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => [['id' => '']], 'bar' => 2], ['foo.*.id' => 'present_with:bar']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => [['id' => null]], 'bar' => 2], ['foo.*.id' => 'present_with:bar']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => 1], ['foo' => 'present_with:bar']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it('2: Echoue', function() {
+        $validation = Validator::make(['foo' => [['name' => 'a']], 'bar' => 2], ['foo.*.id' => 'present_with:bar']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('foo.0.id'))->toBe("The Foo 1 id field must be present when 'bar' is present.");
+        
+        $validation = Validator::make(['bar' => 2], ['foo' => 'present_with:bar']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('foo'))->toBe("The Foo field must be present when 'bar' is present.");
+    });
+});
+
+describe("PresentWithAll", function() {
+    it('1: Passe', function() {  
+        $validation = Validator::make(['foo' => 1, 'bar' => 2, 'baz' => 1], ['foo' => 'present_with_all:bar,baz']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => null, 'bar' => 2, 'baz' => 1], ['foo' => 'present_with_all:bar,baz']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => '', 'bar' => 2, 'baz' => 1], ['foo' => 'present_with_all:bar,baz']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => [['id' => '']], 'bar' => 2, 'baz' => 1], ['foo.*.id' => 'present_with_all:bar,baz']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => [['id' => null]], 'bar' => 2, 'baz' => 1], ['foo.*.id' => 'present_with_all:bar,baz']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => 1, 'bar' => 2], ['foo' => 'present_with_all:bar,baz']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it('2: Echoue', function() {
+        $validation = Validator::make(['foo' => [['name' => 'a']], 'bar' => 2, 'baz' => 1], ['foo.*.id' => 'present_with_all:bar,baz']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('foo.0.id'))->toBe("The Foo 1 id field must be present when 'bar' or 'baz' are present.");
+        
+        $validation = Validator::make(['bar' => 2, 'baz' => 1], ['foo' => 'present_with_all:bar,baz']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('foo'))->toBe("The Foo field must be present when 'bar' or 'baz' are present.");
+    });
+});
+
 describe("Prohibited", function() {
     it("1: Passe", function() {
        $validation = Validator::make([], [
