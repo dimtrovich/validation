@@ -11,6 +11,7 @@
     "require-dev": {
         "blitz-php/coding-standard": "^1.1",
         "blitz-php/filesystem": "^1.2",
+        "guzzlehttp/psr7": "^2.6",
         "kahlan/kahlan": "^5.2",
         "phpstan/phpstan": "^1.4.7"
     },
@@ -50,6 +51,10 @@
 			"Composer\\Config::disableProcessTimeout",
 			"kahlan --coverage=3 --reporter=verbose --clover=scrutinizer.xml"
 		]
+    },
+    "suggest": {
+        "gblitz-php/filesystem": "Required for file validation (^1.2).",
+        "guzzlehttp/psr7": "Required for upload file validation (^2.6)."
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
