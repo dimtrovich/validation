@@ -783,6 +783,44 @@ describe("Prohibits", function() {
     });
 });
 
+describe("RequiredIfAccepted", function() {
+    it('1: Passe', function() {  
+        $validation = Validator::make(['foo' => 'no', 'bar' => 'baz'], ['bar' => 'required_if_accepted:foo']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => 'yes', 'bar' => 'baz'], ['bar' => 'required_if_accepted:foo']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => 'no', 'bar' => ''], ['bar' => 'required_if_accepted:foo']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it('2: Echoue', function() {
+        $validation = Validator::make(['foo' => 'yes', 'bar' => ''], ['bar' => 'required_if_accepted:foo']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('bar'))->toBe("The Bar field is required when 'foo' is accepted.");
+    });
+});
+
+describe("RequiredIfDeclined", function() {
+    it('1: Passe', function() {  
+        $validation = Validator::make(['foo' => 'yes', 'bar' => 'baz'], ['bar' => 'required_if_declined:foo']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => 'no', 'bar' => 'baz'], ['bar' => 'required_if_declined:foo']);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['foo' => 'yes', 'bar' => ''], ['bar' => 'required_if_declined:foo']);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it('2: Echoue', function() {
+        $validation = Validator::make(['foo' => 'no', 'bar' => ''], ['bar' => 'required_if_declined:foo']);
+        expect($validation->passes())->toBe(false);
+        expect($validation->errors()->first('bar'))->toBe("The Bar field is required when 'foo' is declined.");
+    });
+});
+
 describe("Semver", function() {
     it("Semver", function() {
         $values = [

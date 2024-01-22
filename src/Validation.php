@@ -174,6 +174,8 @@ class Validation
             Rules\ProhibitedIf::class,
             Rules\ProhibitedUnless::class,
             Rules\Prohibits::class,
+            Rules\RequiredIfAccepted::class,
+            Rules\RequiredIfDeclined::class,
             Rules\Semver::class,
             Rules\Size::class,
             Rules\SlashEndOfString::class,

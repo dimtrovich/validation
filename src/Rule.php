@@ -138,6 +138,8 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Rakit\Validation\Rules\Regex                      regex()
  * @method static \Rakit\Validation\Rules\Required                   required()
  * @method static \Rakit\Validation\Rules\RequiredIf                 requiredIf()
+ * @method static \Rakit\Validation\Rules\RequiredIfAccepted         requiredIfAccepted(string $field)
+ * @method static \Rakit\Validation\Rules\RequiredIfDeclined         requiredIfDeclined(string $field)
  * @method static \Rakit\Validation\Rules\RequiredUnless             requiredUnless()
  * @method static \Rakit\Validation\Rules\RequiredWith               requiredWith()
  * @method static \Rakit\Validation\Rules\RequiredWithout            requiredWithout()
