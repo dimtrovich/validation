@@ -1,3 +1,6 @@
+includes:
+	- phpstan-baseline.php
+
 parameters:
 	phpVersion: 80100
 	tmpDir: build/phpstan
