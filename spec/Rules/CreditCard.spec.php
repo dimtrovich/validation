@@ -53,6 +53,12 @@ describe("CreditCard", function() {
         ]);
         
         expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make(['card' => '4111 1111 1111 1111'], ['card' => 'credit_card:visa,amex']);
+        expect($validation->passes())->toBe(true); // true because card is visa
+
+        $validation = Validator::make(['card' => '3714 4963 5398 431'], ['card' => 'credit_card:visa,amex']);
+        expect($validation->passes())->toBe(true);  // true because card is amex
     });
 
     it("2: Echoue", function() {
@@ -64,15 +70,13 @@ describe("CreditCard", function() {
         ]);
         
         expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make(['card' => '3056 9309 0259 04'], ['card' => 'credit_card:visa,amex']);
+        expect($validation->passes())->toBe(false); // false because card is not visa or amex but dinerclub
     });
 
     it("Verification avec les type cartes specifiés", function() {
         $cc = [
-            /* 'invalid_length' => [
-                'amex',
-                '',
-                false,
-            ], */
             'random_test' => [
                 'amex',
                 $this->generateCardNumber(37, 16),

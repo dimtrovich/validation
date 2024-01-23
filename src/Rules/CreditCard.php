@@ -11,6 +11,8 @@
 
 namespace Dimtrovich\Validation\Rules;
 
+use Rakit\Validation\Rule;
+
 /**
  * @credit <a href="https://github.com/milwad-dev/laravel-validate">milwad/laravel-validate - Milwad\LaravelValidate\Rules\ValidCreditCard</a>
  * @credit <a href="https://codeigniter.com">CodeIgniter4 - CodeIgniter\Validation\CreditCardRules</a>
@@ -19,11 +21,6 @@ namespace Dimtrovich\Validation\Rules;
  */
 class CreditCard extends AbstractRule
 {
-    /**
-     * @var array
-     */
-    protected $fillableParams = ['type'];
-
     /**
      * The cards that we support, with the defining details:
      *
@@ -163,34 +160,45 @@ class CreditCard extends AbstractRule
     ];
 
     /**
+     * {@inheritDoc}
+     */
+    public function fillParameters(array $params): Rule
+    {
+        $this->params['types'] = $params;
+
+        return $this;
+    }
+    
+    /**
      * @param mixed $value
      */
     public function check($value): bool
     {
         $value = preg_replace('/\D/', '', (string) $value);
         $value = str_replace([' ', '-'], '', $value);
-
-        // Make sure we have a valid length
-        if ($value === '') {
-            return false;
-        }
-
+        
         // Non-numeric values cannot be a number...duh
         if (! is_numeric($value)) {
             return false;
         }
 
-        if (empty($type = $this->parameter('type'))) {
+        if (empty($types = $this->parameter('types'))) {
             // if the card type is not specified, a rough check is performed directly using Luhn's algorithm,
             // without taking into account the constraints of each card type (prefix, number of characters).
             return $this->isValidLuhn($value);
         }
 
         $info = null;
+        
+        label:
+
+        if ($types === []) {
+            return false;
+        }
 
         // Get our card info based on provided name.
         foreach ($this->cards as $card) {
-            if ($card['name'] === $type) {
+            if ($card['name'] === $types[0]) {
                 $info = $card;
                 break;
             }
@@ -201,6 +209,19 @@ class CreditCard extends AbstractRule
             return false;
         }
 
+        if (! $this->validCC($info, $value)) {
+            array_shift($types);
+            goto label;
+        }
+
+        return true;
+    }
+
+    /**
+     * Valid credit card according to the card type
+     */
+    protected function validCC(array $info, mixed $value): bool
+    {
         // Make sure it's a valid length for this card
         $lengths = explode(',', $info['length']);
 
