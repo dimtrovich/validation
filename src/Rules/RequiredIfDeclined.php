@@ -38,8 +38,7 @@ class RequiredIfDeclined extends AbstractRule
         $this->setParameterTextValues((array) $anotherAttribute, 'other_attribute');
 
         if (Rule::declined()->check($anotherValue)) {
-            $validator         = $this->validation->getValidator();
-            $requiredValidator = $validator('required');
+            $requiredValidator = $this->getRuleValidator('required');
 
             $requiredValidator->setValidation($this->validation);
             $requiredValidator->setAttribute($this->attribute);

@@ -40,8 +40,7 @@ class PresentWith extends AbstractRule
         $fields = $this->parameter('fields');
         $this->setParameterTextValues($fields, 'values');
 
-        $validator        = $this->validation->getValidator();
-        $presentValidator = $validator('present');
+        $presentValidator = $this->getRuleValidator('present');
 
         $presentValidator->setValidation($this->validation);
         $presentValidator->setAttribute($this->attribute);

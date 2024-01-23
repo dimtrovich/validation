@@ -59,8 +59,7 @@ class ProhibitedUnless extends AbstractRule
         $this->setParameterTextValues($this->convertBooleansToString($definedValues), 'other');
         $this->setParameterTextValues([$anotherValue], 'values');
 
-        $validator         = $this->validation->getValidator();
-        $requiredValidator = $validator('required');
+        $requiredValidator = $this->getRuleValidator('required');
 
         if (! in_array($anotherValue, $definedValues, is_bool($anotherValue) || null === $anotherValue)) {
             return ! $requiredValidator->check($value);

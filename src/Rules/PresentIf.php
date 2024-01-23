@@ -46,8 +46,7 @@ class PresentIf extends AbstractRule
         $this->setParameterTextValues((array) $definedValues, 'other_value');
 
         if (in_array($anotherValue, $definedValues, is_bool($anotherValue) || null === $definedValues)) {
-            $validator        = $this->validation->getValidator();
-            $presentValidator = $validator('present');
+            $presentValidator = $this->getRuleValidator('present');
 
             $presentValidator->setValidation($this->validation);
             $presentValidator->setAttribute($this->attribute);

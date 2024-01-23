@@ -38,7 +38,6 @@ class PresentWithAll extends AbstractRule
         $this->requireParameters(['fields']);
 
         $fields    = $this->parameter('fields');
-        $validator = $this->validation->getValidator();
 
         $this->setParameterTextValues($fields, 'values');
 
@@ -48,7 +47,7 @@ class PresentWithAll extends AbstractRule
             }
         }
 
-        $presentValidator = $validator('present');
+        $presentValidator = $this->getRuleValidator('present');
 
         $presentValidator->setValidation($this->validation);
         $presentValidator->setAttribute($this->attribute);

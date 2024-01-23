@@ -37,8 +37,7 @@ class Prohibits extends AbstractRule
 
         $this->setParameterTextValues($parameters, 'other');
 
-        $validator         = $this->validation->getValidator();
-        $requiredValidator = $validator('required');
+        $requiredValidator = $this->getRuleValidator('required');
         $requiredValidator->setAttribute($this->attribute);
 
         if ($requiredValidator->check($value)) {
