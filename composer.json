@@ -49,7 +49,7 @@
         "test": "kahlan",
         "test:cov": [
 			"Composer\\Config::disableProcessTimeout",
-			"kahlan --coverage=3 --reporter=verbose --clover=scrutinizer.xml"
+			"kahlan --coverage=4 --reporter=verbose --clover=scrutinizer.xml"
 		]
     },
     "suggest": {
