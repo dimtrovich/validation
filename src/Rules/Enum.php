@@ -55,7 +55,7 @@ class Enum extends AbstractRule
             return true;
         }
 
-        if (null === $value || ! function_exists('enum_exists') || ! enum_exists($this->type) || ! method_exists($this->type, 'tryFrom')) {
+        if (empty($value) || ! function_exists('enum_exists') || ! enum_exists($this->type) || ! method_exists($this->type, 'tryFrom')) {
             return false;
         }
 

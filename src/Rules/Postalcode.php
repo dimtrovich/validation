@@ -11,6 +11,7 @@
 
 namespace Dimtrovich\Validation\Rules;
 
+use BlitzPHP\Utilities\Support\Invader;
 use Rakit\Validation\Rule;
 
 class Postalcode extends AbstractRule
@@ -20,11 +21,6 @@ class Postalcode extends AbstractRule
      */
     protected ?string $reference = null;
 
-    /**
-     * Data set used for validation
-     */
-    protected array $data = [];
-
     protected array $countrycodes = [];
 
     /**
@@ -33,16 +29,6 @@ class Postalcode extends AbstractRule
     public function fillParameters(array $params): Rule
     {
         $this->countrycodes = $params;
-
-        return $this;
-    }
-
-    /**
-     * Set data
-     */
-    public function setData(array $data): static
-    {
-        $this->data = $data;
 
         return $this;
     }
@@ -103,9 +89,11 @@ class Postalcode extends AbstractRule
     protected function getCountryCodes(): array
     {
         if (count($this->countrycodes) === 0) {
+            $data = Invader::make($this->validation)->inputs;
+
             // return country code by reference
-            if (is_array($this->data) && array_key_exists($this->reference, $this->data)) {
-                return [$this->data[$this->reference]];
+            if (is_array($data) && array_key_exists($this->reference, $data)) {
+                return [$data[$this->reference]];
             }
         }
 
