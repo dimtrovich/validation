@@ -168,7 +168,7 @@ class CreditCard extends AbstractRule
 
         return $this;
     }
-    
+
     /**
      * @param mixed $value
      */
@@ -176,7 +176,7 @@ class CreditCard extends AbstractRule
     {
         $value = preg_replace('/\D/', '', (string) $value);
         $value = str_replace([' ', '-'], '', $value);
-        
+
         // Non-numeric values cannot be a number...duh
         if (! is_numeric($value)) {
             return false;
@@ -189,7 +189,7 @@ class CreditCard extends AbstractRule
         }
 
         $info = null;
-        
+
         label:
 
         if ($types === []) {
@@ -211,6 +211,7 @@ class CreditCard extends AbstractRule
 
         if (! $this->validCC($info, $value)) {
             array_shift($types);
+
             goto label;
         }
 

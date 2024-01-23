@@ -37,7 +37,7 @@ class PresentWithAll extends AbstractRule
     {
         $this->requireParameters(['fields']);
 
-        $fields    = $this->parameter('fields');
+        $fields = $this->parameter('fields');
 
         $this->setParameterTextValues($fields, 'values');
 
