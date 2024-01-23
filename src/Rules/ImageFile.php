@@ -30,7 +30,7 @@ class ImageFile extends File
      */
     public function dimensions(Dimensions $dimensions)
     {
-        $this->rules($dimensions);
+        $this->rules([$dimensions]);
 
         return $this;
     }
