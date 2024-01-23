@@ -71,6 +71,12 @@ describe("ActiveURL", function() {
         ]);
         
         expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make(['url' => 123], ['url' => 'active_url']);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make(['url' => 'foobar'], ['url' => 'active_url']);
+        expect($validation->passes())->toBe(false);
     });
 
     it("3: Echoue - car n'est pas une URL", function() {
@@ -100,6 +106,14 @@ describe("AnyOf", function() {
             'admin' => 'any_of:foo,bar',
         ]);
         
+        expect($validation->passes())->toBe(true);
+
+        $post = [
+            'name'  => 'dimtrovich|admin',
+        ];
+        $validation = Validator::make($post, [
+            'name'  => Rule::anyOf()->values(['blitz','admin','dimtrovich'])->strict()->separator('|'),
+        ]);
         expect($validation->passes())->toBe(true);
     });
 
@@ -137,7 +151,6 @@ describe("AnyOf", function() {
 });
 
 describe("After", function() {
-
     it("1: After - Utillisation d'une date", function() {
         $post = [
             'today'     => Date::now()->format('Y-m-d'),
@@ -358,6 +371,11 @@ describe("ArrayCanOnlyHaveKeys", function() {
         ]);
         
         expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, [
+            'name' => Rule::arrayCanOnlyHaveKeys()->keys(['foo', 'bar', 'baz']),
+        ]);
+        expect($validation->passes())->toBe(true);
     });
 
     it("2: Echoue", function() {
@@ -393,6 +411,11 @@ describe("ArrayMustHaveKeys", function() {
             'cart' => 'array|array_must_have_keys:itemName,qty',
         ]);
         
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, [
+            'name' => Rule::arrayMustHaveKeys()->keys(['itemName', 'qty']),
+        ]);
         expect($validation->passes())->toBe(true);
     });
 
@@ -832,6 +855,7 @@ describe("Date", function() {
             'birthday'  => '2023-04-27',
             'badday'    => 'no-valid-date',
             'badformat' => '27-04-2023',
+            'fake'      => ['27-04-2023'],
         ];
         
         $validation = Validator::make($post, [
@@ -846,6 +870,11 @@ describe("Date", function() {
 
         $validation = Validator::make($post, [
             'badformat'      => 'date:Y-m-d',
+        ]);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make($post, [
+            'fake'      => 'date:Y-m-d',
         ]);
         expect($validation->passes())->toBe(false);
     });
@@ -1170,6 +1199,11 @@ describe("Distinct", function() {
             'string'  => 'distinct:ignore_case',
         ]);
         expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make($post, [
+            'foo.*.name' => Rule::distinct()->strict()->ignoreCase(),
+        ]);
+        expect($validation->passes())->toBe(false);
     });
 });
 
@@ -1419,6 +1453,14 @@ describe("EndWith", function() {
         ]);
         
         expect($validation->passes())->toBe(true);
+        
+        $post = [
+            'alpha'  => range('a','z'),
+        ];
+        $validation = Validator::make($post, [
+            'name'     => 'end_with:x,y,z',
+        ]);
+        expect($validation->passes())->toBe(true);
     });
 
     it("2: Echoue", function() {
@@ -1461,6 +1503,16 @@ describe("Enum", function() {
     it("2: Echoue", function() {
         $validation = Validator::make(['suit' => 'O'], [
             'suit'     => 'enum:'.Suit::class
+        ]);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make(['suit' => false], [
+            'suit'     => 'enum:'.Suit::class
+        ]);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make(['suit' => 'O'], [
+            'suit'     => 'enum:suite'
         ]);
         expect($validation->passes())->toBe(false);
     });

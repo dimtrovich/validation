@@ -2,6 +2,7 @@
 
 use BlitzPHP\Filesystem\Files\UploadedFile;
 use Dimtrovich\Validation\Rule;
+use Dimtrovich\Validation\Rules\Password;
 use Dimtrovich\Validation\Utils\Country;
 use Dimtrovich\Validation\Validator;
 
@@ -504,20 +505,58 @@ describe("Password", function() {
         ]);
         expect($validation->passes())->toBe(true);
     });
+
+    it("5: Default", function() {
+        $post = [
+            'field1' => 'Bl1tzphp@',
+            'field2' => 'Bl1tzphp@1'
+        ];
+
+        $validation = Validator::make($post, ['field1' => Rule::password()->default()]);
+        expect($validation->passes())->toBe(true);
+        
+        Password::$defaultCallback = fn() => Rule::password(10);
+
+        $validation = Validator::make($post, ['field1' => Rule::password()->default()]);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make($post, ['field2' => Rule::password()->default()]);
+        expect($validation->passes())->toBe(true);
+    });
+
+    it("6: Custom rule", function() {
+        $post = [
+            'field1' => 'valid-ation',
+            'field2' => 'Bl1tzphp@1'
+        ];
+        
+        Password::$defaultCallback = fn() => Rule::password(10)->rules('pattern:5');
+
+        $validation = Validator::make($post, ['field1' => Rule::password()->default()]);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, ['field2' => Rule::password()->default()]);
+        expect($validation->passes())->toBe(false);
+    });
 });
 
 describe("Pattern", function() {
     it("1: Passe", function() {
-        $post = ['field' => '4444-4444-4444'];
+        $validation = Validator::make(['field' => '4444-4444-4444'], ['field' => 'pattern:4']);
+        expect($validation->passes())->toBe(true);
 
-        $validation = Validator::make($post, ['field' => 'pattern:4']);
+        $validation = Validator::make(['bar' => 'ABCD_EFGH_4444'], ['bar' => 'pattern:4,_']);
         expect($validation->passes())->toBe(true);
     });
 
     it("2: Echoue", function() {
-        $post = ['field' => '4444-4444-44444'];
+        $validation = Validator::make(['field' => '4444-4444-44444'], ['field' => 'pattern:4']);
+        expect($validation->passes())->toBe(false);
 
-        $validation = Validator::make($post, ['field' => 'pattern:4']);
+        $validation = Validator::make(['field' => 52], ['field' => 'pattern:4']);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make(['bar' => 'ABCD_EFGH_4444'], ['bar' => 'pattern:4']);
         expect($validation->passes())->toBe(false);
     });
 });
@@ -722,6 +761,11 @@ describe("ProhibitedIf", function() {
             'foo' => 'prohibited_if:name,blitz',
         ]);
         expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, [
+            'foo' => Rule::prohibitedIf()->field('name')->values(['blitz']),
+        ]);
+        expect($validation->passes())->toBe(true);
     });
 
     it("2: Echoue", function() {
@@ -743,6 +787,11 @@ describe("ProhibitedUnless", function() {
         ];
         $validation = Validator::make($post, [
             'foo' => 'prohibited_unless:name,blitz',
+        ]);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, [
+            'foo' => Rule::prohibitedUnless()->field('name')->values(['blitz']),
         ]);
         expect($validation->passes())->toBe(true);
     });
@@ -956,6 +1005,14 @@ describe("StartWith", function() {
             'name'     => 'start_with:bli',
         ]);
         
+        expect($validation->passes())->toBe(true);
+        
+        $post = [
+            'alpha'  => range('a','z'),
+        ];
+        $validation = Validator::make($post, [
+            'name'     => 'start_with:a,b,c',
+        ]);
         expect($validation->passes())->toBe(true);
     });
 

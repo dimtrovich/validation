@@ -1,5 +1,6 @@
 <?php
 
+use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Validator;
 
 describe("Postalcode", function() {
@@ -542,5 +543,19 @@ describe("Postalcode", function() {
             $validation = Validator::make($post, ['field' => 'postalcode:' . $value[1]]);
             expect($validation->passes())->toBe($value[0]);
         }
+    });
+
+    it("Via la constructor", function() {
+        $post = [
+            'field'   => '44141',
+            'country' => 'de',
+        ];
+    
+        $validation = Validator::make($post, ['field' => Rule::postalcode()->countrycode(['de'])]);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, ['field' => Rule::postalcode()->reference('country')]);
+        expect($validation->passes())->toBe(true);
+   
     });
 });

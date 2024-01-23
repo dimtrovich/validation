@@ -22,10 +22,12 @@ describe("Float", function() {
             'foo' => 'bar',
             'bar' => 1.121,
             'baz' => '1.121',
+            'scalar' => new stdClass(),
         ], [
             'foo' => 'float',
             'bar' => 'float',
             'baz' => 'float',
+            'scalar' => 'float',
         ]);
         expect($validation->passes())->toBe(false);
     });
@@ -808,6 +810,11 @@ describe("InstanceOf", function() {
         $validation = Validator::make($post, [
             'obj'      => Rule::instanceOf(new Test),
             'obj_name' => Rule::instanceOf(new Test),
+        ]);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, [
+            'obj_name' => Rule::instanceOf()->type(Test::class),
         ]);
         expect($validation->passes())->toBe(true);
     });
