@@ -11,6 +11,7 @@
 
 namespace Dimtrovich\Validation\Rules;
 
+use BadMethodCallException;
 use BlitzPHP\Utilities\Helpers;
 use Dimtrovich\Validation\Utils\CountryPhoneCallback;
 
@@ -31,7 +32,12 @@ class Phone extends AbstractRule
     public function check($value): bool
     {
         if (! empty($code = $this->parameter('code'))) {
-            $passes = (new CountryPhoneCallback($value, $code))->callPhoneValidator();
+            try {
+                $passes = (new CountryPhoneCallback($value, $code))->callPhoneValidator();
+            } catch (BadMethodCallException) {
+                $code   = $this->getAttribute()->getValue($code);
+                $passes = (new CountryPhoneCallback($value, $code))->callPhoneValidator();
+            }
 
             return Helpers::collect($passes)->some(fn ($passe) => $passe);
         }

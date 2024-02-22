@@ -566,8 +566,15 @@ describe("Phone", function() {
         $rules = [
             'phone_number' => 'phone',
             'phone_cm'     => Rule::phone(Country::CAMEROON),
+            'phone_cm2'     => 'phone:cm',
+            'phone_cm3'     => 'phone:CM', // insensible a la casse
         ];
-        $data = ['phone_number' => '09366000000', 'phone_cm' => '+237677889900'];
+        $data = [
+            'phone_number' => '09366000000',
+            'phone_cm'     => '+237677889900',
+            'phone_cm2'    => '677889900',       // l'indicatif est facultatif
+            'phone_cm3'    => '+237677889900'
+        ];
     
         $validation = Validator::make($data, $rules);
         expect($validation->passes())->toBe(true);
@@ -584,6 +591,24 @@ describe("Phone", function() {
         ];
 
         $validation = Validator::make($data, $rules);
+        expect($validation->passes())->toBe(false);
+    });
+
+    it("3: Valide le numero avec le pays provenant d'un autre champ", function() {
+        $post = [
+            'country'  => 'cm',
+            'phone_cm' => '+237677889900',
+            'phone_bj' => '+22697000000',
+        ];
+
+        $validation = Validator::make($post, [
+            'phone_cm' => 'phone:country',
+        ]);
+        expect($validation->passes())->toBe(true);
+        
+        $validation = Validator::make($post, [
+            'phone_bj' => 'phone:country',
+        ]);
         expect($validation->passes())->toBe(false);
     });
 });
