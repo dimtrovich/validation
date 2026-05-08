@@ -12,6 +12,7 @@
 namespace Dimtrovich\Validation;
 
 use ArrayIterator;
+use BlitzPHP\Utilities\Helpers;
 use BlitzPHP\Utilities\Iterable\Arr;
 use BlitzPHP\Utilities\Iterable\Collection;
 use Dimtrovich\Validation\Contracts\ValidatedData;
@@ -67,7 +68,7 @@ class ValidatedInput implements ValidatedData
         $placeholder = new stdClass();
 
         foreach (is_array($keys) ? $keys : func_get_args() as $key) {
-            $value = Arr::dataGet($input, $key, $placeholder);
+            $value = Helpers::dataGet($input, $key, $placeholder);
 
             if ($value !== $placeholder) {
                 Arr::set($results, $key, $value);

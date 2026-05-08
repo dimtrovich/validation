@@ -16,7 +16,7 @@ use BlitzPHP\Traits\Macroable;
 use BlitzPHP\Utilities\Helpers;
 use BlitzPHP\Utilities\Iterable\Arr;
 use BlitzPHP\Utilities\String\Text;
-use BlitzPHP\Utilities\Support\Invader;
+use BlitzPHP\Utilities\Invade\Invader;
 use Dimtrovich\Validation\Traits\FileTrait;
 use Dimtrovich\Validation\Validator;
 use InvalidArgumentException;

@@ -11,7 +11,7 @@
 
 namespace Dimtrovich\Validation\Rules;
 
-use BlitzPHP\Utilities\Support\Invader;
+use BlitzPHP\Utilities\Invade\Invader;
 use Rakit\Validation\Rule;
 
 class Distinct extends AbstractRule

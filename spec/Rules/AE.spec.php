@@ -1,7 +1,7 @@
 <?php
 
 use BlitzPHP\Filesystem\Files\UploadedFile;
-use BlitzPHP\Utilities\Date;
+use BlitzPHP\Utilities\DateTime\Date;
 use BlitzPHP\Utilities\Helpers;
 use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Validator;
