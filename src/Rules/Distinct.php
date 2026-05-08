@@ -50,7 +50,7 @@ class Distinct extends AbstractRule
 
             $value = array_map(
                 fn ($attribute) => $attribute->getValue(),
-                Invader::make($this->validation)->parseArrayAttribute($attribute)
+                Invader::make($this->validation)->parseArrayAttribute($attribute),
             );
         }
 

@@ -5,6 +5,8 @@ use Dimtrovich\Validation\Rules\File as RulesFile;
 use Dimtrovich\Validation\Spec\File;
 use Dimtrovich\Validation\Validator;
 
+use function Kahlan\expect;
+
 describe("File", function() {
     beforeAll(function() {
         $this->png = File::createWithContent('foo.png', file_get_contents(__DIR__.'/../fixtures/image.png'));

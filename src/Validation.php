@@ -102,7 +102,7 @@ class Validation
             Rules\Confirmed::class,
             Rules\Contains::class,
             Rules\ContainsAll::class,
-			Rules\Country::class,
+            Rules\Country::class,
             Rules\CreditCard::class,
             Rules\Currency::class,
             Rules\Date::class,

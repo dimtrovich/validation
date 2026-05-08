@@ -41,7 +41,7 @@ trait SizeTrait
             is_array($value)                   => count($value),
             $this->isValidFileInstance($value) => $value->getSize() / 1024,
             $value instanceof Countable        => $value->count(),
-            default                            => false
+            default                            => false,
         };
 
         return $size === false ? false : (float) $size;

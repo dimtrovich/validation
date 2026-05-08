@@ -15,16 +15,16 @@ use InvalidArgumentException;
 
 class Country extends AbstractRule
 {
-	/**
+    /**
      * @var array
      */
     protected $fillableParams = ['mode'];
 
-	/**
-	 * @var array<string, list<string>>
-	 */
+    /**
+     * @var array<string, list<string>>
+     */
     private array $codes = [
-		'alpha2' => [
+        'alpha2' => [
             'AF',
             'AX',
             'AL',
@@ -275,7 +275,7 @@ class Country extends AbstractRule
             'ZM',
             'ZW',
         ],
-		'alpha3' => [
+        'alpha3' => [
             'AFG',
             'ALA',
             'ALB',
@@ -526,7 +526,7 @@ class Country extends AbstractRule
             'ZMB',
             'ZWE',
         ],
-		'numeric' => [
+        'numeric' => [
             4,
             248,
             8,
@@ -776,8 +776,8 @@ class Country extends AbstractRule
             887,
             894,
             716,
-        ]
-	];
+        ],
+    ];
 
     /**
      * Check if the given value is a valid iso country code
@@ -788,22 +788,22 @@ class Country extends AbstractRule
      */
     public function check($value): bool
     {
-		if (empty($value)) {
-			return false;
-		}
+        if (empty($value)) {
+            return false;
+        }
 
-		$mode = $this->parameter('mode', 'alpha2');
+        $mode = $this->parameter('mode', 'alpha2');
 
-		if (! isset($this->codes[$mode])) {
-			throw new InvalidArgumentException(sprintf(
-				"Validation rule 'country' expects 'mode' parameter to be one of: %s. Got: %s",
-				implode(',', array_keys($this->codes)),
-				$mode
-			));
-		}
+        if (! isset($this->codes[$mode])) {
+            throw new InvalidArgumentException(sprintf(
+                "Validation rule 'country' expects 'mode' parameter to be one of: %s. Got: %s",
+                implode(',', array_keys($this->codes)),
+                $mode,
+            ));
+        }
 
-		$codes = $this->codes[$mode];
+        $codes = $this->codes[$mode];
 
-		return in_array(strtoupper($value), $codes, true);
+        return in_array(strtoupper($value), $codes, true);
     }
 }

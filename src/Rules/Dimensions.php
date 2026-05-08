@@ -41,7 +41,7 @@ class Dimensions extends AbstractRule
                 (int) $value['size'],
                 $value['error'],
                 $value['name'] ?? null,
-                $value['type'] ?? null
+                $value['type'] ?? null,
             );
         }
 
@@ -95,7 +95,7 @@ class Dimensions extends AbstractRule
 
         [$numerator, $denominator] = array_replace(
             [1, 1],
-            array_filter(sscanf($parameters['ratio'], '%f/%d'))
+            array_filter(sscanf($parameters['ratio'], '%f/%d')),
         );
 
         $precision = 1 / (max($width, $height) + 1);

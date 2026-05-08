@@ -208,7 +208,7 @@ class File extends AbstractRule
             [$attribute => $value],
             [$attribute => $this->buildValidationRules()],
             $this->validation->getMessages(),
-            Invader::make($this->validation)->aliases
+            Invader::make($this->validation)->aliases,
         );
 
         if ($validator->fails()) {
@@ -265,7 +265,7 @@ class File extends AbstractRule
 
         $mimetypes = array_filter(
             $this->allowedMimetypes,
-            fn ($type) => str_contains($type, '/')
+            fn ($type) => str_contains($type, '/'),
         );
 
         $mimes = array_diff($this->allowedMimetypes, $mimetypes);

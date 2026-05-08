@@ -35,11 +35,11 @@ class TypeInstanceOf extends AbstractRule
         $this->requireParameters($this->fillableParams);
 
         if (is_object($type = $this->parameter('type'))) {
-            $type = get_class($type);
+            $type = $type::class;
         }
 
         if (is_object($value)) {
-            return $value instanceof $type || get_class($value) === $type;
+            return $value instanceof $type || $value::class === $type;
         }
 
         return is_subclass_of($value, $type) || is_a($value, $type) || $value === $type;

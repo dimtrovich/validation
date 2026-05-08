@@ -55,7 +55,7 @@ class FileFactory
         return new File($name, $this->generateImage(
             $width,
             $height,
-            pathinfo($name, PATHINFO_EXTENSION)
+            pathinfo($name, PATHINFO_EXTENSION),
         ));
     }
 

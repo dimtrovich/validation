@@ -22,7 +22,7 @@ class Iban extends AbstractRule
     /**
      * Character map
      *
-     * @var array|int[]
+     * @var array|list<int>
      */
     private array $characterMap = [
         'A' => 10,

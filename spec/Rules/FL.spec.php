@@ -3,6 +3,8 @@
 use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Validator;
 
+use function Kahlan\expect;
+
 describe("Float", function() {
     it('1: Passe', function() {  
         $post = [
@@ -654,7 +656,6 @@ describe("InArray", function() {
         ];
 
         $validation = Validator::make($post, [
-            'name' => 'in_array:framework',
             'name' => 'in_array:author',
         ]);
         expect($validation->passes())->toBe(false);

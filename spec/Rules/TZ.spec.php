@@ -3,6 +3,8 @@
 use BlitzPHP\Utilities\String\Uuid;
 use Dimtrovich\Validation\Validator;
 
+use function Kahlan\expect;
+
 describe("Time", function() {
     it("1: Passe", function() {
         $post = [

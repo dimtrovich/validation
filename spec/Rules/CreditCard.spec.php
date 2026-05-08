@@ -2,6 +2,8 @@
 
 use Dimtrovich\Validation\Validator;
 
+use function Kahlan\expect;
+
 describe("CreditCard", function() {
     beforeAll(function() {
         $this->calculateLuhnChecksum = function(array $digits, int $length): int {

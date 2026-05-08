@@ -1,6 +1,9 @@
 <?php
 
+use BlitzPHP\Utilities\Iterable\Collection;
 use Dimtrovich\Validation\ValidatedInput;
+
+use function Kahlan\expect;
 
 describe("Validation / ValidatedInput", function() {
     beforeAll(function() {
@@ -54,6 +57,13 @@ describe("Validation / ValidatedInput", function() {
         expect($this->ValidatedInput->all())->toBe($this->items);
         expect($this->ValidatedInput->toArray())->toBe($this->items);
     });
+
+    it("collect", function() {
+        $collection = $this->ValidatedInput->collect();
+
+        expect($collection)->toBeAnInstanceOf(Collection::class);
+        expect($collection->all())->toBe($this->items);
+    });
     
     it("Iteration", function() {
         foreach ($this->ValidatedInput as $key => $value) {
@@ -66,6 +76,7 @@ describe("Validation / ValidatedInput", function() {
         expect($this->ValidatedInput->name)->toBe('blitz-php');
         expect($this->ValidatedInput['name'])->toBe('blitz-php');
         expect(isset($this->ValidatedInput->created_at))->toBe(true);
+        expect(isset($this->ValidatedInput['created_at']))->toBe(true);
 
         $this->ValidatedInput->language = 'php';
         $this->ValidatedInput['type'] = 'framework';

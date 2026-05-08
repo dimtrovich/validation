@@ -3,6 +3,8 @@
 use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Validator;
 
+use function Kahlan\expect;
+
 describe("Postalcode", function() {
     it("Postalcode", function() {
         $values = [

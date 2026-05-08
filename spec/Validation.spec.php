@@ -3,6 +3,8 @@
 use Dimtrovich\Validation\Exceptions\ValidationException;
 use Dimtrovich\Validation\Validator;
 
+use function Kahlan\expect;
+
 describe("Validation / Validation", function() {
     describe("Validation simple", function() {
 

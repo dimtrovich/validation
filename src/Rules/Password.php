@@ -202,7 +202,7 @@ class Password extends AbstractRule
         return str_replace(
             ':attribute',
             $this->getAttributeAlias($this->getAttribute()->getKey()),
-            $this->translate($key)
+            $this->translate($key),
         );
     }
 }

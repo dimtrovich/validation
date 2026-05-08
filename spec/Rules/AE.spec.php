@@ -7,6 +7,8 @@ use Dimtrovich\Validation\Rule;
 use Dimtrovich\Validation\Validator;
 use Rakit\Validation\MissingRequiredParameterException;
 
+use function Kahlan\expect;
+
 describe("AcceptedIf", function() {
     it("1: Passe", function() {
         $post = [

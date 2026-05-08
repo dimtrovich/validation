@@ -6,6 +6,8 @@ use Dimtrovich\Validation\Rules\Password;
 use Dimtrovich\Validation\Utils\Country;
 use Dimtrovich\Validation\Validator;
 
+use function Kahlan\expect;
+
 describe("MacAddress", function() {
     it("1: Passe", function() {
         $post = [
@@ -392,7 +394,6 @@ describe("NotInArray", function() {
         ];
 
         $validation = Validator::make($post, [
-            'name' => 'not_in_array:framework',
             'name' => 'not_in_array:author',
         ]);
         expect($validation->passes())->toBe(true);
