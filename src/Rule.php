@@ -45,6 +45,7 @@ use BlitzPHP\Utilities\String\Text;
  * @method static \Dimtrovich\Validation\Rules\Confirmed             confirmed()
  * @method static \Dimtrovich\Validation\Rules\Contains              contains()
  * @method static \Dimtrovich\Validation\Rules\ContainsAll           containsAll()
+ * @method static \Dimtrovich\Validation\Rules\Country           	 country(?string $mode = null)
  * @method static \Dimtrovich\Validation\Rules\CreditCard            creditCard()
  * @method static \Dimtrovich\Validation\Rules\Currency              currency()
  * @method static \Dimtrovich\Validation\Rules\Date                  date(?string $format = null)

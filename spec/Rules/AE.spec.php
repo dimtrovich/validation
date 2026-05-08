@@ -800,6 +800,60 @@ describe("ContainsAll", function() {
     });
 });
 
+describe("Country", function() {
+    it("1: Country simple", function() {
+        $post = [
+            'country'      => 'cm',
+            'badcountry'   => 'bc',
+            'emptycountry' => '',
+        ];
+        
+        $validation = Validator::make($post, [
+            'country' => 'country',
+        ]);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, [
+            'badcountry'   => 'country',
+            'emptycountry' => 'country',
+        ]);
+        expect($validation->passes())->toBe(false);
+    });
+
+    it("2: Country avec mode", function() {
+        $post = [
+            'alpha2'  => 'cm',
+            'alpha3'    => 'cmr',
+            'badalpha2'    => 'bc',
+            'badalpha3'    => 'bcr',
+            'badmode' => 'invalid',
+        ];
+        
+        $validation = Validator::make($post, [
+            'alpha2' => 'country:alpha2',
+            'alpha3' => 'country:alpha3',
+        ]);
+        expect($validation->passes())->toBe(true);
+
+        $validation = Validator::make($post, [
+            'alpha2' => 'country:alpha3',
+            'alpha3' => 'country:alpha2',
+        ]);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make($post, [
+            'badalpha2' => 'country:alpha2',
+            'badalpha3' => 'country:alpha3',
+        ]);
+        expect($validation->passes())->toBe(false);
+
+        $validation = Validator::make($post, [
+            'badmode' => 'country:badmode',
+        ]);
+        expect(fn() => $validation->passes())->toThrow(new InvalidArgumentException());
+    });
+});
+
 describe("Currency", function() {
     it("Currency", function() {
         $values = [
