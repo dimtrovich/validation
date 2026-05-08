@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": ["php", "validation", "data", "form", "validator"],
     "require": {
-        "php": ">=8.0",
+        "php": "^8.2",
         "blitz-php/traits": "^1.7",
         "rakit/validation": "^1.4"
     },
